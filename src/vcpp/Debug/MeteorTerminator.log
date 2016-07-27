@@ -1,0 +1,29 @@
+﻿Der Buildvorgang wurde am 27.07.2016 21:38:17 gestartet.
+     1>Projekt "C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\vcpp\MeteorTerminator.vcxproj" auf Knoten "2", Build Ziel(e).
+     1>ClCompile:
+         D:\Microsoft Visual Studio 2012\VC\bin\CL.exe /c /IC:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\engine\SFML\include /ZI /nologo /W3 /WX- /Od /Oy- /D SFML_STATIC /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\engine\Commandhandler.cpp ..\engine\Engine.cpp ..\engine\Main.cpp
+         Main.cpp
+         Engine.cpp
+     1>c:\users\seanconnery\documents\github\c++\games\meteorterminator\meteorterminator\src\engine\engine.cpp(62): warning C4244: 'Argument': Konvertierung von 'unsigned int' in 'float', möglicher Datenverlust
+     1>c:\users\seanconnery\documents\github\c++\games\meteorterminator\meteorterminator\src\engine\engine.cpp(63): warning C4305: 'Argument': Verkürzung von 'double' in 'float'
+         Commandhandler.cpp
+         Code wird generiert...
+       Link:
+         D:\Microsoft Visual Studio 2012\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\vcpp\Debug\MeteorTerminator.exe" /INCREMENTAL /NOLOGO "sfml-graphics-s-d.lib" "sfml-window-s-d.lib" "sfml-audio-s-d.lib" "sfml-network-s-d.lib" "sfml-system-s-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\vcpp\Debug\MeteorTerminator.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\vcpp\Debug\MeteorTerminator.lib" /MACHINE:X86 Debug\Commandhandler.obj
+         Debug\Engine.obj
+         Debug\Main.obj
+         Debug\Security.obj
+         Debug\Asteroid.obj
+         Debug\AsteroidManager.obj
+         Debug\Collision.obj
+         Debug\CollisionSystem.obj
+         Debug\Player.obj
+         Debug\Shot.obj
+         Debug\Weapon.obj
+     1>MSVCRTD.lib(crtexew.obj) : error LNK2019: Verweis auf nicht aufgelöstes externes Symbol "_WinMain@16" in Funktion "___tmainCRTStartup".
+     1>C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\vcpp\Debug\MeteorTerminator.exe : fatal error LNK1120: 1 nicht aufgelöste Externe
+     1>Die Erstellung des Projekts "C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\vcpp\MeteorTerminator.vcxproj" ist abgeschlossen, Build Ziel(e) -- FEHLER.
+
+Fehler beim Buildvorgang.
+
+Verstrichene Zeit 00:00:07.47

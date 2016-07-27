@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D96C6FFC-73D0-45BF-9E05-6673E375441E}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>MeteorTerminator</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\version;C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\include;C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\engine\SFML\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\engine\SFML\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>..\..</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\version;C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\include;C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\engine\SFML\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\engine\SFML\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>..\..</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\engine\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-network-s-d.lib;sfml-system-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\engine\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="..\Release\MeteorTerminator.pdb" />
+    <None Include="..\version\Commands.inc" />
+    <None Include="..\version\Settings.inc" />
+    <None Include="..\version\Version.inc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\Asteroid.hpp" />
+    <ClInclude Include="..\include\AsteroidManager.hpp" />
+    <ClInclude Include="..\include\Collision.hpp" />
+    <ClInclude Include="..\include\CollisionSystem.hpp" />
+    <ClInclude Include="..\include\Commandhandler.hpp" />
+    <ClInclude Include="..\include\Engine.hpp" />
+    <ClInclude Include="..\include\Player.hpp" />
+    <ClInclude Include="..\include\Security.hpp" />
+    <ClInclude Include="..\include\Shot.hpp" />
+    <ClInclude Include="..\include\Weapon.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\engine\Commandhandler.cpp" />
+    <ClCompile Include="..\engine\Engine.cpp" />
+    <ClCompile Include="..\engine\Main.cpp" />
+    <ClCompile Include="..\engine\Security.cpp" />
+    <ClCompile Include="..\gamecode\Asteroid.cpp" />
+    <ClCompile Include="..\gamecode\AsteroidManager.cpp" />
+    <ClCompile Include="..\gamecode\Collision.cpp" />
+    <ClCompile Include="..\gamecode\CollisionSystem.cpp" />
+    <ClCompile Include="..\gamecode\Player.cpp" />
+    <ClCompile Include="..\gamecode\Shot.cpp" />
+    <ClCompile Include="..\gamecode\Weapon.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
