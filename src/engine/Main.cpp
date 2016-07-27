@@ -24,19 +24,7 @@
 #include "Engine.hpp"
 #include "Commandhandler.hpp"
 
-/* initzialize sfml */
-int sfml()
-{
-	sf::Sprite s;
-	float a = s.getPosition().x;
-
-	std::cout << "Position: " << a << std::endl;
-	std::getchar();
-
-	return 0;
-}
-
-/* mainloop & technical stuff - executes engine class */
+/* START GAME */
 int main()
 {
 	Engine engine;
