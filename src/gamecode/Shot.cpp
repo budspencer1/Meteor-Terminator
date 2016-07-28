@@ -33,7 +33,6 @@ Shot::Shot( sf::Vector2f direction, sf::Vector2f position, sf::Texture *texture 
 
 	/* rotate shot to specified direction */
 	pSprite->setRotation( atan2( mDirection.y , mDirection.x ) / 3.14159265359 * 180 );
-
 	/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 }
 

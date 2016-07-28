@@ -57,12 +57,11 @@ public:
 	const int getLifes()								{ return mLifes; };
 	const bool getKilledByAsteroid()					{ return mKilledByAsteroid; };
 	const bool getIsSuicided()							{ return mSuicided; };
-	const int getMinutes()								{ return mMinutes; };
 	const float getSeconds()							{ return mSeconds; };
-	const int getMilliseconds()							{ return mMilliseconds; };
 	const int getPlayerWeapon()							{ return mPlayerWeapon; };
 	const bool getCommandLock()							{ return mCommandLock; };
 	const int getCMDWaittime()							{ return mCommandWaittime; };
+	const int getLockSeconds()							{ return mLockSeconds; };
 
 
 	/* setter */
@@ -83,9 +82,7 @@ public:
 	void setLifes( int Lifes )							{ mLifes = Lifes; };
 	void setKilledByAsteroid( bool KbA )				{ mKilledByAsteroid = KbA; };
 	void setIsSuicided( bool Suicided )					{ mSuicided = Suicided; };
-	void setMinutes( int Minutes )						{ mMinutes = Minutes; };
 	void setSeconds( float Seconds )					{ mSeconds = Seconds; };
-	void setMilliseconds( int Milliseconds )			{ mMilliseconds = Milliseconds; };
 	void setPlayerWeapon( int PlayerWeapon )			{ mPlayerWeapon = PlayerWeapon; };
 	void setCommandLock( bool CommandLock )				{ mCommandLock = CommandLock; };
 	void setCMDWaittime( int CMDWaittime )				{ mCommandWaittime = CMDWaittime; };
@@ -151,12 +148,9 @@ private:
 	sf::SoundBuffer			*pGameRestartBuffer;
 	sf::Sound				*pGameRestartSound;
 
-	sf::Clock				*pTimeMinutes;
-	sf::Clock				*pTimeSeconds;
-	sf::Clock				*pTimeMilliseconds;
 	sf::Clock				*pClock;
-
 	sf::Clock				*pCommandClock;
+	sf::Clock				*pTimeSeconds;
 
 	Weapon					*pWeapon;
 	AsteroidManager			*pAsteroidManager;
@@ -205,16 +199,16 @@ private:
 	bool					mCommandLock;
 
 	bool					mLock;
+	int						mLockSeconds;
 	float					mCooldown;
 
 	bool					mKilledByAsteroid;
 	bool					mSuicided;
 
-	int						mMinutes;
 	float					mSeconds;
-	int						mMilliseconds;
 
 	int						mPlayerWeapon;
+	int						mCountdownTime;
 
 
 };

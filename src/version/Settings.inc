@@ -51,7 +51,11 @@
 #endif
 
 #ifndef COMMAND_OVERFLOW_TIME
-#define COMMAND_OVERFLOW_TIME 5
+#define COMMAND_OVERFLOW_TIME 1
+#endif
+
+#ifndef COUNTDOWN_TIME_IN_MIN
+#define COUNTDOWN_TIME_IN_MIN 5
 #endif
 
 /* ///////////////////////////////////////////////////////// */

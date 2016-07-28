@@ -47,8 +47,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\version;C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\include;C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\engine\SFML\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\engine\SFML\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\engine\SFML\include;C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\version;C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\engine\SFML\lib;$(LibraryPath)</LibraryPath>
     <OutDir>..\..</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -58,7 +58,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\engine\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\include;C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\engine\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -75,7 +75,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\engine\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\include;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\version;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\engine\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

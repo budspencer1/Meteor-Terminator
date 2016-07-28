@@ -22,16 +22,11 @@
 
 Player::Player( std::string texturePath, sf::Vector2f position )
 {
-	pTimeMinutes			= new sf::Clock;
 	pTimeSeconds			= new sf::Clock;
-	pTimeMilliseconds		= new sf::Clock;
+	pTimeSeconds->restart();
 
 	pCommandClock			= new sf::Clock();
 	pCommandClock->restart();
-
-	pTimeMinutes->restart();
-	pTimeSeconds->restart();
-	pTimeMilliseconds->restart();
 
 	pClock				= new sf::Clock();
 	pClock->restart();
@@ -190,9 +185,7 @@ Player::Player( std::string texturePath, sf::Vector2f position )
 	this->setHits( 1 );
 	this->setLifes( LIFES );
 	this->setKilledByAsteroid( false );
-	this->setMinutes( 0 );
 	this->setSeconds( 0 );
-	this->setMilliseconds( 0 );
 	this->setPlayerWeapon( 1 );
 
 	mStep = 255 / getShield(); /* 255 = maximum alpha value */
@@ -203,7 +196,7 @@ Player::Player( std::string texturePath, sf::Vector2f position )
 	mCanMoveRight			= true;
 
 	pWeapon					= new Weapon();
-	pCommandHandler			= new CommandHandler();
+	//pCommandHandler			= new CommandHandler();
 
 	mMousePosition			= sf::Vector2f( 0 , 0 );
 
@@ -216,6 +209,7 @@ Player::Player( std::string texturePath, sf::Vector2f position )
 	mLock				= true;
 	mCommandLock		= true;
 	mCommandWaittime    = COMMAND_OVERFLOW_TIME;
+	mCountdownTime		= 5;
 }
 
 Player::~Player()
@@ -244,8 +238,6 @@ Player::~Player()
 	 delete pGameRestartSound;
 
 	 delete pClock;
-	 delete pTimeMilliseconds;
-	 delete pTimeMinutes;
 	 delete pTimeSeconds;
 
 
@@ -273,9 +265,7 @@ Player::~Player()
 	 pGameRestartSound		= nullptr;
 
 	 pClock					= nullptr;	
-	 pTimeMilliseconds		= nullptr;	
-	 pTimeMinutes			= nullptr;	
-	 pTimeSeconds			= nullptr;	
+	 pTimeSeconds			= nullptr;
 }
 
 void Player::suicide()
@@ -315,6 +305,7 @@ void Player::respawn()
 		this->setHits( 0 );
 		this->setKilledByAsteroid( false );
 		this->setIsSuicided( false );
+		this->setPlayerWeapon( 1 );
 
 		pSprite->setPosition( sf::Vector2f( PLAYER_X_POS , PLAYER_Y_POS ) );
 
@@ -356,17 +347,11 @@ void Player::restart()
 	this->setLifes( LIFES );
 	this->setKilledByAsteroid( false );
 	this->setIsSuicided( false );
-	this->setMinutes( 0 );
 	this->setSeconds( 0 );
-	this->setMilliseconds( 0 );
 
 	mFragsLabel.setPosition( sf::Vector2f( 10 , 130 ) );
 
 	std::cout << "Game restarted" << std::endl;
-
-	pTimeMinutes->restart();
-	pTimeSeconds->restart();
-	pTimeMilliseconds->restart();
 
 	pGameRestartSound->setBuffer( *pGameRestartBuffer );
 	pGameRestartSound->play();
@@ -378,6 +363,8 @@ void Player::restart()
 	pWeapon->setWeapon( 1 );
 	pWeapon->setWeapon2Temp( 0.1 );
 	pWeapon->setWeaponToHot( false );
+
+	pTimeSeconds->restart();
 
 	mCanMoveUp				= true;
 	mCanMoveDown			= true;
@@ -408,17 +395,7 @@ void Player::update( float frametime )
 	/* //////////////////////////////// */
 
 	std::stringstream gse;
-	std::stringstream gm;
 
-	if( pTimeSeconds->getElapsedTime().asSeconds() == 10 )
-	{
-		this->setMinutes( this->getMinutes() + 1 );
-		pTimeSeconds->restart();
-	}
-
-	/* //////////////////////////////// */
-
-	gm << this->getMinutes();
 	gse << pTimeSeconds->getElapsedTime().asSeconds();
 
 	mTimeRemainingLabel.setString( "Time (in Seconds): " + gse.str() );
@@ -584,16 +561,21 @@ void Player::update( float frametime )
 		this->respawn();
 	}
 
+	if( mLock == false )
+	{
+		if( pClock->getElapsedTime().asSeconds() > COMMAND_OVERFLOW_TIME )
+		{
+			mLock = true;
+		}
+	}
+
 	
 	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::F3 ) )
 	{
-		if( mLock == true )
-		{
-			this->restart();
-
-			pClock->restart();
-			mLock = false;
-		}
+		/*if( mLock == true )
+		{*/
+			this->restart(); /* restart game */
+		/*} */
 	}
 
 	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Num1 ) || sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Numpad1 ) )
@@ -723,11 +705,8 @@ void Player::render( sf::RenderWindow *rw )
 
 	if( this->getGameOver() == true )
 	{
-		if( pWeapon->getIsOutOfAmmo() == false )
-		{
-			rw->draw( mGameOverLabel );
-			mFragsLabel.setPosition( sf::Vector2f( 10 , 90 ) );
-		}
+		rw->draw( mGameOverLabel );
+		mFragsLabel.setPosition( sf::Vector2f( 10 , 90 ) );
 	}
 
 	if( this->getIsAlive() == false )
