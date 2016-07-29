@@ -9,6 +9,13 @@
 
 #include <time.h>
 
+#ifndef INIT_SUCCESS 
+#define INIT_SUCCESS 0
+#endif
+
+#ifndef INIT_FAIL 
+#define INIT_FAIL 1
+#endif
 
 #ifndef PLAYER_X_POS 
 #define PLAYER_X_POS 700 

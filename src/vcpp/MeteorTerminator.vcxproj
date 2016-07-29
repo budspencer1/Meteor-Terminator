@@ -78,11 +78,11 @@
       <AdditionalIncludeDirectories>C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\include;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\version;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\engine\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

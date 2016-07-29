@@ -23,10 +23,17 @@
 
 #include "Engine.hpp"
 #include "Commandhandler.hpp"
+#include "Settings.inc"
+
+/* specify used namespace */
+using namespace sf;
+using namespace std;
 
 /* START GAME */
 int main()
 {
 	Engine engine;
 	engine.start();
+
+	return INIT_SUCCESS;
 }

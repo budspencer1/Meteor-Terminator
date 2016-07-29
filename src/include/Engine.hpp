@@ -51,6 +51,8 @@ private:
 	sf::Texture						*pMouseTexture;
 	sf::Sprite						*pMouseSprite;
 
+	sf::Image						*pIconTexture;
+
 	Player							*pPlayer;
 	AsteroidManager					*pAsteroidManager;
 	CollisionSystem					*pCollisionSystem;

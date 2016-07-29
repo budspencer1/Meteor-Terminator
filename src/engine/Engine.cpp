@@ -50,6 +50,12 @@ Engine::Engine()
 	pRenderWindow->setVerticalSyncEnabled( VERTICAL_SYNC_ENABLED );
 	pRenderWindow->setMouseCursorVisible( MOUSE_CURSER_VISIBLE );
 
+	/* set window icon - used in titlebar */
+	pIconTexture				= new sf::Image;
+	pIconTexture->loadFromFile( std::string( "media/packages/content/icons/WindowIcon.png" ) );
+	pRenderWindow->setIcon( pIconTexture->getSize().x , pIconTexture->getSize().y , pIconTexture->getPixelsPtr() );
+	/* ///////////////////////////////////////////// */
+
 	pBackground					= new sf::Texture;
 	pBackground->loadFromFile( std::string ( "media/packages/content/textures/ScreenBackground.bmp" ) );
 
