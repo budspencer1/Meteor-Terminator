@@ -7,6 +7,8 @@
 
 /* open source code */
 
+#pragma warning( disable: 4244 )
+#pragma warning( disable: 4305 )
 
 #include <SFML\Graphics.hpp>
 #include <SFML\Audio.hpp>
@@ -39,21 +41,24 @@ Engine::Engine()
 	std::cout << "**************************************************************" << std::endl;
 	std::cout << "Welcome to " TERM_NAME " " TERM_HISTORY " " TERM_VERSION "" << std::endl;
 	std::cout << "Developer: " << TERM_DEVELOPER << std::endl;
+	std::cout << "Build Revision: " << TERM_REVISION << std::endl;
 	std::cout << "**************************************************************" << std::endl;
 	std::cout << "init: " << ENGINE << std::endl;
 	std::cout << "init: " << CLOCK << std::endl;
 
 	mIsRunning					= true;
 
-	pRenderWindow				= new sf::RenderWindow( sf::VideoMode( RES_X , RES_Y , WINDOW_BITS ), ( TERM_NAME " - Version: " TERM_HISTORY " " TERM_VERSION " || Build: " COMPILE_DATE " // " COMPILE_TIME " || Architecture(Game): " TERM_ARCHITECTURE "" ), sf::Style::Titlebar | sf::Style::Close );
+	pRenderWindow				= new sf::RenderWindow( sf::VideoMode( RES_X , RES_Y , WINDOW_BITS ), ( TERM_NAME " - Version: " TERM_HISTORY " " TERM_VERSION " || Build: " COMPILE_DATE " // " COMPILE_TIME " || Architecture(Game): " TERM_ARCHITECTURE " || Build Revision: " TERM_REVISION "" ), sf::Style::Titlebar | sf::Style::Close );
 	std::cout << "init: " << VIDEO_RENDERWINDOW << " " << VIDEOMODE << std::endl,
 	pRenderWindow->setVerticalSyncEnabled( VERTICAL_SYNC_ENABLED );
 	pRenderWindow->setMouseCursorVisible( MOUSE_CURSER_VISIBLE );
 
 	/* set window icon - used in titlebar */
+
 	pIconTexture				= new sf::Image;
 	pIconTexture->loadFromFile( std::string( "media/packages/content/icons/WindowIcon.png" ) );
-	pRenderWindow->setIcon( pIconTexture->getSize().x , pIconTexture->getSize().y , pIconTexture->getPixelsPtr() );
+	pRenderWindow->setIcon( pIconTexture->getSize().x, pIconTexture->getSize().y , pIconTexture->getPixelsPtr() );
+
 	/* ///////////////////////////////////////////// */
 
 	pBackground					= new sf::Texture;
