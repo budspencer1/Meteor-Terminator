@@ -7,6 +7,10 @@
 */
 
 
+#pragma warning ( disable: 4305 ) /* disable some warnings */
+#pragma warning ( disable: 4804 ) /* disable some warnings */
+#pragma warning ( disable: 4244 ) /* disable some warnings */
+
 #include <iostream> 
 #include <Windows.h>
 #include <stdlib.h>
@@ -22,14 +26,17 @@
 
 Player::Player( std::string texturePath, sf::Vector2f position )
 {
-	pTimeSeconds			= new sf::Clock;
+	pTimeSeconds			= new sf::Clock();
 	pTimeSeconds->restart();
 
 	pCommandClock			= new sf::Clock();
 	pCommandClock->restart();
 
-	pClock				= new sf::Clock();
+	pClock					= new sf::Clock();
 	pClock->restart();
+
+	pWeaponSwitchClock		= new sf::Clock();
+	pWeaponSwitchClock->restart();
 
 	pTextureH1			= new sf::Texture;
 	pSpriteH1			= new sf::Sprite;
@@ -68,6 +75,12 @@ Player::Player( std::string texturePath, sf::Vector2f position )
 	pPlayerDeadSound    = new sf::Sound;
 	pPlayerDeadBuffer   = new sf::SoundBuffer;
 	pPlayerDeadBuffer->loadFromFile( std::string( "media/packages/content/sounds/PlayerDead.wav" ) );
+
+	/*
+	pWeaponSwitchSound  = new sf::Sound;
+	pWeaponSwitchBuffer = new sf::SoundBuffer;
+	pWeaponSwitchBuffer->loadFromFile( std::string( "media/packages/content/sounds/SwitchWeapon.wav" ) );
+	*/
 
 	pFont				= new sf::Font;
 	pFont->loadFromFile( std::string( "media/packages/content/fonts/Cocogoose.otf" ) );
@@ -210,6 +223,8 @@ Player::Player( std::string texturePath, sf::Vector2f position )
 	mCommandLock		= true;
 	mCommandWaittime    = COMMAND_OVERFLOW_TIME;
 	mCountdownTime		= 5;
+	mLockSeconds		= 2;
+	mWeaponSwitchLock	= true;
 }
 
 Player::~Player()
@@ -239,6 +254,11 @@ Player::~Player()
 
 	 delete pClock;
 	 delete pTimeSeconds;
+	 /*
+	 delete pWeaponSwitchBuffer;
+	 delete pWeaponSwitchSound;
+	 */
+	 delete pWeaponSwitchClock;
 
 
 	 pTexture				= nullptr;
@@ -266,6 +286,11 @@ Player::~Player()
 
 	 pClock					= nullptr;	
 	 pTimeSeconds			= nullptr;
+	 pWeaponSwitchClock     = nullptr;
+	 /*
+	 pWeaponSwitchBuffer	= nullptr;
+	 pWeaponSwitchSound		= nullptr;
+	 */
 }
 
 void Player::suicide()
@@ -332,51 +357,63 @@ void Player::respawn()
 
 void Player::restart()
 {
-	this->setShield( SHIELD );
-	this->setPoints( 0 );
-	this->setLife( LIFE );
-	this->setIsAlive( true );
-	this->setLevel( 1 );
-	this->setHasAmmo( true );
-	this->setFrags( 0 );
-	this->setDeaths( 0 );
-	this->setGameOver( false );
-	this->setTotalPoints( 0 );
-	this->setShots( 0 );
-	this->setHits( 0 );
-	this->setLifes( LIFES );
-	this->setKilledByAsteroid( false );
-	this->setIsSuicided( false );
-	this->setSeconds( 0 );
+	if( mCommandLock == true )
+	{
+		this->setShield( SHIELD );
+		this->setPoints( 0 );
+		this->setLife( LIFE );
+		this->setIsAlive( true );
+		this->setLevel( 1 );
+		this->setHasAmmo( true );
+		this->setFrags( 0 );
+		this->setDeaths( 0 );
+		this->setGameOver( false );
+		this->setTotalPoints( 0 );
+		this->setShots( 0 );
+		this->setHits( 0 );
+		this->setLifes( LIFES );
+		this->setKilledByAsteroid( false );
+		this->setIsSuicided( false );
+		this->setSeconds( 0 );
 
-	mFragsLabel.setPosition( sf::Vector2f( 10 , 130 ) );
+		mFragsLabel.setPosition( sf::Vector2f( 10 , 130 ) );
 
-	std::cout << "Game restarted" << std::endl;
+		std::cout << "Game restarted" << std::endl;
 
-	pGameRestartSound->setBuffer( *pGameRestartBuffer );
-	pGameRestartSound->play();
+		pGameRestartSound->setBuffer( *pGameRestartBuffer );
+		pGameRestartSound->play();
 
-	pSprite->setPosition( sf::Vector2f( PLAYER_X_POS , PLAYER_Y_POS ) );
-	pWeapon->setAmmo( AMMO );
-	pWeapon->setIsOutOfAmmo( false );
-	pWeapon->setShotsWep2( 0 );
-	pWeapon->setWeapon( 1 );
-	pWeapon->setWeapon2Temp( 0.1 );
-	pWeapon->setWeaponToHot( false );
+		pSprite->setPosition( sf::Vector2f( PLAYER_X_POS , PLAYER_Y_POS ) );
+		pWeapon->setAmmo( AMMO );
+		pWeapon->setIsOutOfAmmo( false );
+		pWeapon->setShotsWep2( 0 );
+		pWeapon->setWeapon( 1 );
+		pWeapon->setWeapon2Temp( 0.1 );
+		pWeapon->setWeaponToHot( false );
 
-	pTimeSeconds->restart();
+		pTimeSeconds->restart();
 
-	mCanMoveUp				= true;
-	mCanMoveDown			= true;
-	mCanMoveLeft			= true;
-	mCanMoveRight			= true;
+		mCanMoveUp				= true;
+		mCanMoveDown			= true;
+		mCanMoveLeft			= true;
+		mCanMoveRight			= true;
+
+		mCommandLock			= false;
+		pCommandClock->restart();
+	}
+
+	else
+
+	{
+		std::cout << "ERROR: Restart Command Lock is still active." << std::endl;
+	}
 }
 
 void Player::update( float frametime )
 {
 	if( mCommandLock == false )
 	{
-		if( pCommandClock->getElapsedTime().asSeconds() > mCommandLock )
+		if( pCommandClock->getElapsedTime().asSeconds() > mLockSeconds )
 		{
 			mCommandLock = true;
 		}
@@ -475,8 +512,9 @@ void Player::update( float frametime )
 		this->setPoints( 0 );
 		this->setLife( LIFE );
 		this->setShield( SHIELD );
-		pWeapon->setAmmo( AMMO );
 		this->setLevel( this->getLevel() + 1 );
+
+		pWeapon->setAmmo( AMMO );
 	}
 
 	pSpriteLifebar->setPosition( pSprite->getPosition().x + 80 , pSprite->getPosition().y + 15 );
@@ -556,7 +594,7 @@ void Player::update( float frametime )
 		this->suicide();
 	}
 
-	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::F2 ) )
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::F2 ) || sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Space ) )
 	{
 		this->respawn();
 	}
@@ -578,16 +616,50 @@ void Player::update( float frametime )
 		/*} */
 	}
 
+	if( mWeaponSwitchLock == false )
+	{
+		if( pWeaponSwitchClock->getElapsedTime().asSeconds() > WEAPON_SWITCH_WAITTIME )
+		{
+			mWeaponSwitchLock = true;
+		}
+	}
+
 	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Num1 ) || sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Numpad1 ) )
 	{
-		this->setPlayerWeapon( 1 );
-		pWeapon->setWeapon( 1 );
+		if( mWeaponSwitchLock == true )
+		{
+			this->setPlayerWeapon( 1 );
+			pWeapon->setWeapon( 1 );
+
+			/*
+
+			pWeaponSwitchSound->setBuffer( *pWeaponSwitchBuffer );
+			pWeaponSwitchSound->play();
+
+			*/
+
+			mWeaponSwitchLock = false;
+			pWeaponSwitchClock->restart();
+		}
 	}
 
 	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Num2 ) || sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Numpad2 ) )
 	{
-		this->setPlayerWeapon( 2 );
-		pWeapon->setWeapon( 2 );
+		if( mWeaponSwitchLock == true )
+		{
+			this->setPlayerWeapon( 2 );
+			pWeapon->setWeapon( 2 );
+
+			/*
+
+			pWeaponSwitchSound->setBuffer( *pWeaponSwitchBuffer );
+			pWeaponSwitchSound->play();
+
+			*/
+
+			mWeaponSwitchLock = false;
+			pWeaponSwitchClock->restart();
+		}
 	}
 
 

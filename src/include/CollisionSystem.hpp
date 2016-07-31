@@ -33,6 +33,7 @@ public:
 
 	void update( float frametime );
 
+
 private:
 
 	Player					*pPlayer;

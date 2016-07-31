@@ -5,6 +5,9 @@
 * Purpose: This file executes "weapon" class 
 */
 
+#pragma warning ( disable: 4068 )
+#pragma warning ( disable: 4305 )
+#pragma warning ( disable: 4244 )
 
 #include <iostream>
 #include <Windows.h>
@@ -43,7 +46,7 @@ Weapon::Weapon()
 
 	pShotPlayer			= new sf::Sound; 
 	pShotSound			= new sf::SoundBuffer;
-	pShotSound->loadFromFile( "media/packages/content/sounds/ShotSound1.wav" );
+	pShotSound->loadFromFile( std::string( "media/packages/content/sounds/ShotSound1.wav" ) );
 
 	pShotBuffer2        = new sf::SoundBuffer;
 	pShotSound2			= new sf::Sound;
@@ -73,8 +76,8 @@ Weapon::Weapon()
 	pWeaponCooldownTexture->loadFromFile( std::string( "media/packages/content/textures/WeaponCooldownBar.png" ) );
 	
 	pWeaponCooldownSprite->setTexture( *pWeaponCooldownTexture );
-	pWeaponCooldownSprite->setOrigin( pWeaponCooldownTexture->getSize().x/2, pWeaponCooldownTexture->getSize().y/2 );
-	pWeaponCooldownSprite->setPosition( sf::Vector2f( 1210 , 70 ) );
+	pWeaponCooldownSprite->setOrigin( 0 , pWeaponCooldownTexture->getSize().y/2 );
+	pWeaponCooldownSprite->setPosition( sf::Vector2f( -20 , 200 ) );
 	pWeaponCooldownSprite->setScale( 0.3 , 0.15 );
 
 	pClock1				= new sf::Clock();
@@ -110,7 +113,7 @@ Weapon::Weapon()
 	this->setShotsWep2( 0 );
 	this->setWeapon2Temp( 1 ); /* 1 degree celsius on game start */
 
-	mStepWP = ( pWeaponCooldownTexture->getSize().x / this->getWeapon2Temp() ) / 10;
+	mStepWP = ( pWeaponCooldownTexture->getSize().x / this->getWeapon2Temp() ) / 20;
 }
 
 Weapon::~Weapon()
@@ -154,7 +157,7 @@ void Weapon::fire()
 	{
 		if( mLockWep2 == true )
 		{
-			if(  this->getWeapon2Temp() <= 9 )
+			if(  this->getWeapon2Temp() <= 18 )
 			{
 				Shot* s2 = new Shot( mTarget, mPlayerPosition, pTexture2 );
 				mList.push_back( s2 );
@@ -202,7 +205,7 @@ void Weapon::update( sf::Vector2f position, sf::Vector2f player, float frametime
 	{
 		if( this->getWeapon2Temp() > 0.1 )
 		{
-			this->setWeapon2Temp( this->getWeapon2Temp() - 1 * frametime );
+			this->setWeapon2Temp( this->getWeapon2Temp() - 1.5 * frametime );
 		}
 	}
 
@@ -253,12 +256,7 @@ void Weapon::update( sf::Vector2f position, sf::Vector2f player, float frametime
 				{
 					this->setWeapon( 1 );
 
-					pWeaponSwitchSound->setBuffer( *pWeaponSwitchBuffer );
-					pWeaponSwitchSound->play();
-
 					std::cout << "Weapon has changed to '1'(Cannon)." << std::endl;
-					mWeaponLock = false;
-					pLockClock->restart();
 				}
 
 				else
@@ -270,7 +268,13 @@ void Weapon::update( sf::Vector2f position, sf::Vector2f player, float frametime
 
 			else if( this->getWeapon() == 1 )
 			{
-				std::cout << "Weapon '1'(Cannon) already selected." << std::endl;
+				std::cout << "Weapon has changed to '1'(Cannon)." << std::endl;
+
+				pWeaponSwitchSound->setBuffer( *pWeaponSwitchBuffer );
+				pWeaponSwitchSound->play();
+
+				mWeaponLock = false;
+				pLockClock->restart();
 			}
 		}
 
@@ -291,12 +295,7 @@ void Weapon::update( sf::Vector2f position, sf::Vector2f player, float frametime
 				{
 					this->setWeapon( 2 );
 
-					pWeaponSwitchSound->setBuffer( *pWeaponSwitchBuffer );
-					pWeaponSwitchSound->play();
-
 					std::cout << "Weapon has changed to '2'(Minigun)." << std::endl;
-					mWeaponLock = false;
-					pLockClock->restart();
 				}
 
 				else
@@ -308,7 +307,13 @@ void Weapon::update( sf::Vector2f position, sf::Vector2f player, float frametime
 
 			else if( this->getWeapon() == 2 )
 			{
-				std::cout << "Weapon '2'(Minigun) already selected." << std::endl;
+				std::cout << "Weapon has changed to '2'(Minigun)." << std::endl;
+
+				pWeaponSwitchSound->setBuffer( *pWeaponSwitchBuffer );
+				pWeaponSwitchSound->play();
+
+				mWeaponLock = false;
+				pLockClock->restart();
 			}
 		}
 
