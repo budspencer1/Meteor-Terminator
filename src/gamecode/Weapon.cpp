@@ -77,7 +77,7 @@ Weapon::Weapon()
 	
 	pWeaponCooldownSprite->setTexture( *pWeaponCooldownTexture );
 	pWeaponCooldownSprite->setOrigin( 0 , pWeaponCooldownTexture->getSize().y/2 );
-	pWeaponCooldownSprite->setPosition( sf::Vector2f( -20 , 200 ) );
+	pWeaponCooldownSprite->setPosition( sf::Vector2f( -20 , 190 ) );
 	pWeaponCooldownSprite->setScale( 0.3 , 0.15 );
 
 	pClock1				= new sf::Clock();
@@ -163,7 +163,12 @@ void Weapon::fire()
 				mList.push_back( s2 );
 				this->setShotsWep2( this->getShotsWep2() + 1 );
 				this->setWeapon2Temp( this->getWeapon2Temp() + 1 * 0.2 );
-				std::cout << "Temp: " << this->getWeapon2Temp() << std::endl;
+				std::cout << "Minigun Temperature (C): " << ( this->getWeapon2Temp() ) << std::endl;
+
+				if( this->getWeapon2Temp() > 13 )
+				{
+					std::cout << "Attention: Weapon needs cooldown in a few seconds unless you doesn't give it a break." << std::endl;
+				}
 	
 				/* std::cout << "Shots: " << this->getShotsWep2() << std::endl; */
 	

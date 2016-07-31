@@ -28,7 +28,7 @@
 
 /* Game Version (will be changed on release) */
 #ifndef TERM_VERSION
-#define TERM_VERSION "1.1.6_08"
+#define TERM_VERSION "1.1.9_12"
 #endif
 
 /* Url to download or update game */
@@ -46,7 +46,7 @@
 #endif
 
 #ifndef TERM_REVISION
-#define TERM_REVISION "Rev 1_01"
+#define TERM_REVISION "Rev 1_02"
 #endif
 
 #ifndef TERM_ARCHITECTURE 
