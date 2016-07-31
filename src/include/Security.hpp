@@ -54,8 +54,6 @@ public:
 	void setLeft( bool Left )			{ mIsInvisibleWallLeft = Left; };
 	void setLifes( int Lifes )			{ mLifes = Lifes; };
 
-
-
 	/* private variables ( can only be used in this-> class ) */
 private:
 

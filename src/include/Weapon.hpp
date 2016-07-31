@@ -69,6 +69,7 @@ public:
 	void setWeapon2Temp( float Wep2Temp )   { mWeapon2Temp = Wep2Temp; };
 	void setWeaponLock( bool WeaponLock )	{ mWeaponLock = WeaponLock; };
 
+
 private:
 
 	std::list <Shot*>			mList;

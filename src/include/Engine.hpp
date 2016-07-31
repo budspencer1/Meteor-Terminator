@@ -32,8 +32,8 @@ public:
 	void start();
 	void quit();
 
-private:
 
+private:
 
 	void update( float frametime );
 	void handleEvents();

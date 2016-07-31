@@ -69,6 +69,7 @@ public:
 	void setCommands( int Commands )	{ mCommands = Commands; };
 	void setIsActivated( bool Active )	{ mIsActivated = Active; };
 
+
 private:
 
 	Weapon					*pWeapon;

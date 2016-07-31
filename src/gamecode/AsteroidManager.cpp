@@ -6,6 +6,8 @@
 */
 
 
+#pragma warning ( disable: 4244 )
+
 #include <iostream>
 #include <Windows.h>
 #include <SFML\Graphics.hpp>

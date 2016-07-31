@@ -90,6 +90,8 @@ You can even fork the project on github, maintain your own version and send us p
 */
 
 
+#pragma warning ( disable: 4244 )
+
 #include <SFML\Graphics.hpp>
 #include <map>
 #include "Collision.hpp"

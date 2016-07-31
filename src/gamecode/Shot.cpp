@@ -5,12 +5,17 @@
 * Purpose: This file executes "shot" class 
 */
 
+
+#pragma warning ( disable: 4244 )
+#pragma warning ( disable: 4305 )
+
 #include <iostream>
 #include <SFML\Graphics.hpp>
 #include <Windows.h>
 #include <list>
 
 #include "Shot.hpp"
+
 
 Shot::Shot( sf::Vector2f direction, sf::Vector2f position, sf::Texture *texture )
 {

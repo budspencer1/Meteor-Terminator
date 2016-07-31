@@ -30,11 +30,16 @@ public:
 	void handleEvents();
 	void render( sf::RenderWindow *rw );
 
-	const sf::Sprite &getSprite() { return *pSprite; };
+	const sf::Sprite &getSprite()		    { return *pSprite; };
+	const sf::Vector2f &getVector()         { return mDirection; };
+	const sf::Clock &getClock()				{ return *pClock; };
 
-	const bool getIsAlive() { return mIsAlive; };
+	const bool getIsAlive()			        { return mIsAlive; };
+	const float getShotSpeed()				{ return mSpeed; };
 	
-	void setIsAlive( bool IsAlive ) { mIsAlive = IsAlive; }; 
+	void setIsAlive( bool IsAlive )			{ mIsAlive = IsAlive; }; 
+	void setSpeed( float Speed )			{ mSpeed = Speed; };
+
 
 private:
 

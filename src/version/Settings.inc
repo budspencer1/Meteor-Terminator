@@ -50,12 +50,16 @@
 #endif
 
 #ifndef WAITTIME_IN_SEC
-#define WAITTIME_IN_SEC 5
+#define WAITTIME_IN_SEC 2
 #endif
 
 #ifndef DEFAULT_WEAPON
 #define DEFAULT_WEAPON 1 /* Cannon */
 #endif
+
+#ifndef WEAPON_SWITCH_WAITTIME
+#define WEAPON_SWITCH_WAITTIME 2 
+#endif 
 
 #ifndef COMMAND_OVERFLOW_TIME
 #define COMMAND_OVERFLOW_TIME 1

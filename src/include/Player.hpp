@@ -93,6 +93,7 @@ public:
 	void restart();
 	/* ////////////////// */
 
+
 private:
 
 	void loadPlayer();
@@ -148,9 +149,13 @@ private:
 	sf::SoundBuffer			*pGameRestartBuffer;
 	sf::Sound				*pGameRestartSound;
 
+	sf::SoundBuffer			*pWeaponSwitchBuffer;
+	sf::Sound				*pWeaponSwitchSound;
+
 	sf::Clock				*pClock;
 	sf::Clock				*pCommandClock;
 	sf::Clock				*pTimeSeconds;
+	sf::Clock				*pWeaponSwitchClock;
 
 	Weapon					*pWeapon;
 	AsteroidManager			*pAsteroidManager;
@@ -197,6 +202,7 @@ private:
 
 	bool					mIsHit;
 	bool					mCommandLock;
+	bool					mWeaponSwitchLock;
 
 	bool					mLock;
 	int						mLockSeconds;

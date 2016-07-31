@@ -40,6 +40,7 @@ public:
 
 	std::list<Asteroid*> *getList() { return &mAsList; };
 
+
 private:
 
 	std::list<Asteroid*>				mAsList;
