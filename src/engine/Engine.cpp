@@ -180,6 +180,7 @@ void Engine::handleEvents()
 	}
 
 	pPlayer->handleEvents();
+	pCollisionSystem->handleEvents();
 	pAsteroidManager->handleEvents();
 }
 
@@ -190,6 +191,7 @@ void Engine::render()
 	pRenderWindow->draw( *pSprite );
 	pAsteroidManager->render( pRenderWindow );
 	pPlayer->render( pRenderWindow );
+	pCollisionSystem->render( pRenderWindow );
 	pRenderWindow->draw( *pMouseSprite );
 	pRenderWindow->display();
 }

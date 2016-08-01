@@ -47,7 +47,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\engine\SFML\include;C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\version;C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\GUI;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\engine\SFML\include;C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\version;C:\Users\SeanConnery\Documents\GitHub\C++\Games\MeteorTerminator\MeteorTerminator\src\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\engine\SFML\lib;$(LibraryPath)</LibraryPath>
     <OutDir>..\..</OutDir>
   </PropertyGroup>
@@ -75,7 +75,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\include;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\version;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\engine\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\GUI;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\include;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\version;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator\src\engine\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -98,6 +98,7 @@
     <ClInclude Include="..\include\CollisionSystem.hpp" />
     <ClInclude Include="..\include\Commandhandler.hpp" />
     <ClInclude Include="..\include\Engine.hpp" />
+    <ClInclude Include="..\include\Health.hpp" />
     <ClInclude Include="..\include\Player.hpp" />
     <ClInclude Include="..\include\Security.hpp" />
     <ClInclude Include="..\include\Shot.hpp" />
@@ -112,6 +113,7 @@
     <ClCompile Include="..\gamecode\AsteroidManager.cpp" />
     <ClCompile Include="..\gamecode\Collision.cpp" />
     <ClCompile Include="..\gamecode\CollisionSystem.cpp" />
+    <ClCompile Include="..\gamecode\Health.cpp" />
     <ClCompile Include="..\gamecode\Player.cpp" />
     <ClCompile Include="..\gamecode\Shot.cpp" />
     <ClCompile Include="..\gamecode\Weapon.cpp" />

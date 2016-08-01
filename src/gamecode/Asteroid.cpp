@@ -50,9 +50,9 @@ Asteroid::Asteroid( std::string texturePath, sf::Vector2f position, sf::Vector2f
 	mRotationSpeed		= rotationSpeed;
 	mSpeed				= speed;
 
-	setLife( life );
-	setIsAlive( true );
-	setIsTarget( false );
+	this->setLife( life );
+	this->setIsAlive( true );
+	this->setIsTarget( false );
 
 	mStep = pTextureLifeBar->getSize().x / this->getLife();
 }

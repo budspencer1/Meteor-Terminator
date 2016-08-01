@@ -59,6 +59,9 @@
     <ClInclude Include="..\include\Weapon.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\Health.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\engine\Commandhandler.cpp">
@@ -92,6 +95,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\gamecode\Weapon.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\gamecode\Health.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

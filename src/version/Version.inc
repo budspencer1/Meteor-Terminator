@@ -28,7 +28,7 @@
 
 /* Game Version (will be changed on release) */
 #ifndef TERM_VERSION
-#define TERM_VERSION "1.1.9_12"
+#define TERM_VERSION "1.2.1_02"
 #endif
 
 /* Url to download or update game */
@@ -38,15 +38,15 @@
 #endif
 
 #ifndef COMPILE_TIME
-#define COMPILE_TIME __TIME__
+#define COMPILE_TIME __TIME__  /* time */
 #endif
 
 #ifndef COMPILE_DATE 
-#define COMPILE_DATE __DATE__
+#define COMPILE_DATE __DATE__	/* date */
 #endif
 
 #ifndef TERM_REVISION
-#define TERM_REVISION "Rev 1_02"
+#define TERM_REVISION "Rev 2_02" /* build revision */
 #endif
 
 #ifndef TERM_ARCHITECTURE 

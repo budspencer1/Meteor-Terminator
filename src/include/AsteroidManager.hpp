@@ -34,11 +34,19 @@ public:
 	void spawnAsteroid( float time );
 	void checkAsteroid();
 
+	bool hasItem();
+
 	void update( float frametime );
 	void handleEvents();
 	void render( sf::RenderWindow *rw );
 
-	std::list<Asteroid*> *getList() { return &mAsList; };
+	const sf::Sprite &getSprite()			{ return *pHealthSprite; };
+	const bool getHealthIsAlive()			{ return mHealthIsAlive; };
+	const float getItemCalc()				{ return mItemCalc; };
+	std::list<Asteroid*> *getList()			{ return &mAsList; };	
+
+	void setHealthIsAlive( bool HIA )		{ mHealthIsAlive = HIA; };
+	void setItemCalc( float ItemCalc )		{ mItemCalc = ItemCalc; };
 
 
 private:
@@ -47,6 +55,12 @@ private:
 	
 	sf::Clock							*pClock;
 
+	sf::Texture							*pHealthTexture;
+	sf::Sprite							*pHealthSprite;
+
+	float								mItemCalc;
+	int									mGetItem;
+	bool								mHealthIsAlive;
 
 };
 

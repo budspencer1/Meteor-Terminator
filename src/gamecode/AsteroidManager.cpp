@@ -13,6 +13,7 @@
 #include <SFML\Graphics.hpp>
 
 #include "AsteroidManager.hpp"
+#include "Settings.inc"
 
 
 

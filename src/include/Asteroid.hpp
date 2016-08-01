@@ -33,18 +33,21 @@ public:
 
 	/* getter */
 	const sf::Sprite &getSprite()			{ return *pSprite; };
-	const sf::Sprite &getHealthSprite()		{ return *pHealthSprite; }; 
 
 	const int getPoints()				   { return mPoints; };
 	const float getLife()				   { return mLife; } ;
 	const bool getIsAlive()				   { return mIsAlive; };
 	const bool getIsTarget()			   { return mIsTarget; };
+	const int getItem()					   { return mItem; };
+	const bool getHasItem()				   { return mHasItem; };
 
 	/* setter */
 	void setPoints( int Points )           { mPoints = Points; };
 	void setLife( float Life )			   { mLife = Life; };
 	void setIsAlive( bool IsAlive )		   { mIsAlive = IsAlive; };
 	void setIsTarget( bool IsTarget )	   { mIsTarget = IsTarget; };
+	void setItem( int Item )			   { mItem = Item; };
+	void setHasItem( bool HasItem )		   { mHasItem = HasItem; };
 
 
 private:
@@ -55,9 +58,6 @@ private:
 	/* texture variables */
 	sf::Texture				*pTexture;
 	sf::Sprite				*pSprite;
-
-	sf::Sprite				*pHealthSprite;
-	sf::Texture				*pHealthTexture;
 
 	sf::Texture				*pTextureTarget;
 
@@ -76,6 +76,10 @@ private:
 
 	/* target variable */
 	bool					mIsTarget;
+
+	/* give asteroid armor or player life */
+	int						mItem;
+	bool					mHasItem;
 
 
 };
