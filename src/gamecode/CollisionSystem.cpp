@@ -12,11 +12,15 @@
 
 #include "Collision.hpp"
 #include "CollisionSystem.hpp"
+
 #include "Settings.inc"
 
 
 CollisionSystem::CollisionSystem( sf::Sprite *mouse, Player *player, std::list<Asteroid*> *list )
 {
+	pHitClock			= new sf::Clock;
+	pHitClock->restart();
+
 	pPlayerDeadSound    = new sf::Sound; 
 	pPlayerDeadBuffer   = new sf::SoundBuffer;
 	pPlayerDeadBuffer->loadFromFile( std::string( "media/packages/content/sounds/PlayerDead.wav" ) );
@@ -44,6 +48,8 @@ CollisionSystem::CollisionSystem( sf::Sprite *mouse, Player *player, std::list<A
 
 	mPlayerCanDie   = true;
 	mRemainingLife	= 0;
+
+	this->setIsHit( false );
 }
 
 CollisionSystem::~CollisionSystem()
@@ -90,6 +96,14 @@ bool CollisionSystem::AsteroidHasItem()
 
 void CollisionSystem::update( float frametime )
 {
+	if( this->getIsHit() == true )
+	{
+		if( pHitClock->getElapsedTime().asSeconds() > HIT_TIME )
+		{
+			this->setIsHit( false );
+		}
+	}
+
 	for( auto it : *pList )
 	{
 		for( auto it_shot : *pPlayer->getShotList() )
@@ -98,6 +112,7 @@ void CollisionSystem::update( float frametime )
 			{
 				it_shot->setIsAlive( false );
 				pPlayer->setHits( pPlayer->getHits() + 1 );
+				this->setIsHit( true );
 
 				if( pPlayer->getPlayerWeapon() == 1 )
 				{
@@ -156,6 +171,8 @@ void CollisionSystem::update( float frametime )
 						}
 					}
 				}
+
+				pHitClock->restart();
 			}
 
 			if( Collision::PixelPerfectTest( pPlayer->getSprite(), it->getSprite() ) && Collision::PixelPerfectTest( it_shot->getSprite(), it->getSprite() ) )

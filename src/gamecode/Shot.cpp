@@ -26,7 +26,7 @@ Shot::Shot( sf::Vector2f direction, sf::Vector2f position, sf::Texture *texture 
 	pSprite->setTexture( *texture );
 	pSprite->setOrigin( texture->getSize().x/2, texture->getSize().y/2 );
 	pSprite->setPosition( position );
-	pSprite->setScale( 0.08 , 0.08 );
+	pSprite->setScale( 0.1 , 0.1 );
 
 	mDirection = direction;
 

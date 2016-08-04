@@ -48,20 +48,20 @@ Player::Player( std::string texturePath, sf::Vector2f position )
 	pTextureH1->loadFromFile( std::string( "media/packages/content/textures/Health.png" ) );
 	pSpriteH1->setTexture( *pTextureH1 );
 	pSpriteH1->setOrigin( pTextureH1->getSize().x/2, pTextureH1->getSize().y/2 );
-	pSpriteH1->setPosition( sf::Vector2f( 1250 , 22 ) );
-	pSpriteH1->setScale( 0.015 , 0.015 );
+	pSpriteH1->setPosition( sf::Vector2f( 1200 , 34 ) );
+	pSpriteH1->setScale( 0.25 , 0.25 );
 
 	pTextureH2->loadFromFile( std::string( "media/packages/content/textures/Health.png" ) );
 	pSpriteH2->setTexture( *pTextureH2 );
 	pSpriteH2->setOrigin( pTextureH2->getSize().x/2, pTextureH2->getSize().y/2 );
-	pSpriteH2->setPosition( sf::Vector2f( 1300 , 22 ) );
-	pSpriteH2->setScale( 0.015 , 0.015 );
+	pSpriteH2->setPosition( sf::Vector2f( 1280 , 34 ) );
+	pSpriteH2->setScale( 0.25 , 0.25 );
 
 	pTextureH3->loadFromFile( std::string( "media/packages/content/textures/Health.png" ) );
 	pSpriteH3->setTexture( *pTextureH3 );
 	pSpriteH3->setOrigin( pTextureH3->getSize().x/2, pTextureH3->getSize().y/2 );
-	pSpriteH3->setPosition( sf::Vector2f( 1350 , 22 ) );
-	pSpriteH3->setScale( 0.015 , 0.015 );
+	pSpriteH3->setPosition( sf::Vector2f( 1360 , 34 ) );
+	pSpriteH3->setScale( 0.25 , 0.25 );
 
 
 	pGameRestartSound       = new sf::Sound;
@@ -104,7 +104,7 @@ Player::Player( std::string texturePath, sf::Vector2f position )
 
 	mLifesLabel.setFont( *pFont );
 	mLifesLabel.setString( "Lifes: " );
-	mLifesLabel.setPosition( sf::Vector2f( 1150 , 10 ) );
+	mLifesLabel.setPosition( sf::Vector2f( 1100 , 10 ) );
 	mLifesLabel.setScale( 0.6 , 0.6 );
 
 	mPosXLabel.setFont( *pFont );
@@ -629,7 +629,6 @@ void Player::update( float frametime )
 		if( mWeaponSwitchLock == true )
 		{
 			this->setPlayerWeapon( 1 );
-			pWeapon->setWeapon( 1 );
 
 			/*
 
@@ -648,7 +647,6 @@ void Player::update( float frametime )
 		if( mWeaponSwitchLock == true )
 		{
 			this->setPlayerWeapon( 2 );
-			pWeapon->setWeapon( 2 );
 
 			/*
 

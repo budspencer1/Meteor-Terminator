@@ -55,6 +55,8 @@ private:
 	
 	sf::Clock							*pClock;
 
+	Asteroid							*pAsteroid;
+
 	sf::Texture							*pHealthTexture;
 	sf::Sprite							*pHealthSprite;
 

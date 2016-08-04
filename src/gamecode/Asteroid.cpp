@@ -13,13 +13,18 @@
 #include <SFML\Graphics.hpp>
 
 #include "Asteroid.hpp"
+#include "Settings.inc"
 
 
 Asteroid::Asteroid( std::string texturePath, sf::Vector2f position, sf::Vector2f scaleFactor, float speed, float rotationSpeed, float life )
 {
+	pClock				= new sf::Clock;
+	pClock->restart();
+
 	pSprite				= new sf::Sprite;
 	pTexture			= new sf::Texture;
 	pTextureTarget		= new sf::Texture;
+	pTextureTarget2		= new sf::Texture;
 
 	pTextureLifeBar     = new sf::Texture;
 	pSpriteLifeBar      = new sf::Sprite;
@@ -33,6 +38,7 @@ Asteroid::Asteroid( std::string texturePath, sf::Vector2f position, sf::Vector2f
 	/* ////////////////////////////////////////// */
 
 	pTextureTarget->loadFromFile( std::string( "media/packages/content/textures/AsteroidTarget.png" ) );
+	pTextureTarget2->loadFromFile( std::string( "media/packages/content/textures/Asteroid2Target.png" ) );
 
 	pTexture->loadFromFile( texturePath );
 
@@ -49,6 +55,7 @@ Asteroid::Asteroid( std::string texturePath, sf::Vector2f position, sf::Vector2f
 
 	mRotationSpeed		= rotationSpeed;
 	mSpeed				= speed;
+	asteroid			= 1;
 
 	this->setLife( life );
 	this->setIsAlive( true );
@@ -59,33 +66,54 @@ Asteroid::Asteroid( std::string texturePath, sf::Vector2f position, sf::Vector2f
 
 Asteroid::~Asteroid()
 {
+	 delete pClock;
 	 delete pTexture;
 	 delete pSprite;
 	 delete pTextureTarget;
+	 delete pTextureTarget2;
 
+	 pClock				= nullptr;
 	 pTexture			= nullptr;
 	 pSprite			= nullptr;
 	 pTextureTarget		= nullptr;
 	 pSpriteLifeBar		= nullptr;
 	 pTextureLifeBar	= nullptr;
+	 pTextureTarget2	= nullptr;
 }
 
 void Asteroid::update( float frametime )
 {
-
 	pSpriteLifeBar->setPosition( pSprite->getPosition().x, pSprite->getPosition().y - 25.f );
 	pSprite->rotate( mRotationSpeed * frametime );
 	pSprite->move( 0 , mSpeed * frametime );
 
-	if( this->getIsTarget() == true )
+
+	if( this->getAsteroidType() == 1 )
 	{
-		pSprite->setTexture( *pTextureTarget );
+		if( this->getIsTarget() == true )
+		{
+			pSprite->setTexture( *pTextureTarget );
+		}
+
+		else
+
+		{
+			pSprite->setTexture( *pTexture );
+		}
 	}
 
-	else
-
+	else if( this->getAsteroidType() == 2 )
 	{
-		pSprite->setTexture( *pTexture );
+		if( this->getIsTarget() == true )
+		{
+			pSprite->setTexture( *pTextureTarget2 );
+		}
+
+		else
+
+		{
+			pSprite->setTexture( *pTexture );
+		}
 	}
 
 	pSpriteLifeBar->setTextureRect( sf::IntRect( 0 , 0 , ( mStep * this->getLife() ) , pTextureLifeBar->getSize().y ) );

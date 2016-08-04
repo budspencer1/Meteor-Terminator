@@ -30,6 +30,7 @@ public:
 	void update( float frametime );
 	void render( sf::RenderWindow *rw );
 	void handleEvents();
+	float getAsteroidType( float time1 );
 
 	/* getter */
 	const sf::Sprite &getSprite()			{ return *pSprite; };
@@ -40,6 +41,7 @@ public:
 	const bool getIsTarget()			   { return mIsTarget; };
 	const int getItem()					   { return mItem; };
 	const bool getHasItem()				   { return mHasItem; };
+	const int getAsteroidType()			   { return mAsteroidType; };
 
 	/* setter */
 	void setPoints( int Points )           { mPoints = Points; };
@@ -48,6 +50,7 @@ public:
 	void setIsTarget( bool IsTarget )	   { mIsTarget = IsTarget; };
 	void setItem( int Item )			   { mItem = Item; };
 	void setHasItem( bool HasItem )		   { mHasItem = HasItem; };
+	void setAsteroidType( int AsType )     { mAsteroidType = AsType; };
 
 
 private:
@@ -57,9 +60,13 @@ private:
 
 	/* texture variables */
 	sf::Texture				*pTexture;
+	sf::Texture				*pTexture2;
 	sf::Sprite				*pSprite;
 
+	sf::Clock				*pClock;
+
 	sf::Texture				*pTextureTarget;
+	sf::Texture				*pTextureTarget2;
 
 	sf::Texture				*pTextureLifeBar;
 	sf::Sprite				*pSpriteLifeBar;
@@ -68,6 +75,7 @@ private:
 
 	float					mSpeed;
 	float					mRotationSpeed;
+	float					asteroid;
 
 	/* Life variables */
 	int						mPoints;
@@ -80,6 +88,7 @@ private:
 	/* give asteroid armor or player life */
 	int						mItem;
 	bool					mHasItem;
+	int						mAsteroidType;
 
 
 };

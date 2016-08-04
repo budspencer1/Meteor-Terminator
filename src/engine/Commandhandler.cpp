@@ -8,6 +8,10 @@
 
 #include "Commandhandler.hpp"
 
+#include "Version.inc"
+#include "Settings.inc"
+#include "Commands.inc"
+
 
 
 CommandHandler::CommandHandler()
@@ -108,7 +112,7 @@ void CommandHandler::help()
 
 void CommandHandler::about()
 {
-	std::cout << "Game Name: " TERM_NAME "\nGame Version: " TERM_HISTORY " " TERM_VERSION "\nDeveloper: " TERM_DEVELOPER "\nUpdate Game: " TERM_DL_UPDATE_URL "" << std::endl;
+	std::cout << "Game Name: " TERM_NAME "\nGame Version: " TERM_DEV_AGE " " TERM_VERSION "\nDeveloper: " TERM_DEVELOPER "\nUpdate Game: " TERM_DL_UPDATE_URL "" << std::endl;
 	this->setCommands( this->getCommands() + 1 );
 }
 

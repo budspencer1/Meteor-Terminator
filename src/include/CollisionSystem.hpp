@@ -37,11 +37,13 @@ public:
 	void handleEvents();
 	void render( sf::RenderWindow *rw );
 
-	bool AsteroidHasItem();        
+	bool AsteroidHasItem(); 
 
 	const int getRandomValue()				{ return mRandomValue; };
+	const bool getIsHit()					{ return mIsHit; };
 
 	void setRandomValue( int RandomValue )  { mRandomValue = RandomValue; };
+	void setIsHit( bool IsHit )				{ mIsHit = IsHit; };
 
 	std::list<Health*> *getHealthList()			{ return &mHealthList; };
 
@@ -50,6 +52,8 @@ private:
 
 	Player					*pPlayer;
 	Health					*pHealth;
+
+	sf::Clock				*pHitClock;
 
 	sf::Texture				*pTexture1;
 	sf::Texture				*pTexture2;
@@ -72,6 +76,7 @@ private:
 	bool					mPlayerCanDie;
 	int						mRandomValue;
 	float					mRemainingLife;
+	bool					mIsHit;
 
 
 };

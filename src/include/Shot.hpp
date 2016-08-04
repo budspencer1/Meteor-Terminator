@@ -38,7 +38,7 @@ public:
 	const float getShotSpeed()				{ return mSpeed; };
 	
 	void setIsAlive( bool IsAlive )			{ mIsAlive = IsAlive; }; 
-	void setSpeed( float Speed )			{ mSpeed = Speed; };
+	void setShotSpeed( float Speed )		{ mSpeed = Speed; };
 
 
 private:

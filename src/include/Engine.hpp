@@ -15,6 +15,7 @@
 
 #include "Player.hpp"
 #include "Asteroid.hpp"
+#include "Weapon.hpp"
 #include "AsteroidManager.hpp"
 #include "Collision.hpp"
 #include "CollisionSystem.hpp"
@@ -32,13 +33,18 @@ public:
 	void start();
 	void quit();
 
+	void getWindowsVersion();
+	int getArchType1();
+	static char getArchType2();
+	std::string getOperatingSystem();
+
 
 private:
 
 	void update( float frametime );
 	void handleEvents();
 	void render();
-	void CommandSystem( float frametime );
+	void CommandSystem();
 
 	void CalculateFrameTime();
 
@@ -48,12 +54,17 @@ private:
 	sf::Texture						*pBackground;
 	sf::Sprite						*pSprite;
 
+	sf::Vector2f					mMousePosition;
+
 	sf::Texture						*pMouseTexture;
 	sf::Sprite						*pMouseSprite;
+
+	sf::Texture						*pMouseHitTexture;
 
 	sf::Image						*pIconTexture;
 
 	Player							*pPlayer;
+	Weapon							*pWeapon;
 	AsteroidManager					*pAsteroidManager;
 	CollisionSystem					*pCollisionSystem;
 	CommandHandler					*pCommandHandler;

@@ -37,7 +37,7 @@
 #define LIFES 4
 #endif
 
-#ifndef AMMO
+#ifndef AMMO 
 #define AMMO 700 
 #endif
 
@@ -67,6 +67,38 @@
 
 #ifndef COUNTDOWN_TIME_IN_MIN
 #define COUNTDOWN_TIME_IN_MIN 5
+#endif
+
+#ifndef WEP_2_COOLDOWN_TIME
+#define WEP_2_COOLDOWN_TIME 3.5 
+#endif
+
+#ifndef HIT_TIME 
+#define HIT_TIME 0.3
+#endif
+
+#ifndef HEALTH_SPEED 
+#define HEALTH_SPEED 70
+#endif
+
+#ifndef MAX_WEP_2_TEMP
+#define MAX_WEP_2_TEMP 18
+#endif
+
+#ifndef MIN_WEP_2_TEMP
+#define MIN_WEP_2_TEMP 14
+#endif
+
+#ifndef CANNON_SHOT_SPEED 
+#define CANNON_SHOT_SPEED 900 
+#endif
+
+#ifndef MACHINEGUN_SHOT_SPEED
+#define MACHINEGUN_SHOT_SPEED 1300
+#endif
+
+#ifndef ASTEROID_SPAWN_INTERWAL 
+#define ASTEROID_SPAWN_INTERWAL 0.35
 #endif
 
 /* ///////////////////////////////////////////////////////// */

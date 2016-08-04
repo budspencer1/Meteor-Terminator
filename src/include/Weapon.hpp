@@ -36,6 +36,8 @@ public:
 	void deleteWeapon();
 	void setAmmoZero();
 
+	bool CanHit();
+
 	void update( sf::Vector2f position, sf::Vector2f player, float frametime );
 	void handleEvents();
 	void render( sf::RenderWindow *rw );
@@ -55,6 +57,8 @@ public:
 	const int getShotsWep2()				{ return mShotsWeapon2; };
 	const float getWeapon2Temp()			{ return mWeapon2Temp; };
 	const bool getWeaponLock()				{ return mWeaponLock; };
+	const float getWep2TotalTemp()			{ return mWep2TotalTemp; };
+	const bool getCanShoot()				{ return mCanShoot; };
 
 	void setCooldownWep1( float Cooldown1 )	{ mCooldownWep1 = Cooldown1; };
 	void setCooldownWep2( float Cooldown2 ) { mCooldownWep2 = Cooldown2; };
@@ -68,6 +72,8 @@ public:
 	void setShotsWep2( int ShotsWep2 )		{ mShotsWeapon2 = ShotsWep2; };
 	void setWeapon2Temp( float Wep2Temp )   { mWeapon2Temp = Wep2Temp; };
 	void setWeaponLock( bool WeaponLock )	{ mWeaponLock = WeaponLock; };
+	void setWep2TotalTemp( float W2TT )		{ mWep2TotalTemp = W2TT; };
+	void setCanShoot( bool CanShoot )		{ mCanShoot = CanShoot; };
 
 
 private:
@@ -78,6 +84,7 @@ private:
 	sf::Clock					*pClock1;
 	sf::Clock					*pClock2;
 	sf::Clock					*pLockClock;
+	sf::Clock					*pWep2HotClock;
 
 	sf::Texture					*pTexture;
 	sf::Texture					*pTexture2;
@@ -93,6 +100,9 @@ private:
 
 	sf::SoundBuffer				*pShotBuffer2;
 	sf::Sound					*pShotSound2;
+
+	sf::SoundBuffer				*pCooldownBuffer;
+	sf::Sound					*pCooldownSound;
 
 	sf::Font					*pFont;
 	sf::Text					mAmmoLabel;
@@ -116,8 +126,9 @@ private:
 	float						mCooldownWep2;
 	float						mWaittime;
 	float						mWeapon2Temp;
+	float						mWep2TotalTemp;
 	float						mStepWP;
-	float						mTexOriginalSizeY;
+	float						mTexOriginalSizeY;					
 
 	bool						mWeaponTooHot;
 	float						mWeaponTemp;
@@ -130,8 +141,11 @@ private:
 
 	bool						mWeapon1;
 	bool						mWeapon2;
+	bool						mCooldownWep2IfTooHot;
 
 	bool						mOutOfAmmo;
+	bool						mWeaponGotHot;
+	bool						mCanShoot;
 
 
 };

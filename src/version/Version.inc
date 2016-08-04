@@ -4,9 +4,15 @@
 * Date: 2016
 * Purpose: Manage Version & Control of program
 * NOTE: CONTAINS SOME DEFAULT SETTINGS OF GAME
+* NOTE: Will be changed in new commit/release
+* INFO: Scheme: TERM_NAME " - Version: " TERM_DEVAGE
 */
 
 #include <time.h>
+#include <Windows.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 /* Official name of Game */
 
@@ -20,15 +26,15 @@
 #define TERM_DEVELOPER "Sebastian <3" 
 #endif
 
-/* Version Overlay (Alpha, Beta, Remake, ...) */
+/* Version History (Alpha, Beta, Remake, Final, ...) */
 
-#ifndef TERM_HISTORY 
-#define TERM_HISTORY "Alpha"
+#ifndef TERM_DEV_AGE 
+#define TERM_DEV_AGE "Alpha"
 #endif 
 
 /* Game Version (will be changed on release) */
 #ifndef TERM_VERSION
-#define TERM_VERSION "1.2.1_02"
+#define TERM_VERSION "1.3.5_08"
 #endif
 
 /* Url to download or update game */
@@ -46,17 +52,8 @@
 #endif
 
 #ifndef TERM_REVISION
-#define TERM_REVISION "Rev 2_02" /* build revision */
+#define TERM_REVISION "Rev 3_07" /* build revision */
 #endif
-
-#ifndef TERM_ARCHITECTURE 
-#define TERM_ARCHITECTURE "x86 (32 Bit)"
-#endif
-
-#ifndef SFML_ARCHITECTURE
-#define SFML_ARCHITECTURE "x86 (32 Bit)"
-#endif
-
 
 
 

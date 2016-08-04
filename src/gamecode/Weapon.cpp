@@ -46,21 +46,25 @@ Weapon::Weapon()
 
 	pShotPlayer			= new sf::Sound; 
 	pShotSound			= new sf::SoundBuffer;
-	pShotSound->loadFromFile( std::string( "media/packages/content/sounds/ShotSound1.wav" ) );
+	pShotSound->loadFromFile( std::string( "media/packages/content/sounds/Cannon.wav" ) );
 
 	pShotBuffer2        = new sf::SoundBuffer;
 	pShotSound2			= new sf::Sound;
-	pShotBuffer2->loadFromFile( std::string( "media/packages/content/sounds/ShotSound2.wav" ) );
+	pShotBuffer2->loadFromFile( std::string( "media/packages/content/sounds/MachineGun.wav" ) );
 
 	pWeaponSwitchBuffer	= new sf::SoundBuffer;
 	pWeaponSwitchSound  = new sf::Sound;
 	pWeaponSwitchBuffer->loadFromFile( std::string( "media/packages/content/sounds/SwitchWeapon.wav" ) );
 
+	pCooldownBuffer		= new sf::SoundBuffer;
+	pCooldownSound		= new sf::Sound;
+	pCooldownBuffer->loadFromFile( std::string( "media/packages/content/sounds/MachinegunCooldown.wav" ) );
+
 	pTexture			= new sf::Texture();
-	pTexture->loadFromFile( std::string( "media/packages/content/textures/Shot1.png" ) );
+	pTexture->loadFromFile( std::string( "media/packages/content/textures/Cannon.png" ) );
 
 	pTexture2			= new sf::Texture();
-	pTexture2->loadFromFile( std::string( "media/packages/content/textures/Shot2.png" ) );
+	pTexture2->loadFromFile( std::string( "media/packages/content/textures/Machinegun.png" ) );
 
 	/*
 
@@ -89,6 +93,9 @@ Weapon::Weapon()
 	pLockClock			= new sf::Clock();
 	pLockClock->restart();
 
+	pWep2HotClock       = new sf::Clock();
+	pWep2HotClock->restart();
+
 	/*this->setShots( 0 );
 	this->setHits( 0 );*/
 
@@ -99,6 +106,8 @@ Weapon::Weapon()
 	mLockWep2				= true;
 	mWeaponLock				= true;
 	mTexOriginalSizeY		= pWeaponCooldownTexture->getSize().y;
+	mCooldownWep2IfTooHot   = true;
+	mWeaponGotHot			= false;
 
 	mPlayerPosition     = sf::Vector2f( 0 , 0 );
 
@@ -112,6 +121,8 @@ Weapon::Weapon()
 	this->setWeapon2( true );
 	this->setShotsWep2( 0 );
 	this->setWeapon2Temp( 1 ); /* 1 degree celsius on game start */
+	this->setWep2TotalTemp( 0 );
+	this->setCanShoot( true );
 
 	mStepWP = ( pWeaponCooldownTexture->getSize().x / this->getWeapon2Temp() ) / 20;
 }
@@ -119,10 +130,12 @@ Weapon::Weapon()
 Weapon::~Weapon()
 {
 	delete pClock1;
+	delete pWep2HotClock;
 	delete pTexture;
 
 	pClock1				= nullptr;
 	pTexture			= nullptr;
+	pWep2HotClock		= nullptr;
 }
 
 void Weapon::fire()
@@ -135,6 +148,7 @@ void Weapon::fire()
 			if( mLockWep1 == true )
 			{
 				Shot* s = new Shot( mTarget, mPlayerPosition, pTexture );
+				s->setShotSpeed( CANNON_SHOT_SPEED );
 				mList.push_back( s );
 				mAmmo = ( mAmmo - 1 );
 		
@@ -157,26 +171,39 @@ void Weapon::fire()
 	{
 		if( mLockWep2 == true )
 		{
-			if(  this->getWeapon2Temp() <= 18 )
+			if(  this->getWeapon2Temp() <= MAX_WEP_2_TEMP )
 			{
-				Shot* s2 = new Shot( mTarget, mPlayerPosition, pTexture2 );
-				mList.push_back( s2 );
-				this->setShotsWep2( this->getShotsWep2() + 1 );
-				this->setWeapon2Temp( this->getWeapon2Temp() + 1 * 0.2 );
-				std::cout << "Minigun Temperature (C): " << ( this->getWeapon2Temp() ) << std::endl;
-
-				if( this->getWeapon2Temp() > 13 )
+				if( mCooldownWep2IfTooHot == true )
 				{
-					std::cout << "Attention: Weapon needs cooldown in a few seconds unless you doesn't give it a break." << std::endl;
+					Shot* s2 = new Shot( mTarget, mPlayerPosition, pTexture2 );
+					s2->setShotSpeed( MACHINEGUN_SHOT_SPEED );
+					mList.push_back( s2 );
+					this->setShotsWep2( this->getShotsWep2() + 1 );
+					this->setWeapon2Temp( this->getWeapon2Temp() + 1 * 0.2 );
+					this->setWep2TotalTemp( this->getWep2TotalTemp() + 1 );
+					std::cout << "Minigun Temperature (C): " << ( this->getWeapon2Temp() ) << std::endl;
+					std::cout << "Total Temp: " << this->getWep2TotalTemp() << std::endl;
+
+					if( this->getWeapon2Temp() > 13 )
+					{
+						std::cout << "Attention: Weapon needs cooldown in a few seconds unless you give it a break." << std::endl;
+					}
+	
+					/* std::cout << "Shots: " << this->getShotsWep2() << std::endl; */
+	
+					pShotSound2->setBuffer( *pShotBuffer2 );
+					pShotSound2->play();
+	
+					mLockWep2 = false;
+					pClock2->restart();
+					pWep2HotClock->restart();
 				}
-	
-				/* std::cout << "Shots: " << this->getShotsWep2() << std::endl; */
-	
-				pShotSound2->setBuffer( *pShotBuffer2 );
-				pShotSound2->play();
-	
-				mLockWep2 = false;
-				pClock2->restart();
+
+				else
+
+				{
+					std::cout << "Attention: Weapon is too hot right now. (Temperature: " << ( this->getWeapon2Temp() * 5 ) << ")" << std::endl;
+				}
 			}
 	
 			else if( this->getWeapon2Temp() > 0 )
@@ -206,11 +233,40 @@ void Weapon::deleteWeapon()
 
 void Weapon::update( sf::Vector2f position, sf::Vector2f player, float frametime )
 { 
-	if( !sf::Mouse::isButtonPressed( sf::Mouse::Button::Left ) ) 
+	if( this->getWeapon2Temp() == MAX_WEP_2_TEMP || this->getWeapon2Temp() > MAX_WEP_2_TEMP )
 	{
-		if( this->getWeapon2Temp() > 0.1 )
+		mWeaponGotHot = true;
+		this->setCanShoot( false );
+
+		pCooldownSound->setBuffer( *pCooldownBuffer );
+		pCooldownSound->play();
+	}
+
+	else 
+
+	{
+		mWeaponGotHot = false;
+	}
+
+	if( mCooldownWep2IfTooHot == false )
+	{
+		if( pWep2HotClock->getElapsedTime().asSeconds() > WEP_2_COOLDOWN_TIME )
 		{
-			this->setWeapon2Temp( this->getWeapon2Temp() - 1.5 * frametime );
+			mCooldownWep2IfTooHot = true;
+		}
+	}
+
+	if( this->getWeapon2Temp() > 0.1 )
+	{
+		this->setWeapon2Temp( this->getWeapon2Temp() - 1.1 * frametime );
+	}
+
+	if( mWeaponGotHot == true )
+	{
+		if( this->getWeapon2Temp() >= MIN_WEP_2_TEMP )
+		{
+			mCooldownWep2IfTooHot = false;
+			this->setCanShoot( true );
 		}
 	}
 
@@ -365,7 +421,10 @@ void Weapon::update( sf::Vector2f position, sf::Vector2f player, float frametime
 	if( this->getWeapon() == 1 )
 	{
 		std::stringstream as;
+		std::stringstream pic;
+
 		as << mAmmo;
+		pic << pTexture;
 
 		if( mAmmo < 101 )
 		{
@@ -381,7 +440,7 @@ void Weapon::update( sf::Vector2f position, sf::Vector2f player, float frametime
 
 			{
 				mAmmoColorLabel.setColor( sf::Color::Red );
-				mAmmoColorLabel.setString( "" + as.str() + " Shots" );
+				mAmmoColorLabel.setString( "" + as.str() + " Shots" + pic.str() );
 			}
 
 		}

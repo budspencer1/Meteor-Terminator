@@ -61,6 +61,7 @@ void AsteroidManager::spawnAsteroid( float time )
 		int points = 20;
 		points = ( points * ( scale * 10 ) );
 
+		int AsteroidType = ( rand() % 2 + 1 );
 		/* std::cout << "Punkte(1): " << points << std::endl; */
 
 		int speed			= rand() % 180 + 20;
@@ -69,10 +70,21 @@ void AsteroidManager::spawnAsteroid( float time )
 		int xpos			= rand() % 1400 + 0;
 		int ypos			= rand() % 300 - 300;
 
-		Asteroid *p	= new Asteroid( std::string( "media/packages/content/textures/Asteroid.png" ), sf::Vector2f( xpos, ypos ), sf::Vector2f( scale , scale ),  speed, rotationSpeed, life );
-		p->setPoints( points );
+		if( AsteroidType == 1 )
+		{
+			Asteroid *a1	= new Asteroid( std::string( "media/packages/content/textures/Asteroid.png" ) , sf::Vector2f( xpos , ypos ) , sf::Vector2f( scale , scale ) ,  speed , rotationSpeed , life );
+			a1->setPoints( points );
+			a1->setAsteroidType( 1 );
+			mAsList.push_back( a1 );
+		}
 
-		mAsList.push_back( p );
+		else if( AsteroidType == 2 )
+		{
+			Asteroid *a2	= new Asteroid( std::string( "media/packages/content/textures/Asteroid2.png" ) , sf::Vector2f( xpos , ypos ) , sf::Vector2f( scale , scale ) ,  speed , rotationSpeed , life );
+			a2->setPoints( points );
+			a2->setAsteroidType( 2 );
+			mAsList.push_back( a2 );
+		}
 
 		pClock->restart();
 	}
@@ -80,7 +92,7 @@ void AsteroidManager::spawnAsteroid( float time )
 
 void AsteroidManager::update( float frametime )
 {
-	spawnAsteroid( 0.5 );
+	spawnAsteroid( ASTEROID_SPAWN_INTERWAL );
 	checkAsteroid();
 
 	for( auto it : mAsList )
