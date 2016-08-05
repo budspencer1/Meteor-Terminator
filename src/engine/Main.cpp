@@ -8,32 +8,82 @@
 
 
 #include <iostream>
-#include <sstream>
-#include <cstdio>
-#include <string>
-#include <fstream>
 #include <Windows.h>
 #include <SFML\Graphics.hpp>
-#include <SFML\Audio.hpp>
-#include <SFML\Config.hpp>
-#include <SFML\Network.hpp>
-#include <SFML\OpenGL.hpp>
-#include <SFML\System.hpp>
-#include <SFML\Window.hpp>
 
 #include "Engine.hpp"
-#include "Commandhandler.hpp"
 #include "Settings.inc"
+#include "Version.inc"
 
-/* specify used namespace */
+/* specify used namespaces */
 using namespace sf;
 using namespace std;
 
 /* START GAME */
 int main()
 {
+	cout << "init: Splash Screen" << endl;
+	cout << "init: Timer\n" << endl;
+	cout << "Timer: 5 Seconds to Game start ...\n" << endl;
+
+	static bool				mIsSplash;
+	mIsSplash				= true;
+
+	Event *pEvent			= new Event;
+	Sprite	*pSprite		= new Sprite;
+	Texture	*pTexture		= new Texture;
+	Font *pFont				= new Font;
+	Image *pIcon			= new Image;
+	Text					mCDLabel;
+
+	pFont->loadFromFile( string( "media/packages/content/fonts/Cocogoose.otf" ) );
+	pIcon->loadFromFile( string( "media/packages/content/icons/WindowIcon.png" ) );
+
+	mCDLabel.setFont( *pFont );
+	mCDLabel.setScale( 1 , 1 );
+
+	RenderWindow *pRenderWindow				= new RenderWindow( VideoMode( RES_X , RES_Y , WINDOW_BITS ), ( TERM_NAME " | Splash Screen  - Game will start in 5 seconds ..." ) , Style::Titlebar );
+	pRenderWindow->setVerticalSyncEnabled( true );
+	pRenderWindow->setIcon( pIcon->getSize().x , pIcon->getSize().y , pIcon->getPixelsPtr() );
+
+	pTexture->loadFromFile( string( "media/packages/content/textures/SplashScreen.png" ) );
+	pSprite->setTexture( *pTexture );
+
+	mCDLabel.setPosition( Vector2f( 630 , 830 ) );
+	mCDLabel.setColor( Color::Green );
+	mCDLabel.setString( string( "Starting in 5 Seconds ... Prepare yourself!" ) );
+
+
+	pRenderWindow->clear( Color::Cyan );
+	pRenderWindow->draw( *pSprite );
+	pRenderWindow->draw( mCDLabel );
+	pRenderWindow->display();
+
+	Sleep( 4500 );
+
+	pRenderWindow->close();
+	mIsSplash = false;
+
+	Sleep( 450 );
+
+	cout << "\nStarting Game ... done\n\n\n" << endl;
+
+	Sleep( 50 );
+
 	Engine engine;
 	engine.start();
+
+	delete pSprite;
+	delete pIcon;
+	delete pRenderWindow;
+	delete pEvent;
+	delete pFont;
+
+	pSprite			= nullptr;
+	pIcon			= nullptr;
+	pRenderWindow	= nullptr;
+	pEvent			= nullptr;
+	pFont			= nullptr;
 
 	return INIT_SUCCESS;
 }

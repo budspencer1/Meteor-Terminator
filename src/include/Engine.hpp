@@ -37,6 +37,7 @@ public:
 	int getArchType1();
 	static char getArchType2();
 	std::string getOperatingSystem();
+	std::string getSystemArchitecture();
 
 
 private:

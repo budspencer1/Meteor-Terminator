@@ -3,6 +3,7 @@
 * Date: 2016
 * Author: Sebastian <3
 * Purpose: Handle all commands for console subsystem + define class
+* NOTE: Could be used for a ingame console ...
 */
 
 #ifndef COMMANDHANDLER_HPP

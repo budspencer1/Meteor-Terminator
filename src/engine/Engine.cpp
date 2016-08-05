@@ -28,6 +28,7 @@
 #include <list>
 #include <cstdio>
 #include <string.h>
+#include <winapifamily.h>
 
 #include "Engine.hpp"
 #include "Player.hpp"
@@ -38,20 +39,20 @@
 
 std::string Engine::getOperatingSystem()
 {
-	#ifdef _WIN32
-	return "Windows 32 Bit";
-	#elif _WIN64
-	return "Windows 64 Bit";
-	#elif __unix || __unix__
-	return "Unix";
-	#elif __APPLE__ || __MACH__
-	return "Mac OS X";
-	#elif __linux__
-	return "Linux";
-	#elif __FreeBSD__
-	return "FreeBSD";
+	#if defined( _WIN32) || defined(_WIN64) || defined(__MINGW32__ )
+	    return "Windows (32 Bit)";
+	#elif defined( __linux__ )
+	    return "Linux";
+	#elif defined( __FreeBSD__ )
+	    return "FreeBSD";
+	#elif defined( BSD )
+	    return "BSD";
+	#elif defined( __sun )
+	return "Solaris";
+	#elif defined( __APPLE__ )
+	    return "Mac OS X";
 	#else
-	return "Other";
+	    return "Unknown Operating System";
 	#endif
 }
 
@@ -86,12 +87,11 @@ Engine::Engine()
 	std::cout << "Build Revision: " << TERM_REVISION << std::endl;
 	this->getWindowsVersion();
 	std::cout << "**************************************************************" << std::endl;
+	std::cout << "" << std::endl;
 	std::cout << "init: " << ENGINE << std::endl;
 	std::cout << "init: " << CLOCK << std::endl;
 
-	mIsRunning					= true;
-
-	pRenderWindow				= new sf::RenderWindow( sf::VideoMode( RES_X , RES_Y , WINDOW_BITS ), ( TERM_NAME " - Version: " TERM_DEV_AGE " " TERM_VERSION " || Build: " COMPILE_DATE " // " COMPILE_TIME " || Build Revision: " TERM_REVISION " || Operating System (Architecture): " + this->getOperatingSystem() + "" ), sf::Style::Titlebar | sf::Style::Close );
+	pRenderWindow				= new sf::RenderWindow( sf::VideoMode( RES_X , RES_Y , WINDOW_BITS ), ( TERM_NAME " - Version: " TERM_DEV_AGE " " TERM_VERSION " || Build: " COMPILE_DATE " // " COMPILE_TIME " || Build Revision: " TERM_REVISION " || Game Build Architecture: " + this->getOperatingSystem() + "" ), sf::Style::Titlebar | sf::Style::Close );
 	std::cout << "init: " << VIDEO_RENDERWINDOW << " " << VIDEOMODE << std::endl,
 	pRenderWindow->setVerticalSyncEnabled( VERTICAL_SYNC_ENABLED );
 	pRenderWindow->setMouseCursorVisible( MOUSE_CURSER_VISIBLE );
@@ -103,6 +103,8 @@ Engine::Engine()
 	pRenderWindow->setIcon( pIconTexture->getSize().x, pIconTexture->getSize().y , pIconTexture->getPixelsPtr() );
 
 	/* ///////////////////////////////////////////// */
+
+	mIsRunning					= true;
 
 	pBackground					= new sf::Texture;
 	pBackground->loadFromFile( std::string ( "media/packages/content/textures/ScreenBackground.bmp" ) );
