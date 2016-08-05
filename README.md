@@ -30,14 +30,14 @@ To edit source code:
   
 Resources:
 
-  Sounds: Much sounds were taken from Cube 2: Sauerbraten
-  Textures: Most are made by me, all other from web
+  - Sounds: Much sounds were taken from Cube 2: Sauerbraten
+  - Textures: Most are made by me, all other from web
   
 Contact: 
 
-  E-Mail: buddymod.cube2@gmail.com 
-  IRC: irc.gamesurge.com #sauercom , #buds-servers , #novi 
-  Ingame(Cube 2: Sauerbraten): Names: /BudSpencer, Cocoz
+  - E-Mail: githubseb.contact@gmail.com
+  - IRC: irc.gamesurge.com #sauercom , #buds-servers 
+  - Ingame(Cube 2: Sauerbraten): Names: /BudSpencer, Cocoz
   
 Last Word: 
 
