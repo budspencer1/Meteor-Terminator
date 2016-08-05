@@ -22,6 +22,8 @@ using namespace std;
 /* START GAME */
 int main()
 {
+	FreeConsole(); /* remove console window */
+
 	cout << "init: Splash Screen" << endl;
 	cout << "init: Timer\n" << endl;
 	cout << "Timer: 5 Seconds to Game start ...\n" << endl;

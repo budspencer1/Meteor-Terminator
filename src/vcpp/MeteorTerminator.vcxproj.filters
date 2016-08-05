@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Release\MeteorTerminator.pdb">
-      <Filter>Ressourcendateien</Filter>
-    </None>
     <None Include="..\version\Commands.inc">
       <Filter>Quelldateien</Filter>
     </None>
@@ -62,6 +59,9 @@
     <ClInclude Include="..\include\Health.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\engine\Commandhandler.cpp">
@@ -100,5 +100,15 @@
     <ClCompile Include="..\gamecode\Health.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MeteorTerminator.rc">
+      <Filter>Ressourcendateien</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\media\packages\content\icons\WindowIcon.ico">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
   </ItemGroup>
 </Project>

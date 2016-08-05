@@ -1,0 +1,104 @@
+==================================================================================================================================================================
+Meteor Terminator User Manual
+Author: budspencer1
+==================================================================================================================================================================
+
+================================
+1.0 Main Introduction
+================================
+
+Thank you for downloading Meteor Terminator. I wish you a lot of fun with it ;).
+Note: Meteor Terminator Concept is based on a youtube tutorial.
+Note: The main goal of that project is, to bring SFML/C/C++ basics to all people. :D
+SFML: http://www.sfml-dev.org/
+
+ *** docs/Licence.txt for licence information ***
+
+
+
+==================================================================================================================================================================
+1.1 Keys Configuration (not changable ingame; you need to change that in source code then compile) & Startup
+==================================================================================================================================================================
+
+F1                      =  Suicide Player (player dies)
+F2                      =  Respawn Player (if dead)
+F3                      =  Restart Game (reset all)
+                        = 
+1                       =  Weapon #1 (Cannon)
+2                       =  Weapon #2 (Machine Gun)
+                        = 
+W, Up                   =  Move Player Up       (on Screen)
+S, Down                 =  Move Player Down     (on Screen)
+A, Left                 =  Move Player Left     (on Screen)
+D, Right                =  Move Player Right	(on Screen)
+                        = 
+F                       =  Lower Shield 
+Delete      			=  Delete Current Weapon (sets Player Game Over ---> if Game Over F3 to restart game)   
+
+
+================================
+1.2 To start Game
+================================
+
+1. just execute MeteorTerminator.bat or MeteorTerminator.exe in main archive (if you start binaries in /bin32 and /bin64 folders, you won't see any textures just a blank screen)
+
+==================================================================================================================================================================
+
+================================
+2.0 Introduction 
+================================
+
+In the next part you'll know, how to edit & compile source to apply your code changes
+
+==================================================================================================================================================================
+To Edit & Compile Source Code
+==================================================================================================================================================================
+
+================================
+2.1 Required Programs & Things:
+================================
+
+You'll need (if you're on Windows) Microsoft Visual Studio 2012 Express (for Win64 Build -> Microsoft Visual Studio 2012 Professional/Ultimate).
+You'll need SFML 2.1 (if you wanna compile for Win64) 64 Bit Release -> If you don't find it, open docs/DownloadSFML.html in game archive. (SFML 2.1 32 Bit is included into archive)
+You'll need a bit experience with SFML and C++ ;)
+
+================================
+2.2 Edit Code Successfully
+================================
+
+1. Download Game Archive (i recomned to use always latest github version -> open docs/MeteorTerminator.html for download page)
+2. Unpack it (it's a .zip file -> you'll need 7zip or WinRAR to decompress archive)
+3. Open unpacked folder and search for a "src" folder -> open it, there are more folders -> search a "vcpp" folder ->open it, if you've installed Visual Studio 2012 -> open MeteorTerminator.vcxproj 
+4. Now you're in game project file.
+5. Edit code you want (don't forget to save it often)
+
+================================
+2.3 Compile Source Code
+================================
+
+1. Open MeteorTerminator.vcxproj
+2. (If you edited your source code) click to "Compile" or "Local Windows Debugger" (whatever, there's a green arrow)
+3. If it doesn't show any errors you're done. Your compiled file is in bin/ folder in main archive
+
+(4.) If you wanna add Win64 SFML Release -> watch that video: (it's about vs 2013 -> it's same in vs 2012); Link: https://www.youtube.com/watch?v=Z6alClFOGoM
+(5.) If you included SFML change target platform from "Win32" to "x64"
+(6.) Click to "Compile" or "Local Windows Debugger" (whatever, there's a green arrow)
+
+==================================================================================================================================================================
+
+================================
+3.0 Report Bugs and Contact
+================================
+
+You can reach me under my e-mail (look to my github account -> open docs/MyGithubPage.html -> there's an e-mail below picture)
+You can reach me in IRC: irc.gamesurge.com Channel: #buds-servers
+
+If you see any bugs, suggessions, ... please use one of that two things to get in touch with me
+
+================================
+3.1 Last Word
+================================
+
+Have fun!
+
+

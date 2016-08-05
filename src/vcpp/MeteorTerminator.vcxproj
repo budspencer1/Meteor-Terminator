@@ -113,7 +113,8 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\version;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\include;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\engine\SFML\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\engine\SFML\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>..\..</OutDir>
+    <OutDir>..\..\bin32</OutDir>
+    <TargetName>MeteorTerminator_x32</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <LinkIncremental>false</LinkIncremental>
@@ -228,7 +229,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="..\Release\MeteorTerminator.pdb" />
     <None Include="..\version\Commands.inc" />
     <None Include="..\version\Settings.inc" />
     <None Include="..\version\Version.inc" />
@@ -245,6 +245,7 @@
     <ClInclude Include="..\include\Security.hpp" />
     <ClInclude Include="..\include\Shot.hpp" />
     <ClInclude Include="..\include\Weapon.hpp" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\engine\Commandhandler.cpp" />
@@ -259,6 +260,12 @@
     <ClCompile Include="..\gamecode\Player.cpp" />
     <ClCompile Include="..\gamecode\Shot.cpp" />
     <ClCompile Include="..\gamecode\Weapon.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MeteorTerminator.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\media\packages\content\icons\WindowIcon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

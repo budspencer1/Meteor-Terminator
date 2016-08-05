@@ -29,12 +29,12 @@
 /* Version History (Alpha, Beta, Remake, Final, ...) */
 
 #ifndef TERM_DEV_AGE 
-#define TERM_DEV_AGE "Alpha"
+#define TERM_DEV_AGE "Alpha Final"
 #endif 
 
 /* Game Version (will be changed on release) */
 #ifndef TERM_VERSION
-#define TERM_VERSION "1.3.5_08"
+#define TERM_VERSION "1.4.5_09"
 #endif
 
 /* Url to download or update game */
@@ -52,7 +52,7 @@
 #endif
 
 #ifndef TERM_REVISION
-#define TERM_REVISION "Rev 3_07" /* build revision */
+#define TERM_REVISION "Rev 3_09" /* build revision */
 #endif
 
 

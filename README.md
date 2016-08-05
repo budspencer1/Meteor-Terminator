@@ -25,6 +25,9 @@ To edit source code:
   3. Open src/vcpp/MeteorTerminator.vcxproj file
   4. Edit your source and click to "Compile" Button
   
+  NOTE: For any information about anything read docs/UserGuide.txt
+  NOTE: (just for players who use x64 builds) i only compile for Win64 on release
+  
 Resources:
 
   Sounds: Much sounds were taken from Cube 2: Sauerbraten
