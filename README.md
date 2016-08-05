@@ -14,7 +14,7 @@ To Install it:
 
   1. Just download repository 
   2. unpack .zip archive
-  3. Double-Click to MeteorTerminator.exe or CLICK_TO_START_METEOR_TERMINATOR.bat
+  3. Double Click to MeteorTerminator_x32.bat or MeteorTerminator_x64.bat (x64 is only for x64 bit computers -> 32 bit computer can't run it)
   4.  Enjoy Game!!
   
 To edit source code:
@@ -35,13 +35,8 @@ Resources:
   
 Contact: 
 
-<<<<<<< HEAD
-  - E-Mail: buddymod.cube2@gmail.com 
-  - IRC: irc.gamesurge.com #sauercom , #buds-servers , #novi 
-=======
   - E-Mail: githubseb.contact@gmail.com
   - IRC: irc.gamesurge.com #sauercom , #buds-servers 
->>>>>>> origin/master
   - Ingame(Cube 2: Sauerbraten): Names: /BudSpencer, Cocoz
   
 Last Word: 
