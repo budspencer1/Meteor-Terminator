@@ -35,8 +35,13 @@ Resources:
   
 Contact: 
 
+<<<<<<< HEAD
   - E-Mail: buddymod.cube2@gmail.com 
   - IRC: irc.gamesurge.com #sauercom , #buds-servers , #novi 
+=======
+  - E-Mail: githubseb.contact@gmail.com
+  - IRC: irc.gamesurge.com #sauercom , #buds-servers 
+>>>>>>> origin/master
   - Ingame(Cube 2: Sauerbraten): Names: /BudSpencer, Cocoz
   
 Last Word: 
