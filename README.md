@@ -25,19 +25,19 @@ To edit source code:
   3. Open src/vcpp/MeteorTerminator.vcxproj file
   4. Edit your source and click to "Compile" Button
   
-  NOTE: For any information about anything read docs/UserGuide.txt
-  NOTE: (just for players who use x64 builds) i only compile for Win64 on release
+  - NOTE: For any information about anything read docs/UserGuide.txt
+  - NOTE: (just for players who use x64 builds) i only compile for Win64 on release
   
 Resources:
 
-  Sounds: Much sounds were taken from Cube 2: Sauerbraten
-  Textures: Most are made by me, all other from web
+  - Sounds: Much sounds were taken from Cube 2: Sauerbraten
+  - Textures: Most are made by me, all other from web
   
 Contact: 
 
-  E-Mail: buddymod.cube2@gmail.com 
-  IRC: irc.gamesurge.com #sauercom , #buds-servers , #novi 
-  Ingame(Cube 2: Sauerbraten): Names: /BudSpencer, Cocoz
+  - E-Mail: buddymod.cube2@gmail.com 
+  - IRC: irc.gamesurge.com #sauercom , #buds-servers , #novi 
+  - Ingame(Cube 2: Sauerbraten): Names: /BudSpencer, Cocoz
   
 Last Word: 
 
