@@ -5,13 +5,10 @@
 * Purpose: This file executes "main" class 
 * Purpose 2: It's the heart of game, it executes engine class ( main )
 */
-
-
-#include <iostream>
-#include <Windows.h>
-#include <SFML\Graphics.hpp>
+#pragma once
 
 #include "Engine.hpp"
+
 #include "Settings.inc"
 #include "Version.inc"
 
@@ -19,17 +16,18 @@
 using namespace sf;
 using namespace std;
 
-/* START GAME */
+/* START SPLASH SCREEN AND THEN GAME */ 
+
 int main()
 {
-	FreeConsole(); /* remove console window */
+	FreeConsole();
+
+	static bool mIsSplash;
+	mIsSplash = true;
 
 	cout << "init: Splash Screen" << endl;
 	cout << "init: Timer\n" << endl;
 	cout << "Timer: 5 Seconds to Game start ...\n" << endl;
-
-	static bool				mIsSplash;
-	mIsSplash				= true;
 
 	Event *pEvent			= new Event;
 	Sprite	*pSprite		= new Sprite;
@@ -54,7 +52,6 @@ int main()
 	mCDLabel.setPosition( Vector2f( 630 , 830 ) );
 	mCDLabel.setColor( Color::Green );
 	mCDLabel.setString( string( "Starting in 5 Seconds ... Prepare yourself!" ) );
-
 
 	pRenderWindow->clear( Color::Cyan );
 	pRenderWindow->draw( *pSprite );

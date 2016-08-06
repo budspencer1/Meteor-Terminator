@@ -240,7 +240,9 @@
     <ClInclude Include="..\include\CollisionSystem.hpp" />
     <ClInclude Include="..\include\Commandhandler.hpp" />
     <ClInclude Include="..\include\Engine.hpp" />
+    <ClInclude Include="..\include\EventHandler.hpp" />
     <ClInclude Include="..\include\Health.hpp" />
+    <ClInclude Include="..\include\Main.hpp" />
     <ClInclude Include="..\include\Player.hpp" />
     <ClInclude Include="..\include\Security.hpp" />
     <ClInclude Include="..\include\Shot.hpp" />
@@ -250,6 +252,7 @@
   <ItemGroup>
     <ClCompile Include="..\engine\Commandhandler.cpp" />
     <ClCompile Include="..\engine\Engine.cpp" />
+    <ClCompile Include="..\engine\EventHandler.cpp" />
     <ClCompile Include="..\engine\Main.cpp" />
     <ClCompile Include="..\engine\Security.cpp" />
     <ClCompile Include="..\gamecode\Asteroid.cpp" />

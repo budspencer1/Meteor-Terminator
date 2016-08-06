@@ -20,6 +20,7 @@
 #include "Collision.hpp"
 #include "CollisionSystem.hpp"
 #include "Commandhandler.hpp"
+#include "EventHandler.hpp"
 
 class Engine
 {
@@ -64,6 +65,7 @@ private:
 
 	sf::Image						*pIconTexture;
 
+	EventHandler					*pEventHandler;
 	Player							*pPlayer;
 	Weapon							*pWeapon;
 	AsteroidManager					*pAsteroidManager;

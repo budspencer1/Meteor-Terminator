@@ -132,6 +132,7 @@ Engine::Engine()
 	pAsteroidManager			= new AsteroidManager();
 	pCollisionSystem			= new CollisionSystem( pMouseSprite, pPlayer, pAsteroidManager->getList() );
 	pCommandHandler				= new CommandHandler();
+	pEventHandler				= new EventHandler();
 	pWeapon						= new Weapon();
 
 	mMousePosition			= sf::Vector2f( 0 , 0 );
@@ -162,6 +163,7 @@ Engine::~Engine()
 	delete pMouseSprite;
 	delete pCommandHandler;
 	delete pMouseHitTexture;
+	delete pEventHandler;
 
 	pRenderWindow    = nullptr;
 	pMainEvent	     = nullptr;
@@ -174,6 +176,7 @@ Engine::~Engine()
 	pMouseTexture    = nullptr;
 	pCommandHandler  = nullptr;
 	pMouseHitTexture = nullptr;
+	pEventHandler    = nullptr;
 }
 
 
@@ -212,6 +215,7 @@ void Engine::update( float frametime )
 	pPlayer->update( frametime );
 	pAsteroidManager->update( frametime );
 	pCollisionSystem->update( frametime );
+	pEventHandler->update( frametime );
 
 
 	if( pCollisionSystem->getIsHit() == true )
@@ -249,6 +253,7 @@ void Engine::handleEvents()
 	pWeapon->handleEvents();
 	pCollisionSystem->handleEvents();
 	pAsteroidManager->handleEvents();
+	pEventHandler->handleEvents();
 }
 
 
@@ -259,6 +264,7 @@ void Engine::render()
 	pAsteroidManager->render( pRenderWindow );
 	pPlayer->render( pRenderWindow );
 	pCollisionSystem->render( pRenderWindow );
+	pEventHandler->render( pRenderWindow );
 	pRenderWindow->draw( *pMouseSprite );
 	pRenderWindow->display();
 }
