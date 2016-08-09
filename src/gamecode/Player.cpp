@@ -11,6 +11,10 @@
 #pragma warning ( disable: 4804 ) /* disable some warnings */
 #pragma warning ( disable: 4244 ) /* disable some warnings */
 
+#if ( !defined TERMINATOR ) 
+	#define TERMINATOR 
+#endif
+
 #include <iostream> 
 #include <Windows.h>
 #include <stdlib.h>
@@ -28,6 +32,9 @@ Player::Player( std::string texturePath, sf::Vector2f position )
 {
 	pTimeSeconds			= new sf::Clock();
 	pTimeSeconds->restart();
+
+	pTimeMinutes			= new sf::Clock;
+	pTimeMinutes->restart();
 
 	pCommandClock			= new sf::Clock();
 	pCommandClock->restart();
@@ -225,6 +232,7 @@ Player::Player( std::string texturePath, sf::Vector2f position )
 	mCountdownTime		= 5;
 	mLockSeconds		= 2;
 	mWeaponSwitchLock	= true;
+	minutes				= 0;
 }
 
 Player::~Player()
@@ -254,10 +262,13 @@ Player::~Player()
 
 	 delete pClock;
 	 delete pTimeSeconds;
+	 delete pTimeMinutes;
+
 	 /*
 	 delete pWeaponSwitchBuffer;
 	 delete pWeaponSwitchSound;
 	 */
+
 	 delete pWeaponSwitchClock;
 
 
@@ -286,6 +297,7 @@ Player::~Player()
 
 	 pClock					= nullptr;	
 	 pTimeSeconds			= nullptr;
+	 pTimeMinutes			= nullptr;
 	 pWeaponSwitchClock     = nullptr;
 	 /*
 	 pWeaponSwitchBuffer	= nullptr;
@@ -392,6 +404,7 @@ void Player::restart()
 		pWeapon->setWeaponToHot( false );
 
 		pTimeSeconds->restart();
+		pTimeMinutes->restart();
 
 		mCanMoveUp				= true;
 		mCanMoveDown			= true;
@@ -429,13 +442,55 @@ void Player::update( float frametime )
 		pWeapon->deleteWeapon();
 	}
 
-	/* //////////////////////////////// */
+	/* //////////////////////////////// */ /* //////////////////////////////// */
+	/* display current game time */
+
+	if( pTimeMinutes->getElapsedTime().asMilliseconds() > 60000 )
+	{
+		minutes = ( minutes + 1 );
+		pTimeMinutes->restart();
+	}
+
+	int seconds = pTimeSeconds->getElapsedTime().asSeconds();
 
 	std::stringstream gse;
+	gse << seconds;
 
-	gse << pTimeSeconds->getElapsedTime().asSeconds();
+	std::stringstream gm;
+	gm << minutes;
 
-	mTimeRemainingLabel.setString( "Time (in Seconds): " + gse.str() );
+	if( minutes < 10 && seconds < 10 )
+	{
+		mTimeRemainingLabel.setString( "Time: 0" + gm.str() + " : 0" + gse.str() );
+	}
+
+	else if( minutes > 9 && seconds < 10 )
+	{
+		mTimeRemainingLabel.setString( "Time: " + gm.str() + " : 0" + gse.str() ); 
+	}
+
+	else if( minutes < 10 && seconds < 10 )
+	{
+		mTimeRemainingLabel.setString( "Time: " + gm.str() + " : " + gse.str() );
+	}
+
+	else if( minutes < 10 && seconds > 9 )
+	{
+		mTimeRemainingLabel.setString( "Time: 0" + gm.str() + " : " + gse.str() );
+	}
+
+	else
+
+	{
+		mTimeRemainingLabel.setString( "Time: " + gm.str() + " : " + gse.str() );
+	}
+
+	if( pTimeSeconds->getElapsedTime().asMilliseconds() > 60000 )
+	{
+		pTimeSeconds->restart();
+	}
+
+	/* //////////////////////////////// */ /* //////////////////////////////// */
 
 
 	if( this->getIsAlive() == true )

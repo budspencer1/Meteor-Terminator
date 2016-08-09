@@ -155,6 +155,7 @@ private:
 	sf::Clock				*pClock;
 	sf::Clock				*pCommandClock;
 	sf::Clock				*pTimeSeconds;
+	sf::Clock				*pTimeMinutes;
 	sf::Clock				*pWeaponSwitchClock;
 
 	Weapon					*pWeapon;
@@ -199,6 +200,7 @@ private:
 	int						mFrags;
 	int						mDeaths;
 	int						mCommandWaittime;
+	int						minutes;
 
 	bool					mIsHit;
 	bool					mCommandLock;

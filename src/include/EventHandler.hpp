@@ -55,22 +55,22 @@ public:
 	const bool getdeath()			{ return death;		};
 	const bool getrespawn()			{ return respawn;	};
 	const bool getgamestart()		{ return gamestart;	};
-	const bool getgameover()			{ return gameover;	};
+	const bool getgameover()		{ return gameover;	};
 	const bool getswitchwep()		{ return switchwep;	};
-	const bool getshot()				{ return shot;		};
-	const bool getfrag()				{ return frag;		};
-	const bool getwall()				{ return wall;		};
-	const bool getquit()				{ return quit;		};
+	const bool getshot()			{ return shot;		};
+	const bool getfrag()			{ return frag;		};
+	const bool getwall()			{ return wall;		};
+	const bool getquit()			{ return quit;		};
 	const bool getdelwep()			{ return delwep;	};
 	const bool getwepcooldown()		{ return wepcooldown;};
-	const bool getpickitem()			{ return pickitem;	};
+	const bool getpickitem()		{ return pickitem;	};
 	const bool getcommand()			{ return command;	};
 	const bool getcollision()		{ return collision;	};
-	const bool getsplashscreen()		{ return splashscreen;};
+	const bool getsplashscreen()	{ return splashscreen;};
 	const bool getrestart()			{ return restart;	};
 
 	void setdeath		( bool Death  )				{ death			= Death ; };
-	void setrespawn		( bool Respawn )				{ respawn		= Respawn ; };
+	void setrespawn		( bool Respawn )			{ respawn		= Respawn ; };
 	void setgamestart	( bool GameStart )			{ gamestart		= GameStart ; };
 	void setgameover	( bool GameOver )			{ gameover		= GameOver ; };
 	void setswitchwep	( bool SwitchWep )			{ switchwep		= SwitchWep ; };
@@ -79,12 +79,12 @@ public:
 	void setwall		( bool Wall )				{ wall			= Wall ; };
 	void setquit		( bool Quit )				{ quit			= Quit ; };
 	void setdelwep		( bool DelWep )				{ delwep		= DelWep ; };
-	void setwepcooldown	( bool WepCooldown )			{ wepcooldown	= WepCooldown ; };
+	void setwepcooldown	( bool WepCooldown )		{ wepcooldown	= WepCooldown ; };
 	void setpickitem	( bool PickItem )			{ pickitem		= PickItem ; };
-	void setcommand		( bool Command )				{ command		= Command ; };
+	void setcommand		( bool Command )			{ command		= Command ; };
 	void setcollision	( bool Collision )			{ collision		= Collision ; };
 	void setsplashscreen( bool SplashScreen )		{ splashscreen	= SplashScreen ; };
-	void setrestart		( bool Restart )				{ restart		= Restart ; };
+	void setrestart		( bool Restart )			{ restart		= Restart ; };
 	
 
 private:

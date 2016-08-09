@@ -12,7 +12,7 @@ EventHandler::EventHandler()
 {
 	this->setdeath			( false );
 	this->setrespawn		( false );
-	this->setgamestart		( false );
+	this->setgamestart		( true );
 	this->setgameover		( false );
 	this->setswitchwep		( false );
 	this->setshot			( false );

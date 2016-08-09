@@ -35,6 +35,8 @@ public:
 	void quit();
 
 	void getWindowsVersion();
+	float getFPS();
+
 	int getArchType1();
 	static char getArchType2();
 	std::string getOperatingSystem();
@@ -53,6 +55,8 @@ private:
 	sf::RenderWindow				*pRenderWindow;
 	sf::Event						*pMainEvent;
 	sf::Clock						*pClock;
+	sf::Clock						*pFPSClock;
+	sf::Clock						*pFPSLockClock;
 	sf::Texture						*pBackground;
 	sf::Sprite						*pSprite;
 
@@ -64,6 +68,8 @@ private:
 	sf::Texture						*pMouseHitTexture;
 
 	sf::Image						*pIconTexture;
+	sf::Text						mFPSLabel;
+	sf::Font						*pFont;
 
 	EventHandler					*pEventHandler;
 	Player							*pPlayer;
@@ -74,6 +80,8 @@ private:
 	
 	float							mFrameTime;
 	bool							mIsRunning;
+	int								mFPS;
+	int								mFPSLock;
 
 
 

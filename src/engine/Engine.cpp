@@ -96,6 +96,14 @@ Engine::Engine()
 	pRenderWindow->setVerticalSyncEnabled( VERTICAL_SYNC_ENABLED );
 	pRenderWindow->setMouseCursorVisible( MOUSE_CURSER_VISIBLE );
 
+	pFont						= new sf::Font;
+	pFont->loadFromFile( std::string( "media/packages/content/fonts/Cocogoose.otf" ) );
+
+	mFPSLabel.setFont( *pFont );
+	mFPSLabel.setScale( 0.4 , 0.4 );
+	mFPSLabel.setColor( sf::Color::White );
+	mFPSLabel.setPosition( sf::Vector2f( 1250 , 830 ) );
+
 	/* set window icon - used in titlebar */
 
 	pIconTexture				= new sf::Image;
@@ -126,6 +134,13 @@ Engine::Engine()
 	pMainEvent					= new sf::Event;
 
 	pClock						= new sf::Clock;
+	pClock->restart();
+
+	pFPSClock					= new sf::Clock;
+	pFPSClock->restart();
+
+	pFPSLockClock				= new sf::Clock;
+	pFPSLockClock->restart();
 
 	pPlayer						= new Player( std::string( "media/packages/content/textures/Player.png" ), sf::Vector2f( PLAYER_X_POS , PLAYER_Y_POS ) );
 	/* pAsteroid					= new Asteroid( std::string( "media/packages/content/textures/Asteroid.png" ), sf::Vector2f( 635 , -100 ) ); */
@@ -136,6 +151,7 @@ Engine::Engine()
 	pWeapon						= new Weapon();
 
 	mMousePosition			= sf::Vector2f( 0 , 0 );
+	mFPSLock				= 500;
 
 	std::cout << "init: " COMMAND_SYSTEM << std::endl;
 	std::cout << "init: " MAINLOOP << std::endl;
@@ -164,6 +180,9 @@ Engine::~Engine()
 	delete pCommandHandler;
 	delete pMouseHitTexture;
 	delete pEventHandler;
+	delete pFont;
+	delete pFPSClock;
+	delete pFPSLockClock;
 
 	pRenderWindow    = nullptr;
 	pMainEvent	     = nullptr;
@@ -177,6 +196,9 @@ Engine::~Engine()
 	pCommandHandler  = nullptr;
 	pMouseHitTexture = nullptr;
 	pEventHandler    = nullptr;
+	pFont			 = nullptr;
+	pFPSClock		 = nullptr;
+	pFPSLockClock	 = nullptr;
 }
 
 
@@ -184,6 +206,7 @@ void Engine::start()
 {
 	while( mIsRunning == true )
 	{
+		this->getFPS();
 		this->CalculateFrameTime();
 
 		this->render();
@@ -212,6 +235,15 @@ void Engine::quit()
 
 void Engine::update( float frametime )
 {
+	std::stringstream fps;
+	fps << mFPS;
+
+	if( pFPSLockClock->getElapsedTime().asMilliseconds() > mFPSLock )
+	{
+		mFPSLabel.setString( "FPS:			   " + fps.str() );
+		pFPSLockClock->restart();
+	}
+
 	pPlayer->update( frametime );
 	pAsteroidManager->update( frametime );
 	pCollisionSystem->update( frametime );
@@ -236,6 +268,18 @@ void Engine::update( float frametime )
 void Engine::CommandSystem()
 {
 	
+}
+
+float Engine::getFPS()
+{
+	float lastFPS = 0;
+
+	float currentTime = pFPSClock->restart().asSeconds();
+	float fps = 1.f / ( currentTime - lastFPS );
+
+	mFPS = fps;
+
+	return mFPS;
 }
 
 
@@ -266,6 +310,7 @@ void Engine::render()
 	pCollisionSystem->render( pRenderWindow );
 	pEventHandler->render( pRenderWindow );
 	pRenderWindow->draw( *pMouseSprite );
+	pRenderWindow->draw( mFPSLabel );
 	pRenderWindow->display();
 }
 

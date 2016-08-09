@@ -440,7 +440,7 @@ void Weapon::update( sf::Vector2f position, sf::Vector2f player, float frametime
 
 			{
 				mAmmoColorLabel.setColor( sf::Color::Red );
-				mAmmoColorLabel.setString( "" + as.str() + " Shots" + pic.str() );
+				mAmmoColorLabel.setString( "" + as.str() + " Shots" );
 			}
 
 		}
