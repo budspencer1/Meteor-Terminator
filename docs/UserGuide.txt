@@ -1,6 +1,7 @@
 ==================================================================================================================================================================
 Meteor Terminator User Manual
 Author: budspencer1
+Purpose: Show, what MeteorTerminator brings to you
 ==================================================================================================================================================================
 
 ================================
@@ -20,20 +21,23 @@ SFML: http://www.sfml-dev.org/
 1.1 Keys Configuration (not changable ingame; you need to change that in source code then compile) & Startup
 ==================================================================================================================================================================
 
-F1                      =  Suicide Player (player dies)
-F2                      =  Respawn Player (if dead)
-F3                      =  Restart Game (reset all)
-                        = 
-1                       =  Weapon #1 (Cannon)
-2                       =  Weapon #2 (Machine Gun)
-                        = 
-W, Up                   =  Move Player Up       (on Screen)
-S, Down                 =  Move Player Down     (on Screen)
-A, Left                 =  Move Player Left     (on Screen)
-D, Right                =  Move Player Right	(on Screen)
-                        = 
-F                       =  Lower Shield 
-Delete      			=  Delete Current Weapon (sets Player Game Over ---> if Game Over F3 to restart game)   
+Numblock1                      =  Suicide Player (player dies)
+Numblock1                      =  Respawn Player (if dead) 
+Numblock1                      =  Restart Game (reset all)
+                         
+1                              =  Weapon #1 (Cannon)
+2                              =  Weapon #2 (Machine Gun)
+                                
+W, Up                          =  Move Player Up       (on Screen)
+S, Down                        =  Move Player Down     (on Screen)
+A, Left                        =  Move Player Left     (on Screen)
+D, Right                       =  Move Player Right	   (on Screen)
+                                
+F                              =  Lower Shield 
+Delete      			       =  Delete Current Weapon (sets Player Game Over ---> if Game Over F3 to restart game)  
+       
+P                              = Pause current Game (if not paused)
+R                              = Resume current Game (if paused)
 
 
 ================================
