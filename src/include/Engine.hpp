@@ -34,6 +34,9 @@ public:
 	void start();
 	void quit();
 
+	void pause();
+	void resume();
+
 	void getWindowsVersion();
 	float getFPS();
 
@@ -69,6 +72,7 @@ private:
 
 	sf::Image						*pIconTexture;
 	sf::Text						mFPSLabel;
+	sf::Text						mPauseLabel;
 	sf::Font						*pFont;
 
 	EventHandler					*pEventHandler;
@@ -80,9 +84,9 @@ private:
 	
 	float							mFrameTime;
 	bool							mIsRunning;
+	bool							isPaused;
 	int								mFPS;
 	int								mFPSLock;
-
 
 
 };

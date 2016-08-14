@@ -113,6 +113,13 @@ Engine::Engine()
 	/* ///////////////////////////////////////////// */
 
 	mIsRunning					= true;
+	isPaused					= false;
+
+	mPauseLabel.setFont( *pFont );
+	mPauseLabel.setColor( sf::Color( 32,178,170 ) );
+	mPauseLabel.setCharacterSize( 200 );
+	mPauseLabel.setPosition( sf::Vector2f( 280 , 300 ) );
+	mPauseLabel.setString( std::string( "Paused" ) );
 
 	pBackground					= new sf::Texture;
 	pBackground->loadFromFile( std::string ( "media/packages/content/textures/ScreenBackground.bmp" ) );
@@ -206,16 +213,55 @@ void Engine::start()
 {
 	while( mIsRunning == true )
 	{
-		this->getFPS();
-		this->CalculateFrameTime();
+		if( isPaused == false )
+		{
+			this->getFPS();
+			this->CalculateFrameTime();
 
-		this->render();
-		this->update( mFrameTime );
-		this->handleEvents();
+			this->render();
+			this->update( mFrameTime );
 
-		this->CommandSystem();
-		/* getFrameTime(); */
-		this->quit();
+			this->handleEvents();
+			this->quit();
+
+			this->CommandSystem();
+			this->pause();
+			/* getFrameTime(); */
+		}
+
+		else
+
+		{
+			this->render();
+			this->handleEvents();
+			this->CalculateFrameTime();
+			
+			this->resume();
+		}
+	}
+}
+
+
+void Engine::pause()
+{
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::P ) )
+	{
+		if( isPaused == false )
+		{
+			isPaused = true;
+		}
+	}
+}
+
+
+void Engine::resume()
+{
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::R ) )
+	{
+		if( isPaused == true )
+		{
+			isPaused = false;
+		}
 	}
 }
 
@@ -263,12 +309,19 @@ void Engine::update( float frametime )
 
 	pMouseSprite->setPosition( static_cast<sf::Vector2f>( sf::Mouse::getPosition( *pRenderWindow ) ) );
 	mMousePosition = static_cast<sf::Vector2f>( sf::Mouse::getPosition( *pRenderWindow ) );
+
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::P ) )
+	{
+		isPaused = true;
+	}
 }
+
 
 void Engine::CommandSystem()
 {
 	
 }
+
 
 float Engine::getFPS()
 {
@@ -311,6 +364,12 @@ void Engine::render()
 	pEventHandler->render( pRenderWindow );
 	pRenderWindow->draw( *pMouseSprite );
 	pRenderWindow->draw( mFPSLabel );
+
+	if( isPaused == true )
+	{
+		pRenderWindow->draw( mPauseLabel );
+	}
+
 	pRenderWindow->display();
 }
 
