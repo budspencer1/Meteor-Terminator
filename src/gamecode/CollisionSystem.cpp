@@ -286,20 +286,6 @@ void CollisionSystem::update( float frametime )
 		}
 	}
 
-	if( pPlayer->getKilledByAsteroid() == true )
-	{
-		std::cout << "You got fragged by Asteroid" << std::endl;
-	}
-
-	else
-
-	{
-		if( pPlayer->getIsSuicided() == true )
-		{
-			std::cout << "You suicided" << std::endl;
-		}
-	}
-
 	for( auto it = mHealthList.begin(); it != mHealthList.end(); it++ )
 	{
 		if( ( *it )->getIsAlive() == false )
