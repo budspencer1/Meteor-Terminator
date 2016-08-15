@@ -38,6 +38,9 @@ public:
 	void resume();
 
 	void getWindowsVersion();
+	void screenshot();
+	void updateScreenShot();
+
 	float getFPS();
 
 	int getArchType1();
@@ -60,6 +63,7 @@ private:
 	sf::Clock						*pClock;
 	sf::Clock						*pFPSClock;
 	sf::Clock						*pFPSLockClock;
+	sf::Clock						*pScreenshotClock;
 	sf::Texture						*pBackground;
 	sf::Sprite						*pSprite;
 
@@ -87,6 +91,7 @@ private:
 	bool							isPaused;
 	int								mFPS;
 	int								mFPSLock;
+	bool							mScreenShotLock;
 
 
 };

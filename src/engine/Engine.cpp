@@ -149,6 +149,9 @@ Engine::Engine()
 	pFPSLockClock				= new sf::Clock;
 	pFPSLockClock->restart();
 
+	pScreenshotClock			= new sf::Clock;
+	pScreenshotClock->restart();
+
 	pPlayer						= new Player( std::string( "media/packages/content/textures/Player.png" ), sf::Vector2f( PLAYER_X_POS , PLAYER_Y_POS ) );
 	/* pAsteroid					= new Asteroid( std::string( "media/packages/content/textures/Asteroid.png" ), sf::Vector2f( 635 , -100 ) ); */
 	pAsteroidManager			= new AsteroidManager();
@@ -159,6 +162,7 @@ Engine::Engine()
 
 	mMousePosition			= sf::Vector2f( 0 , 0 );
 	mFPSLock				= 500;
+	mScreenShotLock			= true;
 
 	std::cout << "init: " COMMAND_SYSTEM << std::endl;
 	std::cout << "init: " MAINLOOP << std::endl;
@@ -190,6 +194,7 @@ Engine::~Engine()
 	delete pFont;
 	delete pFPSClock;
 	delete pFPSLockClock;
+	delete pScreenshotClock;
 
 	pRenderWindow    = nullptr;
 	pMainEvent	     = nullptr;
@@ -206,6 +211,38 @@ Engine::~Engine()
 	pFont			 = nullptr;
 	pFPSClock		 = nullptr;
 	pFPSLockClock	 = nullptr;
+	pScreenshotClock = nullptr;
+}
+
+
+void Engine::screenshot()
+{
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::F12 ) )
+	{
+		if( mScreenShotLock == true )
+		{
+			sf::Image screenshot = pRenderWindow->capture(); /* copy screen bytes to memory */
+
+			std::stringstream randFileName;
+			randFileName << ( rand() % SCREENSHOT_LIMIT_UNSIGNED_INTEGER ); /* filename is a number between 1 and 1000000000 */
+
+			screenshot.saveToFile( std::string( "screenshots/screenshot_" + randFileName.str() + ".bmp" ) ); /* save screenshot to file */
+
+			std::cout << "Screenshot saved under screenshots/screenshot_" + randFileName.str() + ".bmp" << std::endl; /* output */
+
+			mScreenShotLock = false;
+		}
+	}
+}
+
+
+void Engine::updateScreenShot()
+{
+	if( mScreenShotLock == false && pScreenshotClock->getElapsedTime().asSeconds() > SCREENSHOT_LOCK_TIME_IN_SECONDS_UNSIGNED_INT )
+	{
+		mScreenShotLock = true;
+		pScreenshotClock->restart();
+	}
 }
 
 
@@ -226,17 +263,22 @@ void Engine::start()
 
 			this->CommandSystem();
 			this->pause();
+			this->screenshot();
+			this->updateScreenShot();
 			/* getFrameTime(); */
 		}
 
 		else
 
 		{
+			this->getFPS();
 			this->render();
 			this->handleEvents();
 			this->CalculateFrameTime();
 			
 			this->resume();
+			this->screenshot();
+			this->updateScreenShot();
 		}
 	}
 }

@@ -23,8 +23,8 @@ public:
 private:
 
 	sf::Clock				*pClock;
-	bool				mIsSplash;
-	bool				M;
+	bool					mIsSplash;
+	bool					M;
 
 
 };

@@ -8,6 +8,7 @@
 #pragma once
 
 #include "Engine.hpp"
+#include "Main.hpp"
 
 #include "Settings.inc"
 #include "Version.inc"
@@ -20,7 +21,7 @@ using namespace std;
 
 int main()
 {
-	FreeConsole();
+	FreeConsole(); /* remove stupid console window ...	FOR DEVELOPERS::: comment that function if you wanna see comsole for some debug outputs */
 
 	static bool mIsSplash;
 	mIsSplash = true;

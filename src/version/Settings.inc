@@ -101,6 +101,14 @@
 #define ASTEROID_SPAWN_INTERWAL 0.35
 #endif
 
+#ifndef SCREENSHOT_LIMIT_UNSIGNED_INTEGER 
+#define SCREENSHOT_LIMIT_UNSIGNED_INTEGER 1000000000
+#endif 
+
+#ifndef SCREENSHOT_LOCK_TIME_IN_SECONDS_UNSIGNED_INT 
+#define SCREENSHOT_LOCK_TIME_IN_SECONDS_UNSIGNED_INT 2
+#endif
+
 /* ///////////////////////////////////////////////////////// */
 /* Some important system settings */
 
