@@ -21,9 +21,9 @@ SFML: http://www.sfml-dev.org/
 1.1 Keys Configuration (not changable ingame; you need to change that in source code then compile) & Startup
 ==================================================================================================================================================================
 
-Numblock1                      =  Suicide Player (player dies)
-Numblock1                      =  Respawn Player (if dead) 
-Numblock1                      =  Restart Game (reset all)
+Numblock1 || Num9                =  Suicide Player (player dies)
+Spacebar                         =  Respawn Player (if dead) 
+Numblock2 || Num0                =  Restart Game (reset all)
                          
 1                              =  Weapon #1 (Cannon)
 2                              =  Weapon #2 (Machine Gun)
@@ -33,18 +33,22 @@ S, Down                        =  Move Player Down     (on Screen)
 A, Left                        =  Move Player Left     (on Screen)
 D, Right                       =  Move Player Right	   (on Screen)
                                 
-F                              =  Lower Shield 
+F                              =  Lower Shield (easter egg)
 Delete      			       =  Delete Current Weapon (sets Player Game Over ---> if Game Over F3 to restart game)  
        
 P                              = Pause current Game (if not paused)
 R                              = Resume current Game (if paused)
+
+F12                            = Take Screenshot (will be saved under random integer name (e.g. "screenshot_13453.bmp" or "screenshot_11.bmp")
 
 
 ================================
 1.2 To start Game
 ================================
 
-1. just execute MeteorTerminator.bat or MeteorTerminator.exe in main archive (if you start binaries in /bin32 and /bin64 folders, you won't see any textures just a blank screen)
+1. Just double-click to MeteorTerminator.XX.bat (XX = architecture; 32bit computer user choose "MeteorTerminator_x32.bat" and 64Bit computerb user can use "MeteorTerminator_x32.bat" and "MeteorTerminator_x64.bat")
+NOTE: The latest version is always x32 bit version, i just compile for x64 on Dev-Final-Releases (e.g. Beta Final, Alpha Final, ...)
+NOTE: To check your game version just look at Titlebar of the game window (there must be "Meteor Terminator - Version: X.X.X_XX || Build: XX.XX.XXXX | XX:XX:XX || Architecture: xXX")
 
 ==================================================================================================================================================================
 

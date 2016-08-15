@@ -644,12 +644,12 @@ void Player::update( float frametime )
 		}
 	}
 
-	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::F1 ) )
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Numpad8 ) || sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Num9 )  )
 	{
 		this->suicide();
 	}
 
-	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::F2 ) || sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Space ) )
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Space ) )
 	{
 		this->respawn();
 	}
@@ -663,7 +663,7 @@ void Player::update( float frametime )
 	}
 
 	
-	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::F3 ) )
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Numpad9 ) || sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Num0 ) )
 	{
 		/*if( mLock == true )
 		{*/
