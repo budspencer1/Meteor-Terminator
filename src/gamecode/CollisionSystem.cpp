@@ -48,6 +48,7 @@ CollisionSystem::CollisionSystem( sf::Sprite *mouse, Player *player, std::list<A
 
 	mPlayerCanDie   = true;
 	mRemainingLife	= 0;
+	canRampage      = true;
 
 	this->setIsHit( false );
 }
@@ -104,6 +105,12 @@ void CollisionSystem::update( float frametime )
 		}
 	}
 
+	if( pPlayer->getIsRampageMode() == true && canRampage == true )
+	{
+		pList->clear();
+		canRampage = false;
+	}
+
 	for( auto it : *pList )
 	{
 		for( auto it_shot : *pPlayer->getShotList() )
@@ -114,14 +121,31 @@ void CollisionSystem::update( float frametime )
 				pPlayer->setHits( pPlayer->getHits() + 1 );
 				this->setIsHit( true );
 
-				if( pPlayer->getPlayerWeapon() == 1 )
+				if( !pPlayer->getIsRampageMode() )
 				{
-					it->setLife( it->getLife() - 50 );
+					if( pPlayer->getPlayerWeapon() == 1 )
+					{
+						it->setLife( it->getLife() - 50 );
+					}
+
+					else if( pPlayer->getPlayerWeapon() == 2 )
+					{
+						it->setLife( it->getLife() - 10 );
+					}
 				}
 
-				else if( pPlayer->getPlayerWeapon() == 2 )
+				else 
+
 				{
-					it->setLife( it->getLife() - 10 );
+					if( pPlayer->getPlayerWeapon() == 1 )
+					{
+						it->setLife( it->getLife() - 50 * 4 );
+					}
+
+					else if( pPlayer->getPlayerWeapon() == 2 )
+					{
+						it->setLife( it->getLife() - 10 * 4 );
+					}
 				}
 
 				if( it->getLife() == 0 || it->getLife() < 0 )
@@ -153,7 +177,17 @@ void CollisionSystem::update( float frametime )
 
 					std::cout << "You fragged Asteroid" << std::endl;
 
-					pPlayer->setFrags( pPlayer->getFrags() + 1 );
+					if( pPlayer->getIsRampageMode() )
+					{
+						pPlayer->setFrags( pPlayer->getFrags() + 1 );
+						pPlayer->setRampageFrags( pPlayer->getRampageFrags() + 1 );
+					}
+
+					else 
+
+					{
+						pPlayer->setFrags( pPlayer->getFrags() + 1 );
+					}
 
 					pAsteroidDestroySound->setBuffer( *pAsteroidDestroyBuffer );
 					pAsteroidDestroySound->play();
@@ -179,8 +213,19 @@ void CollisionSystem::update( float frametime )
 			{
 				if( it->getIsAlive() == false )
 				{
-					pPlayer->setFrags( pPlayer->getFrags() - 1 );
-					std::cout << "Fragging with Weapon and Body isn't allowd in space ;)" << std::endl;
+					if( pPlayer->getIsRampageMode() == false )
+					{
+						pPlayer->setFrags( pPlayer->getFrags() - 1 );
+						std::cout << "Fragging with Weapon and Body isn't allowd in space ;)" << std::endl;
+					}
+
+					else 
+
+					{
+						pPlayer->setFrags( pPlayer->getFrags() + 1 );
+						pPlayer->setRampageFrags( pPlayer->getRampageFrags() + 1 );
+						std::cout << "Fragging with Weapon and Body isn't allowd in space ;)" << std::endl;
+					}
 				}
 			}
 		}
@@ -191,12 +236,31 @@ void CollisionSystem::update( float frametime )
 			{
 				if( pPlayer->getIsAlive() == true )
 				{
-					it->setLife( it->getLife() - 100*frametime );
+					if( !pPlayer->getIsRampageMode() )
+					{
+						it->setLife( it->getLife() - 100*frametime );
+					}
+
+					else 
+
+					{
+						it->setLife( it->getLife() - ( 100 * frametime ) * 6 );
+					}
 				}
 
 				if ( pPlayer->getShield() > 0 )
 				{
-					pPlayer->setShield( pPlayer->getShield() - 50*frametime );
+					if( pPlayer->getIsRampageMode() == false )
+					{
+						pPlayer->setShield( pPlayer->getShield() - 50 * frametime );
+					}
+
+					else 
+
+					{
+						pPlayer->setShield( pPlayer->getShield() - 200 * frametime );
+					}
+
 					/* std::cout << "Shield: " << pPlayer->getShield() << std::endl; */
 
 					if( pPlayer->getShield() < 0 || pPlayer->getShield() == 0 )
@@ -209,7 +273,17 @@ void CollisionSystem::update( float frametime )
 
 			if( pPlayer->getShield() == 0 || pPlayer->getShield() < 0 )
 			{
-				pPlayer->setLife( pPlayer->getLife() - 50*frametime );
+				if(  pPlayer->getIsRampageMode() == false )
+				{
+					pPlayer->setLife( pPlayer->getLife() - 50 * frametime );
+				}
+
+				else 
+
+				{
+					pPlayer->setLife( pPlayer->getLife() - 200 * frametime );
+				}
+
 				/* std::cout << "Life: " << pPlayer->getLife() << std::endl; */
 
 				if( pPlayer->getLife() < 0 )
@@ -243,7 +317,18 @@ void CollisionSystem::update( float frametime )
 			if( it->getLife() == 0 || it->getLife() < 0 )
 			{
 				it->setIsAlive( false );
-				pPlayer->setFrags( pPlayer->getFrags() + 1 );
+
+				if( pPlayer->getIsRampageMode() == false )
+				{
+					pPlayer->setFrags( pPlayer->getFrags() + 1 );
+				}
+
+				else 
+
+				{
+					pPlayer->setFrags( pPlayer->getFrags() + 1 );
+					pPlayer->setRampageFrags( pPlayer->getRampageFrags() + 1 );
+				}
 
 				std::cout << "You fragged Asteroid" << std::endl;
 
@@ -257,12 +342,22 @@ void CollisionSystem::update( float frametime )
 				/* Player Score System */
 				if( pPlayer->getIsAlive() == true )
 				{
-					pPlayer->setPoints( pPlayer->getPoints() + it->getPoints() );
-					pPlayer->setTotalPoints( pPlayer->getTotalPoints() + it->getPoints() );
+					if( !pPlayer->getIsRampageMode() )
+					{
+						pPlayer->setPoints( pPlayer->getPoints() + it->getPoints() );
+						pPlayer->setTotalPoints( pPlayer->getTotalPoints() + it->getPoints() );
+					}
+
+					else 
+
+					{
+						pPlayer->setPoints( pPlayer->getPoints() + ( it->getPoints() * 4 ) );
+						pPlayer->setTotalPoints( pPlayer->getTotalPoints() + ( it->getPoints() * 4 ) );
 					}
 				}
 			}
 		}
+	}
 
 		/*
 		* collision between mouse curser and asteroid

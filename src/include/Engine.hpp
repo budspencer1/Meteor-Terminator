@@ -11,9 +11,13 @@
 
 #include <iostream>
 #include <Windows.h>
+#include <string>
+#include <fstream>
+#include <sstream>
 #include <SFML\Graphics.hpp>
 
 #include "Player.hpp"
+#include "Sounds.hpp"
 #include "Asteroid.hpp"
 #include "Weapon.hpp"
 #include "AsteroidManager.hpp"
@@ -21,6 +25,8 @@
 #include "CollisionSystem.hpp"
 #include "Commandhandler.hpp"
 #include "EventHandler.hpp"
+#include "Highscore.hpp"
+
 
 class Engine
 {
@@ -65,7 +71,9 @@ private:
 	sf::Clock						*pFPSLockClock;
 	sf::Clock						*pScreenshotClock;
 	sf::Texture						*pBackground;
+	sf::Texture						*pRampageTexture;
 	sf::Sprite						*pSprite;
+	sf::Sprite						*pRampageSprite;
 
 	sf::Vector2f					mMousePosition;
 
@@ -80,7 +88,9 @@ private:
 	sf::Font						*pFont;
 
 	EventHandler					*pEventHandler;
+	Highscore						*pHighscore;
 	Player							*pPlayer;
+	Sounds							*pSounds;
 	Weapon							*pWeapon;
 	AsteroidManager					*pAsteroidManager;
 	CollisionSystem					*pCollisionSystem;

@@ -3,7 +3,7 @@
 * Date: 2016 
 * Author: Sebastian <3
 * Purpose: This file executes "main" class 
-* Purpose 2: It's the heart of game, it executes engine class ( main )
+* NOTE: It's the heart of game, it executes engine class ( main )
 */
 #pragma once
 
@@ -21,7 +21,7 @@ using namespace std;
 
 int main()
 {
-	FreeConsole(); /* remove stupid console window ...	FOR DEVELOPERS::: comment that function if you wanna see comsole for some debug outputs */
+	//FreeConsole(); /* remove stupid console window ...	FOR DEVELOPERS::: comment that function if you wanna see comsole for some debug outputs */
 
 	static bool mIsSplash;
 	mIsSplash = true;

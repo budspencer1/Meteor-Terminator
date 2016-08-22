@@ -114,9 +114,10 @@ Engine::Engine()
 
 	mIsRunning					= true;
 	isPaused					= false;
+	const unsigned int alpha    = 125;
 
 	mPauseLabel.setFont( *pFont );
-	mPauseLabel.setColor( sf::Color( 32,178,170 ) );
+	mPauseLabel.setColor( sf::Color( 32 , 178 , 170 ) );
 	mPauseLabel.setCharacterSize( 200 );
 	mPauseLabel.setPosition( sf::Vector2f( 280 , 300 ) );
 	mPauseLabel.setString( std::string( "Paused" ) );
@@ -127,6 +128,12 @@ Engine::Engine()
 	pSprite						= new sf::Sprite;
 	pSprite->setTexture( *pBackground );
 
+	pRampageSprite				= new sf::Sprite;
+	pRampageTexture				= new sf::Texture;
+	pRampageTexture->loadFromFile( std::string( "media/packages/content/textures/Red.png" ) );
+	pRampageSprite->setTexture( *pRampageTexture );
+	pRampageSprite->setColor( sf::Color( pRampageSprite->getColor().r, pRampageSprite->getColor().g, pRampageSprite->getColor().b, alpha ) );
+
 	pMouseTexture				= new sf::Texture;
 	pMouseTexture->loadFromFile( std::string( "media/packages/content/textures/MouseCrosshair.png" ) );
 
@@ -135,7 +142,7 @@ Engine::Engine()
 
 	pMouseSprite				= new sf::Sprite;
 	pMouseSprite->setTexture( *pMouseTexture );
-	pMouseSprite->setOrigin( ( pMouseTexture->getSize().x/2 ), ( pMouseTexture->getSize().y/2 ) );
+	pMouseSprite->setOrigin( ( pMouseTexture->getSize().x / 2 ), ( pMouseTexture->getSize().y / 2 ) );
 	pMouseSprite->setScale( 0.1 , 0.1 );
 
 	pMainEvent					= new sf::Event;
@@ -159,8 +166,10 @@ Engine::Engine()
 	pCommandHandler				= new CommandHandler();
 	pEventHandler				= new EventHandler();
 	pWeapon						= new Weapon();
+	pSounds						= new Sounds( pPlayer );
+	pHighscore					= new Highscore();
 
-	mMousePosition			= sf::Vector2f( 0 , 0 );
+	mMousePosition			= sf::Vector2f( RES_X / 2 , RES_Y / 2 );
 	mFPSLock				= 500;
 	mScreenShotLock			= true;
 
@@ -168,7 +177,6 @@ Engine::Engine()
 	std::cout << "init: " MAINLOOP << std::endl;
 	std::cout << "" << std::endl;
 
-	Sleep( 1000 );
 	std::cout << "" << std::endl;
 	std::cout << " ------ BEGIN GAME LOG ------ " << std::endl;
 	std::cout << "" << std::endl;
@@ -195,6 +203,9 @@ Engine::~Engine()
 	delete pFPSClock;
 	delete pFPSLockClock;
 	delete pScreenshotClock;
+	delete pRampageSprite;
+	delete pRampageTexture;
+	delete pHighscore;
 
 	pRenderWindow    = nullptr;
 	pMainEvent	     = nullptr;
@@ -212,6 +223,9 @@ Engine::~Engine()
 	pFPSClock		 = nullptr;
 	pFPSLockClock	 = nullptr;
 	pScreenshotClock = nullptr;
+	pRampageSprite	 = nullptr;
+	pRampageTexture	 = nullptr;
+	pHighscore		 = nullptr;
 }
 
 
@@ -315,6 +329,61 @@ void Engine::quit()
 		std::cout << "" << std::endl;
 		std::cout << " ------ END GAME LOG ------ " << std::endl;
 		std::cout << "Closing Application ... done" << std::endl;
+
+		std::ofstream highscore;
+		highscore.open( std::string( "src/script/Highscore.hs" ) );
+
+		const int p = pPlayer->getPoints();
+		std::string n = "\n";
+
+		if( pPlayer->getPoints() > pHighscore->getFirst() )
+		{
+			highscore << p << n << pHighscore->getSecond() << n << pHighscore->getThird() << n << pHighscore->getFourth() << n << pHighscore->getFifth() << n << pHighscore->getSixth() << n;
+			highscore.close();
+		}
+
+		else if ( pPlayer->getPoints() > pHighscore->getSecond() && pPlayer->getPoints() < pHighscore->getFirst() )
+
+		{
+			highscore << pHighscore->getFirst() << n << p << n << pHighscore->getThird() << n << pHighscore->getFourth() << n << pHighscore->getFifth() << n << pHighscore->getSixth() << n;
+			highscore.close();
+		}
+
+		else if ( pPlayer->getPoints() > pHighscore->getThird() && pPlayer->getPoints() < pHighscore->getSecond() )
+
+		{
+			highscore << pHighscore->getFirst() << n << pHighscore->getSecond() << n << p << n << pHighscore->getFourth() << n << pHighscore->getFifth() << n << pHighscore->getSixth() << n;
+			highscore.close();
+		}
+
+		else if ( pPlayer->getPoints() > pHighscore->getFourth() && pPlayer->getPoints() < pHighscore->getThird() )
+
+		{
+			highscore << pHighscore->getFirst() << n << pHighscore->getSecond() << n << pHighscore->getThird() << n << p << n << pHighscore->getFifth() << n << pHighscore->getSixth() << n;
+			highscore.close();
+		}
+
+		else if ( pPlayer->getPoints() > pHighscore->getFifth() && pPlayer->getPoints() < pHighscore->getFourth() )
+
+		{
+			highscore << pHighscore->getFirst() << n << pHighscore->getSecond() << n << pHighscore->getThird() << n << pHighscore->getFourth() << n << p << n << pHighscore->getSixth() << n;
+			highscore.close();
+		}
+
+		else if ( pPlayer->getPoints() > pHighscore->getSixth() && pPlayer->getPoints() < pHighscore->getFifth()  )
+
+		{
+			highscore << pHighscore->getFirst() << n << pHighscore->getSecond() << n << pHighscore->getThird() << n << pHighscore->getFourth() << n << pHighscore->getFifth() << n << p << n;
+			highscore.close();
+		}
+
+		else 
+
+		{
+			highscore << pHighscore->getFirst() << n << pHighscore->getSecond() << n << pHighscore->getThird() << n << pHighscore->getFourth() << n << pHighscore->getFifth() << n << pHighscore->getSixth() << n;
+			highscore.close();
+		}
+
 		Sleep( 300 );
 		pRenderWindow->close();
 	}
@@ -333,6 +402,8 @@ void Engine::update( float frametime )
 	}
 
 	pPlayer->update( frametime );
+	pHighscore->update( frametime );
+	pSounds->update( frametime );
 	pAsteroidManager->update( frametime );
 	pCollisionSystem->update( frametime );
 	pEventHandler->update( frametime );
@@ -389,6 +460,8 @@ void Engine::handleEvents()
 	}
 
 	pPlayer->handleEvents();
+	pHighscore->handleEvents();
+	pSounds->handleEvents();
 	pWeapon->handleEvents();
 	pCollisionSystem->handleEvents();
 	pAsteroidManager->handleEvents();
@@ -400,14 +473,22 @@ void Engine::render()
 {
 	pRenderWindow->clear( sf::Color::Cyan );
 	pRenderWindow->draw( *pSprite );
+
+	if( pPlayer->getIsRampageMode() )
+	{
+		pRenderWindow->draw( *pRampageSprite );
+	}
+
 	pAsteroidManager->render( pRenderWindow );
 	pPlayer->render( pRenderWindow );
+	pSounds->render( pRenderWindow );
 	pCollisionSystem->render( pRenderWindow );
 	pEventHandler->render( pRenderWindow );
+	pHighscore->render( pRenderWindow );
 	pRenderWindow->draw( *pMouseSprite );
 	pRenderWindow->draw( mFPSLabel );
 
-	if( isPaused == true )
+	if( isPaused )
 	{
 		pRenderWindow->draw( mPauseLabel );
 	}

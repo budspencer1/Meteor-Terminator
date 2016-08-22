@@ -109,6 +109,10 @@
 #define SCREENSHOT_LOCK_TIME_IN_SECONDS_UNSIGNED_INT 2
 #endif
 
+#ifndef RAMPAGE_TIME_IN_SEC
+#define RAMPAGE_TIME_IN_SEC 59
+#endif
+
 /* ///////////////////////////////////////////////////////// */
 /* Some important system settings */
 

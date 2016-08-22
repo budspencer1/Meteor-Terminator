@@ -111,7 +111,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\version;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\include;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\engine\SFML\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\script;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\version;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\include;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\engine\SFML\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\engine\SFML\lib;$(LibraryPath)</LibraryPath>
     <OutDir>..\..\bin32</OutDir>
     <TargetName>MeteorTerminator_x32</TargetName>
@@ -180,7 +180,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\version;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\include;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\engine\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\script;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\version;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\include;C:\Users\SeanConnery\Documents\GitHub\Meteor-Terminator Win32\src\engine\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -229,6 +229,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\script\Highscore.hs" />
     <None Include="..\version\Commands.inc" />
     <None Include="..\version\Settings.inc" />
     <None Include="..\version\Version.inc" />
@@ -242,10 +243,11 @@
     <ClInclude Include="..\include\Engine.hpp" />
     <ClInclude Include="..\include\EventHandler.hpp" />
     <ClInclude Include="..\include\Health.hpp" />
-    <ClInclude Include="..\include\Main.hpp" />
+    <ClInclude Include="..\include\Highscore.hpp" />
     <ClInclude Include="..\include\Player.hpp" />
     <ClInclude Include="..\include\Security.hpp" />
     <ClInclude Include="..\include\Shot.hpp" />
+    <ClInclude Include="..\include\Sounds.hpp" />
     <ClInclude Include="..\include\Weapon.hpp" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
@@ -260,8 +262,10 @@
     <ClCompile Include="..\gamecode\Collision.cpp" />
     <ClCompile Include="..\gamecode\CollisionSystem.cpp" />
     <ClCompile Include="..\gamecode\Health.cpp" />
+    <ClCompile Include="..\gamecode\Highscore.cpp" />
     <ClCompile Include="..\gamecode\Player.cpp" />
     <ClCompile Include="..\gamecode\Shot.cpp" />
+    <ClCompile Include="..\gamecode\Sounds.cpp" />
     <ClCompile Include="..\gamecode\Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>

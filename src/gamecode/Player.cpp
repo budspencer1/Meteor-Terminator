@@ -2,8 +2,7 @@
 * Filename: Player.cpp
 * Date: 2016 
 * Author: Sebastian <3
-* Purpose: This file executes "player" class 
-* Note: More complex than engine class :3
+* Purpose: This file executes "player" class :3333333333
 */
 
 
@@ -44,6 +43,12 @@ Player::Player( std::string texturePath, sf::Vector2f position )
 
 	pWeaponSwitchClock		= new sf::Clock();
 	pWeaponSwitchClock->restart();
+
+	pRampageClock			= new sf::Clock;
+	pRampageClock->restart();
+
+	pRamClockSec			= new sf::Clock();
+	pRamClockSec->restart();
 
 	pTextureH1			= new sf::Texture;
 	pSpriteH1			= new sf::Sprite;
@@ -125,7 +130,7 @@ Player::Player( std::string texturePath, sf::Vector2f position )
 	mPosYLabel.setScale( 0.4 , 0.4 );
 	
 	mTimeRemainingLabel.setFont( *pFont );
-	mTimeRemainingLabel.setString( "Game Time (in Seconds): " );
+	mTimeRemainingLabel.setString( "Game Time:  " );
 	mTimeRemainingLabel.setPosition( sf::Vector2f( 10 , 865 ) );
 	mTimeRemainingLabel.setScale( 0.6 , 0.6 );
 
@@ -138,6 +143,18 @@ Player::Player( std::string texturePath, sf::Vector2f position )
 	mLevelLabel.setString( "Level: " );
 	mLevelLabel.setPosition( sf::Vector2f( 10 , 50 ) );
 	mLevelLabel.setScale( 0.6 , 0.6 );
+
+	mRampageTypeLabel.setFont( *pFont );
+	mRampageTypeLabel.setCharacterSize( 20 );
+	mRampageTypeLabel.setColor( sf::Color( 64 , 64 , 64 ) );
+	mRampageTypeLabel.setPosition( RES_X - 900 , RES_Y - 30 );
+	mRampageTypeLabel.setString( std::string( "Press <C> to start Rampage Mode." ) );
+
+	mRampageTime.setFont( *pFont );
+	mRampageTime.setColor( sf::Color::Red );
+	mRampageTime.setString( "Game Time:  " );
+	mRampageTime.setPosition( sf::Vector2f( 10 , 865 ) );
+	mRampageTime.setScale( 0.6 , 0.6 );
 
 
 	pSprite				= new sf::Sprite;
@@ -233,6 +250,11 @@ Player::Player( std::string texturePath, sf::Vector2f position )
 	mLockSeconds		= 2;
 	mWeaponSwitchLock	= true;
 	minutes				= 0;
+	enableRampageMode	= true;
+	isRampageMode		= false;
+	mCanSet				= true;
+	rampageFrags		= 0;
+	ramTime				= RAMPAGE_TIME_IN_SEC;
 }
 
 Player::~Player()
@@ -270,6 +292,8 @@ Player::~Player()
 	 */
 
 	 delete pWeaponSwitchClock;
+	 delete pRampageClock;
+	 delete pRamClockSec;
 
 
 	 pTexture				= nullptr;
@@ -299,6 +323,9 @@ Player::~Player()
 	 pTimeSeconds			= nullptr;
 	 pTimeMinutes			= nullptr;
 	 pWeaponSwitchClock     = nullptr;
+	 pRampageClock			= nullptr;
+	 pRamClockSec			= nullptr;
+
 	 /*
 	 pWeaponSwitchBuffer	= nullptr;
 	 pWeaponSwitchSound		= nullptr;
@@ -315,6 +342,8 @@ void Player::suicide()
 		this->setLifes( this->getLifes() - 1 );
 		this->setKilledByAsteroid( false );
 		this->setIsSuicided( true );
+		this->setRampageFrags( this->getRampageFrags() );
+		this->setRampageMode( false );
 
 		mFragsLabel.setPosition( sf::Vector2f( 10 , 90 ) );
 
@@ -387,6 +416,8 @@ void Player::restart()
 		this->setKilledByAsteroid( false );
 		this->setIsSuicided( false );
 		this->setSeconds( 0 );
+		this->setRampageMode( false );
+		this->setRampageFrags( this->getRampageFrags() );
 
 		mFragsLabel.setPosition( sf::Vector2f( 10 , 130 ) );
 
@@ -405,15 +436,23 @@ void Player::restart()
 
 		pTimeSeconds->restart();
 		pTimeMinutes->restart();
+		pRampageClock->restart();
+		pRamClockSec->restart();
 
 		mCanMoveUp				= true;
 		mCanMoveDown			= true;
 		mCanMoveLeft			= true;
 		mCanMoveRight			= true;
+		ramTime					= RAMPAGE_TIME_IN_SEC;
 
 		mCommandLock			= false;
 		pCommandClock->restart();
-	}
+
+		if( isRampageMode )
+		{
+			isRampageMode			= false;
+		}
+	}	
 
 	else
 
@@ -422,8 +461,67 @@ void Player::restart()
 	}
 }
 
+void Player::RampageMode()
+{
+	if( enableRampageMode && ( this->getLevel() == 5 || this->getLevel() == 10 ) )
+	{
+		if( pRampageClock->getElapsedTime().asSeconds() < 4 && sf::Keyboard::isKeyPressed( sf::Keyboard::Key::C ) )
+		{
+			this->isRampageMode = true;
+
+			pSprite->setPosition( PLAYER_X_POS , PLAYER_Y_POS );
+			this->setLife( LIFE );
+			this->setShield( SHIELD );
+			this->setPlayerWeapon( 1 );
+		}
+
+		if( isRampageMode )
+		{
+			if( this->isRampageMode )
+			{
+				if( pRamClockSec->getElapsedTime().asSeconds() > 1 )
+				{
+					ramTime = ( ramTime - 1 );
+					pRamClockSec->restart();
+				}
+
+				std::stringstream time;
+				time << ramTime;
+
+				/* time label */
+				if( ramTime > 9 )
+				{
+					mRampageTime.setString( std::string( "Time Remaining:  00 : " + time.str() ) );
+				}
+
+				else if( ramTime == 9 || ramTime < 9 )
+				{
+					mRampageTime.setString( std::string( "Time Remaining:  00 : 0" + time.str() ) );
+				}
+			}
+		}
+	}
+}
+
 void Player::update( float frametime )
 {
+	/* std::cout << "Frags: " << this->getRampageFrags() << std::endl; */
+
+	if( mCanSet == true && ( this->getLevel() == 5 || this->getLevel() == 10 ) )
+	{
+		pRampageClock->restart();
+		pRamClockSec->restart();
+		mCanSet = false;
+	}
+
+	this->RampageMode();
+
+	if( ramTime == 0 || ramTime < 0 || ramTime > 59 )
+	{
+		ramTime = 0;
+		this->setRampageMode( false );
+	}
+
 	if( mCommandLock == false )
 	{
 		if( pCommandClock->getElapsedTime().asSeconds() > mLockSeconds )
@@ -461,28 +559,28 @@ void Player::update( float frametime )
 
 	if( minutes < 10 && seconds < 10 )
 	{
-		mTimeRemainingLabel.setString( "Time: 0" + gm.str() + " : 0" + gse.str() );
+		mTimeRemainingLabel.setString( "Game Time:  0" + gm.str() + " : 0" + gse.str() );
 	}
 
 	else if( minutes > 9 && seconds < 10 )
 	{
-		mTimeRemainingLabel.setString( "Time: " + gm.str() + " : 0" + gse.str() ); 
+		mTimeRemainingLabel.setString( "Game Time:  " + gm.str() + " : 0" + gse.str() ); 
 	}
 
 	else if( minutes < 10 && seconds < 10 )
 	{
-		mTimeRemainingLabel.setString( "Time: " + gm.str() + " : " + gse.str() );
+		mTimeRemainingLabel.setString( "Game Time:  " + gm.str() + " : " + gse.str() );
 	}
 
 	else if( minutes < 10 && seconds > 9 )
 	{
-		mTimeRemainingLabel.setString( "Time: 0" + gm.str() + " : " + gse.str() );
+		mTimeRemainingLabel.setString( "Game Time:  0" + gm.str() + " : " + gse.str() );
 	}
 
 	else
 
 	{
-		mTimeRemainingLabel.setString( "Time: " + gm.str() + " : " + gse.str() );
+		mTimeRemainingLabel.setString( "Game Time:  " + gm.str() + " : " + gse.str() );
 	}
 
 	if( pTimeSeconds->getElapsedTime().asMilliseconds() > 60000 )
@@ -579,12 +677,12 @@ void Player::update( float frametime )
 	{
 		if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::W ) )
 		{
-			pSprite->move( 0 , -300*frametime );
+			pSprite->move( 0 , -300 * frametime );
 		}
 
 		if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Up ) )
 		{
-			pSprite->move( 0 , -300*frametime );
+			pSprite->move( 0 , -300 * frametime );
 		}
 	}
 
@@ -592,12 +690,12 @@ void Player::update( float frametime )
 	{
 		if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::S ) )
 		{
-			pSprite->move( 0 , 300*frametime );
+			pSprite->move( 0 , 300 * frametime );
 		}
 
 		if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Down ) )
 		{
-			pSprite->move( 0 , 300*frametime );
+			pSprite->move( 0 , 300 * frametime );
 		}
 	}
 
@@ -605,12 +703,12 @@ void Player::update( float frametime )
 	{
 		if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::A ) )
 		{
-			pSprite->move( -300*frametime , 0 );
+			pSprite->move( -300 * frametime , 0 );
 		}
 
 		if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Left ) )
 		{
-			pSprite->move( -300*frametime , 0 );
+			pSprite->move( -300 * frametime , 0 );
 		}
 	}
 	
@@ -618,12 +716,12 @@ void Player::update( float frametime )
 	{
 		if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::D ) )
 		{
-			pSprite->move( 300*frametime , 0 );
+			pSprite->move( 300 * frametime , 0 );
 		}
 
 		if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Right ) )
 		{
-			pSprite->move( 300*frametime , 0 );
+			pSprite->move( 300 * frametime , 0 );
 		}
 	}
 
@@ -644,12 +742,12 @@ void Player::update( float frametime )
 		}
 	}
 
-	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Numpad8 ) || sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Num9 )  )
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Numpad8 ) || sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Num9 ) || sf::Keyboard::isKeyPressed( sf::Keyboard::Key::F1 ) )
 	{
 		this->suicide();
 	}
 
-	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Space ) )
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Space ) || sf::Keyboard::isKeyPressed( sf::Keyboard::Key::F2 ) )
 	{
 		this->respawn();
 	}
@@ -663,7 +761,7 @@ void Player::update( float frametime )
 	}
 
 	
-	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Numpad9 ) || sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Num0 ) )
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Numpad9 ) || sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Num0 ) || sf::Keyboard::isKeyPressed( sf::Keyboard::Key::F3 ) )
 	{
 		/*if( mLock == true )
 		{*/
@@ -800,7 +898,18 @@ void Player::render( sf::RenderWindow *rw )
 	rw->draw( mLifesLabel );
 	rw->draw( mGameScoreLabel );
 	rw->draw( mLevelLabel );
-	rw->draw( mTimeRemainingLabel );
+
+	if( !isRampageMode )
+	{
+		rw->draw( mTimeRemainingLabel );
+	}
+
+	else 
+
+	{
+		rw->draw( mRampageTime );
+	}
+
 	rw->draw( mPosXLabel );
 	rw->draw( mPosYLabel );
 	rw->draw( mFragsLabel );
@@ -821,6 +930,11 @@ void Player::render( sf::RenderWindow *rw )
 			rw->draw( *pSpriteH1 );
 			rw->draw( *pSpriteH2 );
 		}
+	}
+
+	if( !isRampageMode && ( this->getLevel() == 5 || this->getLevel() == 10 ) && pRampageClock->getElapsedTime().asSeconds() < 4 )
+	{
+		rw->draw( mRampageTypeLabel );
 	}
 
 	if( this->getDeaths() == 2 )

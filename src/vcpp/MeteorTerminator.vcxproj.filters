@@ -24,6 +24,9 @@
     <None Include="..\version\Settings.inc">
       <Filter>Quelldateien</Filter>
     </None>
+    <None Include="..\script\Highscore.hs">
+      <Filter>Quelldateien</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Asteroid.hpp">
@@ -62,10 +65,13 @@
     <ClInclude Include="resource.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Main.hpp">
+    <ClInclude Include="..\include\EventHandler.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\EventHandler.hpp">
+    <ClInclude Include="..\include\Sounds.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Highscore.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -107,6 +113,12 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\EventHandler.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\gamecode\Sounds.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\gamecode\Highscore.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

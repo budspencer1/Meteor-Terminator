@@ -29,7 +29,7 @@
 /* Version History (Alpha, Beta, Remake, Final, ...) */
 
 #ifndef TERM_DEV_AGE 
-#define TERM_DEV_AGE "Beta Final"
+#define TERM_DEV_AGE "Beta Remake"
 #endif 
 
 /* Game Version (will be changed on release) */

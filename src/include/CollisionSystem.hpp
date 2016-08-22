@@ -77,6 +77,7 @@ private:
 	int						mRandomValue;
 	float					mRemainingLife;
 	bool					mIsHit;
+	bool					canRampage;
 
 
 };

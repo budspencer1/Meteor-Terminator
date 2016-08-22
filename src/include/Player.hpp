@@ -33,6 +33,7 @@ public:
 	void update( float frametime );
 	void render( sf::RenderWindow *rw );
 	void handleEvents();
+	virtual void RampageMode();
 
 	/* getter */
 	const sf::Sprite &getSprite() { return *pSprite; };
@@ -62,6 +63,8 @@ public:
 	const bool getCommandLock()							{ return mCommandLock; };
 	const int getCMDWaittime()							{ return mCommandWaittime; };
 	const int getLockSeconds()							{ return mLockSeconds; };
+	const bool getIsRampageMode()						{ return isRampageMode; };
+	const int getRampageFrags()							{ return rampageFrags; };
 
 
 	/* setter */
@@ -86,6 +89,8 @@ public:
 	void setPlayerWeapon( int PlayerWeapon )			{ mPlayerWeapon = PlayerWeapon; };
 	void setCommandLock( bool CommandLock )				{ mCommandLock = CommandLock; };
 	void setCMDWaittime( int CMDWaittime )				{ mCommandWaittime = CMDWaittime; };
+	void setRampageMode( bool RampageMode )				{ isRampageMode = RampageMode; };
+	void setRampageFrags( unsigned int RampageFrags )	{ rampageFrags = RampageFrags; };
 
 	/* gameplay functions */
 	void suicide();
@@ -129,6 +134,7 @@ private:
 	sf::Text				mLevelLabel;
 
 	sf::Text				mTimeRemainingLabel;
+	sf::Text				mRampageTime;
 
 	sf::Text				mPosXLabel;
 	sf::Text				mPosYLabel;
@@ -157,6 +163,8 @@ private:
 	sf::Clock				*pTimeSeconds;
 	sf::Clock				*pTimeMinutes;
 	sf::Clock				*pWeaponSwitchClock;
+	sf::Clock				*pRampageClock;
+	sf::Clock				*pRamClockSec;
 
 	Weapon					*pWeapon;
 	AsteroidManager			*pAsteroidManager;
@@ -196,11 +204,11 @@ private:
 
 	/* score variables for game stats */
 	int						mShots;
-	int						mHits;
-	int						mFrags;
-	int						mDeaths;
-	int						mCommandWaittime;
-	int						minutes;
+	unsigned int			mHits;
+	unsigned int			mFrags;
+	unsigned int			mDeaths;
+	unsigned int			mCommandWaittime;
+	unsigned int			minutes;
 
 	bool					mIsHit;
 	bool					mCommandLock;
@@ -214,9 +222,22 @@ private:
 	bool					mSuicided;
 
 	float					mSeconds;
+	bool					mCanSet;
 
-	int						mPlayerWeapon;
-	int						mCountdownTime;
+	unsigned int			mPlayerWeapon;
+	unsigned int			mCountdownTime;
+
+
+
+
+	/* rampage mode variables */
+	bool					enableRampageMode;
+	bool					isRampageMode;
+	unsigned int			rampageFrags;
+	unsigned int			ramTime;
+
+	sf::Text				mRampageTypeLabel;
+
 
 
 };
