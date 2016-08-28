@@ -42,6 +42,13 @@ public:
 	const unsigned int getFifth()			{ return fifthP; };
 	const unsigned int getSixth()			{ return sixthP; };
 
+	const std::string getFirstName()		{ return firstName; };
+	const std::string getSecondName()		{ return secondName; };
+	const std::string getThirdName()		{ return thirdName; };
+	const std::string getFourthName()		{ return fourthName; };
+	const std::string getFifthName()		{ return fifthName; };
+	const std::string getSixthName()		{ return sixthName; };
+
 
 private:
 
@@ -54,6 +61,13 @@ private:
 	unsigned int			fourthP;
 	unsigned int			fifthP;
 	unsigned int			sixthP;
+
+	std::string				firstName;
+	std::string				secondName;
+	std::string				thirdName;
+	std::string				fourthName;
+	std::string				fifthName;
+	std::string				sixthName;
 
 	bool					isShowing;
 

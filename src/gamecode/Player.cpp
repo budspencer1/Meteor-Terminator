@@ -108,8 +108,8 @@ Player::Player( std::string texturePath, sf::Vector2f position )
 	mFragsLabel.setScale( 0.6 , 0.6 );
 
 	mGameOverLabel.setFont( *pFont );
-	mGameOverLabel.setColor( sf::Color( 48 , 223 , 217 ) );
-	mGameOverLabel.setString( "! Game Over !" );
+	mGameOverLabel.setColor( sf::Color::Red );
+	mGameOverLabel.setString( "Game Over" );
 	mGameOverLabel.setOrigin( mGameOverLabel.getScale().x / 2 , mGameOverLabel.getScale().y / 2 );
 	mGameOverLabel.setPosition( sf::Vector2f( 320 , 400 ) );
 	mGameOverLabel.setCharacterSize( 100 );
@@ -398,66 +398,57 @@ void Player::respawn()
 
 void Player::restart()
 {
-	if( mCommandLock == true )
+	this->setShield( SHIELD );
+	this->setPoints( 0 );
+	this->setLife( LIFE );
+	this->setIsAlive( true );
+	this->setLevel( 1 );
+	this->setHasAmmo( true );
+	this->setFrags( 0 );
+	this->setDeaths( 0 );
+	this->setGameOver( false );
+	this->setTotalPoints( 0 );
+	this->setShots( 0 );
+	this->setHits( 0 );
+	this->setLifes( LIFES );
+	this->setKilledByAsteroid( false );
+	this->setIsSuicided( false );
+	this->setSeconds( 0 );
+	this->setRampageMode( false );
+	this->setRampageFrags( this->getRampageFrags() );
+
+	mFragsLabel.setPosition( sf::Vector2f( 10 , 130 ) );
+
+	std::cout << "Game restarted" << std::endl;
+
+	pGameRestartSound->setBuffer( *pGameRestartBuffer );
+	pGameRestartSound->play();
+
+	pSprite->setPosition( sf::Vector2f( PLAYER_X_POS , PLAYER_Y_POS ) );
+	pWeapon->setAmmo( AMMO );
+	pWeapon->setIsOutOfAmmo( false );
+	pWeapon->setShotsWep2( 0 );
+	pWeapon->setWeapon( 1 );
+	pWeapon->setWeapon2Temp( 0.1 );
+	pWeapon->setWeaponToHot( false );
+
+	pTimeSeconds->restart();
+	pTimeMinutes->restart();
+	pRampageClock->restart();
+	pRamClockSec->restart();
+
+	mCanMoveUp				= true;
+	mCanMoveDown			= true;
+	mCanMoveLeft			= true;
+	mCanMoveRight			= true;
+	ramTime					= RAMPAGE_TIME_IN_SEC;
+
+	mCommandLock			= false;
+	pCommandClock->restart();
+
+	if( isRampageMode )
 	{
-		this->setShield( SHIELD );
-		this->setPoints( 0 );
-		this->setLife( LIFE );
-		this->setIsAlive( true );
-		this->setLevel( 1 );
-		this->setHasAmmo( true );
-		this->setFrags( 0 );
-		this->setDeaths( 0 );
-		this->setGameOver( false );
-		this->setTotalPoints( 0 );
-		this->setShots( 0 );
-		this->setHits( 0 );
-		this->setLifes( LIFES );
-		this->setKilledByAsteroid( false );
-		this->setIsSuicided( false );
-		this->setSeconds( 0 );
-		this->setRampageMode( false );
-		this->setRampageFrags( this->getRampageFrags() );
-
-		mFragsLabel.setPosition( sf::Vector2f( 10 , 130 ) );
-
-		std::cout << "Game restarted" << std::endl;
-
-		pGameRestartSound->setBuffer( *pGameRestartBuffer );
-		pGameRestartSound->play();
-
-		pSprite->setPosition( sf::Vector2f( PLAYER_X_POS , PLAYER_Y_POS ) );
-		pWeapon->setAmmo( AMMO );
-		pWeapon->setIsOutOfAmmo( false );
-		pWeapon->setShotsWep2( 0 );
-		pWeapon->setWeapon( 1 );
-		pWeapon->setWeapon2Temp( 0.1 );
-		pWeapon->setWeaponToHot( false );
-
-		pTimeSeconds->restart();
-		pTimeMinutes->restart();
-		pRampageClock->restart();
-		pRamClockSec->restart();
-
-		mCanMoveUp				= true;
-		mCanMoveDown			= true;
-		mCanMoveLeft			= true;
-		mCanMoveRight			= true;
-		ramTime					= RAMPAGE_TIME_IN_SEC;
-
-		mCommandLock			= false;
-		pCommandClock->restart();
-
-		if( isRampageMode )
-		{
-			isRampageMode			= false;
-		}
-	}	
-
-	else
-
-	{
-		std::cout << "ERROR: Restart Command Lock is still active." << std::endl;
+		isRampageMode			= false;
 	}
 }
 
@@ -944,7 +935,6 @@ void Player::render( sf::RenderWindow *rw )
 
 	if( this->getGameOver() == true )
 	{
-		rw->draw( mGameOverLabel );
 		mFragsLabel.setPosition( sf::Vector2f( 10 , 90 ) );
 	}
 

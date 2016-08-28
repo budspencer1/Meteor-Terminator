@@ -230,6 +230,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="..\script\Highscore.hs" />
+    <None Include="..\script\Name.nm" />
     <None Include="..\version\Commands.inc" />
     <None Include="..\version\Settings.inc" />
     <None Include="..\version\Version.inc" />
@@ -244,6 +245,9 @@
     <ClInclude Include="..\include\EventHandler.hpp" />
     <ClInclude Include="..\include\Health.hpp" />
     <ClInclude Include="..\include\Highscore.hpp" />
+    <ClInclude Include="..\include\IngameConsole.hpp" />
+    <ClInclude Include="..\include\MainMenu.hpp" />
+    <ClInclude Include="..\include\MenuManager.hpp" />
     <ClInclude Include="..\include\Player.hpp" />
     <ClInclude Include="..\include\Security.hpp" />
     <ClInclude Include="..\include\Shot.hpp" />
@@ -255,6 +259,7 @@
     <ClCompile Include="..\engine\Commandhandler.cpp" />
     <ClCompile Include="..\engine\Engine.cpp" />
     <ClCompile Include="..\engine\EventHandler.cpp" />
+    <ClCompile Include="..\engine\IngameConsole.cpp" />
     <ClCompile Include="..\engine\Main.cpp" />
     <ClCompile Include="..\engine\Security.cpp" />
     <ClCompile Include="..\gamecode\Asteroid.cpp" />
@@ -263,6 +268,8 @@
     <ClCompile Include="..\gamecode\CollisionSystem.cpp" />
     <ClCompile Include="..\gamecode\Health.cpp" />
     <ClCompile Include="..\gamecode\Highscore.cpp" />
+    <ClCompile Include="..\gamecode\MainMenu.cpp" />
+    <ClCompile Include="..\gamecode\MenuManager.cpp" />
     <ClCompile Include="..\gamecode\Player.cpp" />
     <ClCompile Include="..\gamecode\Shot.cpp" />
     <ClCompile Include="..\gamecode\Sounds.cpp" />

@@ -27,6 +27,9 @@
     <None Include="..\script\Highscore.hs">
       <Filter>Quelldateien</Filter>
     </None>
+    <None Include="..\script\Name.nm">
+      <Filter>Quelldateien</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Asteroid.hpp">
@@ -74,6 +77,15 @@
     <ClInclude Include="..\include\Highscore.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\MenuManager.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\MainMenu.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IngameConsole.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\engine\Commandhandler.cpp">
@@ -119,6 +131,15 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\gamecode\Highscore.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\gamecode\MenuManager.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\gamecode\MainMenu.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\IngameConsole.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

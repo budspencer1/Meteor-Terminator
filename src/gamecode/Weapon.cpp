@@ -20,6 +20,7 @@
 #include "AsteroidManager.hpp"
 
 #include "Settings.inc"
+#include "Engine.hpp"
 
 
 Weapon::Weapon()

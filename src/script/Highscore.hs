@@ -1,6 +1,12 @@
-6000
-5000
+24000
+20000
+16000
+12000
+8000
 4000
-3000
-2260
-1000
+Sebastian
+Sebastian
+Sebastian
+Sebastian
+Sebastian
+Sebastian

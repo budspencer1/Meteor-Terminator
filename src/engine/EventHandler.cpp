@@ -35,6 +35,11 @@ EventHandler::~EventHandler()
 
 void EventHandler::update( float frametime )
 {
+	if( this->getgamestart() )
+	{
+		this->setgamestart( false );
+	}
+
 	if( this->getdeath() == true )
 	{
 		this->setdeath( false );

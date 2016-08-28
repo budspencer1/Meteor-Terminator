@@ -17,6 +17,13 @@ Highscore::Highscore()
 	fifthP			= 0;
 	sixthP			= 0;
 
+	firstName		= "";
+	secondName		= "";
+	thirdName		= "";
+	fourthName		= "";
+	fifthName		= "";
+	sixthName		= "";
+
 	clock			= new sf::Clock;
 	clock->restart();
 
@@ -44,7 +51,9 @@ int Highscore::show()
 	}
 
 	static unsigned int first, second , third , fourth , fifth , sixth;
-	highscore >> first >> second >> third >> fourth >> fifth >> sixth;
+	std::string f , s , t , fo , fi , si;
+
+	highscore >> first >> second >> third >> fourth >> fifth >> sixth >> f >> s >> t >> fo >> fi >> si; 
 
 	firstP		= first;
 	secondP		= second;
@@ -53,16 +62,23 @@ int Highscore::show()
 	fifthP		= fifth;
 	sixthP		= sixth;
 
+	firstName = f;
+	secondName = s;
+	thirdName = t;
+	fourthName = fo;
+	fifthName = fi;
+	sixthName = si;
+
 	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::H ) )
 	{
 		if( !!isShowing )
 		{
-			std::cout << "Points 1st: " << first << std::endl;
-			std::cout << "Points 2nd: " << second << std::endl;
-			std::cout << "Points 3rd: " << third << std::endl;
-			std::cout << "Points 4th: " << fourth << std::endl;
-			std::cout << "Points 5th: " << fifth << std::endl;
-			std::cout << "Points 6th: " << sixth << std::endl;
+			std::cout << "Points 1st: " << first << " " << firstName << std::endl;
+			std::cout << "Points 2nd: " << second << " " << secondName << std::endl;
+			std::cout << "Points 3rd: " << third << " " << thirdName << std::endl;
+			std::cout << "Points 4th: " << fourth << " " << fourthName << std::endl;
+			std::cout << "Points 5th: " << fifth << " " << fifthName << std::endl;
+			std::cout << "Points 6th: " << sixth << " " << sixthName << "\n" << std::endl;
 
 			isShowing = false;
 		}

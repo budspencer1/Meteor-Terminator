@@ -125,12 +125,12 @@ void CollisionSystem::update( float frametime )
 				{
 					if( pPlayer->getPlayerWeapon() == 1 )
 					{
-						it->setLife( it->getLife() - 50 );
+						it->setLife( it->getLife() - 90 );
 					}
 
 					else if( pPlayer->getPlayerWeapon() == 2 )
 					{
-						it->setLife( it->getLife() - 10 );
+						it->setLife( it->getLife() - 28 );
 					}
 				}
 
@@ -139,12 +139,12 @@ void CollisionSystem::update( float frametime )
 				{
 					if( pPlayer->getPlayerWeapon() == 1 )
 					{
-						it->setLife( it->getLife() - 50 * 4 );
+						it->setLife( it->getLife() - 90 * 4 );
 					}
 
 					else if( pPlayer->getPlayerWeapon() == 2 )
 					{
-						it->setLife( it->getLife() - 10 * 4 );
+						it->setLife( it->getLife() - 28 * 4 );
 					}
 				}
 

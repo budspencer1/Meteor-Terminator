@@ -1,42 +1,42 @@
-/*
+/* 
 * File Name: MenuManager.hpp
 * Author: Sebastian <3
 * Date: 2016
-* Purpose: manage menu routines
+* Purpose: control UI classes
 */
 
-
-#pragma once
-
-#ifndef MENUMANAGER___
-#define MENUMANAGER___
+#ifndef MENU_MANAGER_
+#define MENU_MANAGER_
 
 #include <iostream>
 #include <sstream>
-#include <fstream>
-#include <SFML\Audio.hpp>
 #include <SFML\Graphics.hpp>
 
+#include "MainMenu.hpp"
 
-class MenuManager
+
+namespace GUI
 {
-
-
-public:
-
-	MenuManager();
-	~MenuManager();
-
-	virtual void updateMenu( float frametime );
-	virtual void handleMenu();
-	virtual void renderMenu( sf::RenderWindow *rw );
-
-
-private:
-
-	bool				isOpen;
-
-
-};
+	class MenuManager 
+	{
+	
+	
+	public:
+	
+		MenuManager();
+		~MenuManager();
+	
+		void updateUI( float frametime );
+		void handleUI();
+		void renderUI( sf::RenderWindow *rw );
+	
+	
+	private:
+	
+		bool				isOpen;
+	
+	
+	};
+}
 
 #endif

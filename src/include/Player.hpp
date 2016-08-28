@@ -36,9 +36,10 @@ public:
 	virtual void RampageMode();
 
 	/* getter */
-	const sf::Sprite &getSprite() { return *pSprite; };
-	std::list<Shot*> *getShotList() { return pWeapon->getShotList(); };
-	const sf::Vector2f getMousePosition()  { return mMousePosition; };
+	const sf::Sprite &getSprite()				{ return *pSprite; };
+	std::list<Shot*> *getShotList()				{ return pWeapon->getShotList(); };
+	const sf::Vector2f getMousePosition()		{ return mMousePosition; };
+	const sf::Text getGameOverLabel()			{ return mGameOverLabel; };
 
 
     const float getLife()								{ return mLife; };

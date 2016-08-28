@@ -44,6 +44,8 @@ public:
 
 	std::list<Shot*> *getShotList()			{ return &mList; };
 	const sf::Clock &getClock()				{ return *pLockClock; };
+	const sf::Text *getLabel()				{ return &mAmmoColorLabel; };
+	const sf::Text *getAmmoLabel()			{ return &mAmmoLabel; };
 
 	const int getAmmo()						{ return mAmmo; };
 	const float getCooldownWep1()			{ return mCooldownWep1; };
@@ -75,8 +77,12 @@ public:
 	void setWep2TotalTemp( float W2TT )		{ mWep2TotalTemp = W2TT; };
 	void setCanShoot( bool CanShoot )		{ mCanShoot = CanShoot; };
 
+	sf::Text					mAmmoColorLabel;
+	sf::Text					mAmmoLabel;
+
 
 private:
+
 
 	std::list <Shot*>			mList;
 	sf::Vector2f				mTarget;
@@ -105,8 +111,6 @@ private:
 	sf::Sound					*pCooldownSound;
 
 	sf::Font					*pFont;
-	sf::Text					mAmmoLabel;
-	sf::Text					mAmmoColorLabel;
 
 	sf::Texture					*pTextureBullet;
 	sf::Sprite					*pSpriteBullet;

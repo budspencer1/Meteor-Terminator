@@ -6,6 +6,7 @@
 */
 
 /* open source code */
+#pragma once 
 
 #pragma warning( disable: 4244 )
 #pragma warning( disable: 4305 )
@@ -39,7 +40,7 @@
 
 std::string Engine::getOperatingSystem()
 {
-	#if defined( _WIN32) || defined(_WIN64) || defined(__MINGW32__ )
+	#if defined( _WIN32 ) || defined( _WIN64 ) || defined( __MINGW32__ )
 	    return "Windows (32 Bit)";
 	#elif defined( __linux__ )
 	    return "Linux";
@@ -62,13 +63,12 @@ void Engine::getWindowsVersion()
     DWORD dwMajorVersion = 0;
     DWORD dwMinorVersion = 0; 
     DWORD dwBuild = 0;
-	WORD dwProcessorArchitecture;
 
     dwVersion = GetVersion();
  
     /* get windows version */
     dwMajorVersion = ( DWORD )( LOBYTE ( LOWORD ( dwVersion ) ) );
-    dwMinorVersion = ( DWORD )( HIBYTE ( LOWORD( dwVersion ) ) );
+    dwMinorVersion = ( DWORD )( HIBYTE ( LOWORD ( dwVersion ) ) );
 	/* /////////////////////////////////////////////////////// */
 
     /* get windows build number */
@@ -83,7 +83,7 @@ Engine::Engine()
 {
 	std::cout << "**************************************************************" << std::endl;
 	std::cout << "Welcome to " TERM_NAME " " TERM_DEV_AGE " " TERM_VERSION "" << std::endl;
-	std::cout << "Developer: " << TERM_DEVELOPER << std::endl;
+	std::cout << "Programming: " << TERM_DEVELOPER << std::endl;
 	std::cout << "Build Revision: " << TERM_REVISION << std::endl;
 	this->getWindowsVersion();
 	std::cout << "**************************************************************" << std::endl;
@@ -111,10 +111,11 @@ Engine::Engine()
 	pRenderWindow->setIcon( pIconTexture->getSize().x, pIconTexture->getSize().y , pIconTexture->getPixelsPtr() );
 
 	/* ///////////////////////////////////////////// */
-
 	mIsRunning					= true;
+	mIsPlaying					= false;
 	isPaused					= false;
-	const unsigned int alpha    = 125;
+	static const unsigned int alpha    = 125;
+	static const unsigned int alpha2   = 200;
 
 	mPauseLabel.setFont( *pFont );
 	mPauseLabel.setColor( sf::Color( 32 , 178 , 170 ) );
@@ -140,6 +141,12 @@ Engine::Engine()
 	pMouseHitTexture			= new sf::Texture;
 	pMouseHitTexture->loadFromFile( std::string( "media/packages/content/textures/MouseHitCrosshair.png" ) );
 
+	pGameOverS					= new sf::Sprite;
+	pGameOverT					= new sf::Texture;
+	pGameOverT->loadFromFile( std::string( "media/packages/content/textures/Paused.png" ) );
+	pGameOverS->setTexture( *pGameOverT );
+	pGameOverS->setColor( sf::Color( pGameOverS->getColor().r, pGameOverS->getColor().g, pGameOverS->getColor().b, alpha2 ) );
+
 	pMouseSprite				= new sf::Sprite;
 	pMouseSprite->setTexture( *pMouseTexture );
 	pMouseSprite->setOrigin( ( pMouseTexture->getSize().x / 2 ), ( pMouseTexture->getSize().y / 2 ) );
@@ -159,19 +166,55 @@ Engine::Engine()
 	pScreenshotClock			= new sf::Clock;
 	pScreenshotClock->restart();
 
-	pPlayer						= new Player( std::string( "media/packages/content/textures/Player.png" ), sf::Vector2f( PLAYER_X_POS , PLAYER_Y_POS ) );
+	pPauseClock					= new sf::Clock;
+	pPauseClock->restart();
+	
+	name_box.setOutlineThickness( 4 );
+	name_box.setOutlineColor( sf::Color::White );
+	name_box.setFillColor( sf::Color::Transparent );
+	name_box.setSize( sf::Vector2f( 400 , 40 ) );
+	name_box.setOrigin( sf::Vector2f( 200 , 20 ) );
+	name_box.setPosition( sf::Vector2f( RES_X / 2 , RES_Y / 2 ) );
+
+	pPlayer						= new Player( std::string( "media/packages/content/textures/Player.png" ) , sf::Vector2f( PLAYER_X_POS , PLAYER_Y_POS ) );
 	/* pAsteroid					= new Asteroid( std::string( "media/packages/content/textures/Asteroid.png" ), sf::Vector2f( 635 , -100 ) ); */
 	pAsteroidManager			= new AsteroidManager();
-	pCollisionSystem			= new CollisionSystem( pMouseSprite, pPlayer, pAsteroidManager->getList() );
+	pCollisionSystem			= new CollisionSystem( pMouseSprite , pPlayer , pAsteroidManager->getList() );
 	pCommandHandler				= new CommandHandler();
 	pEventHandler				= new EventHandler();
 	pWeapon						= new Weapon();
 	pSounds						= new Sounds( pPlayer );
 	pHighscore					= new Highscore();
+	pConsole					= new Console();
+
+	std::ifstream nameS;
+	nameS.open( std::string( "src/script/Name.nm" ) );
+	std::string name;
+	nameS >> name;
+
+	while( name.size() > 12 )
+	{
+		name.erase( name.size() - 1 , 1 );
+	}
+
+	mName.setFont( *pFont );
+	mName.setCharacterSize( 30 );
+	mName.setColor( sf::Color::Green );
+	mName.setPosition( sf::Vector2f( ( RES_X / 2 ) - 180 , ( RES_Y / 2 ) - 19 ) );
+	mName.setString( std::string( name ) );
+
+	enterName				= new sf::Text;
+	enterName->setFont( *pFont );
+	enterName->setCharacterSize( 30 );
+	enterName->setColor( sf::Color::White );
+	enterName->setPosition( sf::Vector2f( ( RES_X / 2 ) - 450 , ( RES_Y / 2 ) - 19 ) );
+	enterName->setString( std::string( "Enter Name: " ) );
 
 	mMousePosition			= sf::Vector2f( RES_X / 2 , RES_Y / 2 );
 	mFPSLock				= 500;
 	mScreenShotLock			= true;
+	pauseLock				= true;
+	pauseTime				= 0.25;
 
 	std::cout << "init: " COMMAND_SYSTEM << std::endl;
 	std::cout << "init: " MAINLOOP << std::endl;
@@ -206,6 +249,11 @@ Engine::~Engine()
 	delete pRampageSprite;
 	delete pRampageTexture;
 	delete pHighscore;
+	delete pGameOverS;
+	delete pGameOverT;
+	delete pPauseClock;
+	delete enterName;
+	delete pConsole;
 
 	pRenderWindow    = nullptr;
 	pMainEvent	     = nullptr;
@@ -226,11 +274,20 @@ Engine::~Engine()
 	pRampageSprite	 = nullptr;
 	pRampageTexture	 = nullptr;
 	pHighscore		 = nullptr;
+	pGameOverS		 = nullptr;
+	pGameOverT		 = nullptr;
+	pPauseClock		 = nullptr;
+	enterName		 = nullptr;
+	pConsole		 = nullptr;
 }
 
+std::string str;
 
 void Engine::screenshot()
 {
+	std::string time = __TIME__;
+	std::string date = __DATE__;
+
 	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::F12 ) )
 	{
 		if( mScreenShotLock == true )
@@ -240,9 +297,8 @@ void Engine::screenshot()
 			std::stringstream randFileName;
 			randFileName << ( rand() % SCREENSHOT_LIMIT_UNSIGNED_INTEGER ); /* filename is a number between 1 and 1000000000 */
 
-			screenshot.saveToFile( std::string( "screenshots/screenshot_" + randFileName.str() + ".bmp" ) ); /* save screenshot to file */
-
-			std::cout << "Screenshot saved under screenshots/screenshot_" + randFileName.str() + ".bmp" << std::endl; /* output */
+			screenshot.saveToFile( std::string( "screenshots/screenshot_ " + randFileName.str() + ".bmp" ) ); /* save screenshot to file */
+			std::cout << "Screenshot saved under 'screenshots/screenshot_" + randFileName.str() + ".bmp'" << std::endl; /* output */ 
 
 			mScreenShotLock = false;
 		}
@@ -262,10 +318,32 @@ void Engine::updateScreenShot()
 
 void Engine::start()
 {
-	while( mIsRunning == true )
+	while( mIsRunning )
 	{
-		if( isPaused == false )
+		if( !mIsPlaying )
 		{
+			this->handleConsole( pConsole );
+			this->togglePause();
+			this->update( mFrameTime );
+			this->render();
+			this->handleEvents();
+			this->CalculateFrameTime();
+			this->getFPS();
+			this->screenshot();
+			this->close();
+
+			this->quit();
+		}
+
+		else
+
+		if( !isPaused && !pPlayer->getGameOver() )
+		{
+			this->handleConsole( pConsole );
+			this->togglePause();
+			this->restart();
+			this->close();
+
 			this->getFPS();
 			this->CalculateFrameTime();
 
@@ -276,48 +354,151 @@ void Engine::start()
 			this->quit();
 
 			this->CommandSystem();
-			this->pause();
 			this->screenshot();
 			this->updateScreenShot();
 			/* getFrameTime(); */
 		}
 
-		else
+		else if( isPaused && !pPlayer->getGameOver() )
 
 		{
+			this->handleConsole( pConsole );
+			this->update( mFrameTime );
+			this->togglePause();
+			this->restart();
+			this->close();
 			this->getFPS();
 			this->render();
 			this->handleEvents();
 			this->CalculateFrameTime();
 			
-			this->resume();
 			this->screenshot();
 			this->updateScreenShot();
+			this->quit();
+		}
+
+		else if( pPlayer->getGameOver() )
+		{
+			this->handleConsole( pConsole );
+			this->CreateHighscoreEntry( pPlayer , pHighscore );
+			this->update( mFrameTime );
+			this->togglePause();
+			this->restart();
+			this->render();
+			this->close();
+			this->handleEvents();
+			this->screenshot();
+			this->quit();
 		}
 	}
 }
 
 
-void Engine::pause()
+void Engine::restart()
 {
-	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::P ) )
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::F3 ) )
 	{
-		if( isPaused == false )
+		pPlayer->restart();
+	}
+}
+
+
+void Engine::CreateHighscoreEntry( Player *player , Highscore *highscore )
+{
+	if( static_cast<std::string>( mName.getString() ) != "" )
+	{
+		std::ofstream highscoreS;
+		highscoreS.open( std::string( "src/script/Highscore.hs" ) );
+
+		const int p = player->getPoints();
+		const std::string nm = static_cast<std::string>( mName.getString() );
+		std::string n = "\n";
+
+		if( player->getPoints() > highscore->getFirst() )
 		{
-			isPaused = true;
+			highscoreS << p << n << highscore->getSecond() << n << highscore->getThird() << n << highscore->getFourth() << n << highscore->getFifth() << n << highscore->getSixth() << n << nm << n << highscore->getSecondName() << n << highscore->getThirdName() << n << highscore->getFourthName() << n << highscore->getFifthName() << n << highscore->getSixthName();
+			highscoreS.close();
+		}
+
+		else if ( player->getPoints() > highscore->getSecond() && player->getPoints() < highscore->getFirst() )
+
+		{
+			highscoreS << highscore->getFirst() << n << p << n << highscore->getThird() << n << highscore->getFourth() << n << highscore->getFifth() << n << highscore->getSixth() << n << highscore->getFirstName() << n << nm << n << highscore->getThirdName() << n << highscore->getFourthName() << n << highscore->getFifthName() << n << highscore->getSixthName();
+			highscoreS.close();
+		}
+
+		else if ( player->getPoints() > highscore->getThird() && player->getPoints() < highscore->getSecond() )
+
+		{
+			highscoreS << highscore->getFirst() << n << highscore->getSecond() << n << p << n << highscore->getFourth() << n << highscore->getFifth() << n << highscore->getSixth() << n << highscore->getFirstName() << n << highscore->getSecondName() << n << nm << n << highscore->getFourthName() << n << highscore->getFifthName() << n << highscore->getSixthName();
+			highscoreS.close();
+		}
+
+		else if ( player->getPoints() > highscore->getFourth() && player->getPoints() < highscore->getThird() )
+
+		{
+			highscoreS << highscore->getFirst() << n << highscore->getSecond() << n << highscore->getThird() << n << p << n << highscore->getFifth() << n << highscore->getSixth() << n << highscore->getFirstName() << n << highscore->getSecondName() << n << highscore->getThirdName() << n << nm << n << highscore->getFifthName() << n << highscore->getSixthName();
+			highscoreS.close();
+		}
+
+		else if ( player->getPoints() > highscore->getFifth() && player->getPoints() < highscore->getFourth() )
+
+		{
+			highscoreS << highscore->getFirst() << n << highscore->getSecond() << n << highscore->getThird() << n << highscore->getFourth() << n << p << n << highscore->getSixth() << n << highscore->getFirstName() << n << highscore->getSecondName() << n << highscore->getThirdName() << n << highscore->getFourthName() << n << nm << n << highscore->getSixthName();
+			highscoreS.close();
+		}
+
+		else if ( player->getPoints() > highscore->getSixth() && player->getPoints() < highscore->getFifth() )
+
+		{
+			highscoreS << highscore->getFirst() << n << highscore->getSecond() << n << highscore->getThird() << n << highscore->getFourth() << n << highscore->getFifth() << n << p << n << highscore->getFirstName() << n << highscore->getSecondName() << n << highscore->getThirdName() << n << highscore->getFourthName() << n << highscore->getFifthName() << n << nm;
+			highscoreS.close();
+		}
+
+		else 
+
+		{
+			highscoreS << highscore->getFirst() << n << highscore->getSecond() << n << highscore->getThird() << n << highscore->getFourth() << n << highscore->getFifth() << n << highscore->getSixth() << n << highscore->getFirstName() << n << highscore->getSecondName() << n << highscore->getThirdName() << n << highscore->getFourthName() << n << highscore->getFifthName() << n << highscore->getSixthName();
+			highscoreS.close();
 		}
 	}
 }
 
 
-void Engine::resume()
+void Engine::togglePause()
 {
-	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::R ) )
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Pause ) )
 	{
-		if( isPaused == true )
+		if( !isPaused || !!mIsPlaying )
 		{
-			isPaused = false;
+			if( pauseLock )
+			{
+				isPaused = true;
+				mIsPlaying = false;
+				pauseLock = false;
+				pPauseClock->restart();
+			}
 		}
+
+		else if( isPaused || !mIsPlaying )
+		{
+			if( pauseLock )
+			{
+				isPaused = false;
+				mIsPlaying = true;
+				pauseLock = false;
+				pPauseClock->restart();
+			}
+		}
+	}
+}
+
+
+void Engine::close()
+{
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::End ) )
+	{
+		mIsRunning = false;
 	}
 }
 
@@ -330,59 +511,12 @@ void Engine::quit()
 		std::cout << " ------ END GAME LOG ------ " << std::endl;
 		std::cout << "Closing Application ... done" << std::endl;
 
-		std::ofstream highscore;
-		highscore.open( std::string( "src/script/Highscore.hs" ) );
+		std::ofstream nameS2;
+		nameS2.open( std::string( "src/script/Name.nm" ) );
+		nameS2 << static_cast<std::string>( mName.getString() );
+		nameS2.close();
+		this->CreateHighscoreEntry( pPlayer , pHighscore );
 
-		const int p = pPlayer->getPoints();
-		std::string n = "\n";
-
-		if( pPlayer->getPoints() > pHighscore->getFirst() )
-		{
-			highscore << p << n << pHighscore->getSecond() << n << pHighscore->getThird() << n << pHighscore->getFourth() << n << pHighscore->getFifth() << n << pHighscore->getSixth() << n;
-			highscore.close();
-		}
-
-		else if ( pPlayer->getPoints() > pHighscore->getSecond() && pPlayer->getPoints() < pHighscore->getFirst() )
-
-		{
-			highscore << pHighscore->getFirst() << n << p << n << pHighscore->getThird() << n << pHighscore->getFourth() << n << pHighscore->getFifth() << n << pHighscore->getSixth() << n;
-			highscore.close();
-		}
-
-		else if ( pPlayer->getPoints() > pHighscore->getThird() && pPlayer->getPoints() < pHighscore->getSecond() )
-
-		{
-			highscore << pHighscore->getFirst() << n << pHighscore->getSecond() << n << p << n << pHighscore->getFourth() << n << pHighscore->getFifth() << n << pHighscore->getSixth() << n;
-			highscore.close();
-		}
-
-		else if ( pPlayer->getPoints() > pHighscore->getFourth() && pPlayer->getPoints() < pHighscore->getThird() )
-
-		{
-			highscore << pHighscore->getFirst() << n << pHighscore->getSecond() << n << pHighscore->getThird() << n << p << n << pHighscore->getFifth() << n << pHighscore->getSixth() << n;
-			highscore.close();
-		}
-
-		else if ( pPlayer->getPoints() > pHighscore->getFifth() && pPlayer->getPoints() < pHighscore->getFourth() )
-
-		{
-			highscore << pHighscore->getFirst() << n << pHighscore->getSecond() << n << pHighscore->getThird() << n << pHighscore->getFourth() << n << p << n << pHighscore->getSixth() << n;
-			highscore.close();
-		}
-
-		else if ( pPlayer->getPoints() > pHighscore->getSixth() && pPlayer->getPoints() < pHighscore->getFifth()  )
-
-		{
-			highscore << pHighscore->getFirst() << n << pHighscore->getSecond() << n << pHighscore->getThird() << n << pHighscore->getFourth() << n << pHighscore->getFifth() << n << p << n;
-			highscore.close();
-		}
-
-		else 
-
-		{
-			highscore << pHighscore->getFirst() << n << pHighscore->getSecond() << n << pHighscore->getThird() << n << pHighscore->getFourth() << n << pHighscore->getFifth() << n << pHighscore->getSixth() << n;
-			highscore.close();
-		}
 
 		Sleep( 300 );
 		pRenderWindow->close();
@@ -392,22 +526,27 @@ void Engine::quit()
 
 void Engine::update( float frametime )
 {
-	std::stringstream fps;
-	fps << mFPS;
-
-	if( pFPSLockClock->getElapsedTime().asMilliseconds() > mFPSLock )
+	if( str.size() > 12 )
 	{
-		mFPSLabel.setString( "FPS:			   " + fps.str() );
-		pFPSLockClock->restart();
+		str.size() - ( 1 , 1 );
 	}
 
-	pPlayer->update( frametime );
-	pHighscore->update( frametime );
-	pSounds->update( frametime );
-	pAsteroidManager->update( frametime );
-	pCollisionSystem->update( frametime );
-	pEventHandler->update( frametime );
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::F8 ) )
+	{
+		if( !mIsPlaying )
+		{
+			mIsPlaying = true;
+		}
+	}
 
+	if( !pauseLock )
+	{
+		if( pPauseClock->getElapsedTime().asSeconds() > pauseTime )
+		{
+			pauseLock = true;
+			pPauseClock->restart();
+		}
+	}
 
 	if( pCollisionSystem->getIsHit() == true )
 	{
@@ -420,12 +559,51 @@ void Engine::update( float frametime )
 		pMouseSprite->setTexture( *pMouseTexture );
 	}
 
+	std::stringstream fps;
+	fps << mFPS;
+
+	if( pFPSLockClock->getElapsedTime().asMilliseconds() > mFPSLock )
+	{
+		mFPSLabel.setString( "FPS:			   " + fps.str() );
+		pFPSLockClock->restart();
+	}
+
+	if( mIsPlaying )
+	{
+		pPlayer->update( frametime );
+		pHighscore->update( frametime );
+		pSounds->update( frametime );
+		pAsteroidManager->update( frametime );
+		pCollisionSystem->update( frametime );
+		pEventHandler->update( frametime );
+	}
+
+	pConsole->updateConsole( frametime , pCommandHandler );
+
+
+	if( pPlayer->getLife() < ( LIFE / 2 ) && pPlayer->getLife() > ( LIFE / 5 ) )
+	{
+		pMouseSprite->setColor( sf::Color::Yellow );
+	}
+
+	else if( pPlayer->getLife() < ( LIFE / 5 ) )
+	{
+		pMouseSprite->setColor( sf::Color::Red );
+	}
+
+	else
+
+	{
+		pMouseSprite->setColor( sf::Color::White );
+	}
+
 	pMouseSprite->setPosition( static_cast<sf::Vector2f>( sf::Mouse::getPosition( *pRenderWindow ) ) );
 	mMousePosition = static_cast<sf::Vector2f>( sf::Mouse::getPosition( *pRenderWindow ) );
 
 	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::P ) )
 	{
 		isPaused = true;
+		mIsPlaying = false;
 	}
 }
 
@@ -441,11 +619,26 @@ float Engine::getFPS()
 	float lastFPS = 0;
 
 	float currentTime = pFPSClock->restart().asSeconds();
-	float fps = 1.f / ( currentTime - lastFPS );
+	float fps = ( 1.f / ( currentTime - lastFPS ) );
 
 	mFPS = fps;
 
 	return mFPS;
+}
+
+
+static std::string getName()
+{
+	return str;
+}
+
+
+void Engine::handleConsole( Console *terminal )
+{
+	while( pRenderWindow->pollEvent( *pConsole->TextEvent ) )
+	{
+		pConsole->handleConsole();
+	}
 }
 
 
@@ -456,6 +649,33 @@ void Engine::handleEvents()
 		if( pMainEvent->type == sf::Event::Closed )
 		{
 			mIsRunning = false;
+		}
+
+		if( pPlayer->getGameOver() || !mIsPlaying || isPaused )
+		{
+			if( pMainEvent->type == sf::Event::TextEntered )
+			{
+				if( pMainEvent->text.unicode == '\b' )
+				{
+					if( str != "" )
+					{
+						str.erase( str.size() - 1 , 1 );
+					}
+				}
+
+				else
+				{
+					if( pMainEvent->text.unicode < 128 )
+					{
+						if( ( !sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Space ) && !sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Return ) ) && ( str.size() < 12 || str.size() == 12 ) )
+						{
+							str += static_cast<char>( pMainEvent->text.unicode );
+						}
+					}
+				}
+			}
+
+			mName.setString( str );
 		}
 	}
 
@@ -485,14 +705,24 @@ void Engine::render()
 	pCollisionSystem->render( pRenderWindow );
 	pEventHandler->render( pRenderWindow );
 	pHighscore->render( pRenderWindow );
-	pRenderWindow->draw( *pMouseSprite );
+	pConsole->renderConsole( pRenderWindow );
+
 	pRenderWindow->draw( mFPSLabel );
 
-	if( isPaused )
+	if( pPlayer->getGameOver() )
 	{
-		pRenderWindow->draw( mPauseLabel );
+		pRenderWindow->draw( pPlayer->getGameOverLabel() );
 	}
 
+	if( pPlayer->getGameOver() || !mIsPlaying || isPaused )
+	{
+		pRenderWindow->draw( *pGameOverS );
+		pRenderWindow->draw( name_box );
+		pRenderWindow->draw( *enterName );
+		pRenderWindow->draw( mName );
+	}
+
+	pRenderWindow->draw( *pMouseSprite );
 	pRenderWindow->display();
 }
 

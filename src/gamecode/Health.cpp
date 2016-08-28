@@ -51,6 +51,11 @@ void Health::update( float frametime )
 	{
 		this->setIsAlive( false );
 	}
+
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Numpad9 ) || sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Num0 ) || sf::Keyboard::isKeyPressed( sf::Keyboard::Key::F3 ) )
+	{
+		mHealthList.clear();
+	}
 }
 
 
