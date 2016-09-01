@@ -64,7 +64,7 @@ public:
 
 	void setCooldownWep1( float Cooldown1 )	{ mCooldownWep1 = Cooldown1; };
 	void setCooldownWep2( float Cooldown2 ) { mCooldownWep2 = Cooldown2; };
-	void setAmmo( int Ammo )				{ mAmmo = Ammo; };
+	void setAmmo( unsigned int Ammo )		{ mAmmo = Ammo; };
 	void setIsOutOfAmmo( bool OutOfAmmo )   { mOutOfAmmo = OutOfAmmo; };
 	void setWeaponToHot( bool TooHot )		{ mWeaponTooHot = TooHot; };
 	void setWeaponTemp( float WeaponTemp )	{ mWeaponTemp = WeaponTemp; };

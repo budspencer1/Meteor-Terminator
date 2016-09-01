@@ -24,6 +24,9 @@
 *.out
 *.app
 
+# databases
+*.sdf
+
 # =========================
 # Operating System Files
 # =========================

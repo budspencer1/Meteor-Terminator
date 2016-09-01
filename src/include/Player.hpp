@@ -69,29 +69,29 @@ public:
 
 
 	/* setter */
-	void setLife( float Life )							{ mLife = Life; };
-	void setIsAlive( bool IsAlive )						{ mIsAlive = IsAlive; };
-	void setPoints( int Points )						{ mPoints  = Points; };
-	void setShield( float Shield )						{ mShield = Shield; };
-	void setLevel( int Level )							{ mLevel = Level; };
-	void setAmmo( int Ammo )							{ mAmmo = Ammo; };
-	void setHasAmmo( bool HasAmmo )						{ mHasAmmo = HasAmmo; };
-	void setDeaths( int Deaths )						{ mDeaths = Deaths; };
-	void setFrags( int Frags )							{ mFrags = Frags; };
-	void setShots( int Shots )							{ mShots = Shots; };
-	void setHits( int Hits )							{ mHits = Hits; };
-	void setGameOver( bool GameOver )					{ mIsGameOver = GameOver; };
-	void setTotalPoints( int TotalPoints )				{ mTotalPoints = TotalPoints; };
-	void setIsHit( bool IsHit )							{ mIsHit = IsHit; };
-	void setLifes( int Lifes )							{ mLifes = Lifes; };
-	void setKilledByAsteroid( bool KbA )				{ mKilledByAsteroid = KbA; };
-	void setIsSuicided( bool Suicided )					{ mSuicided = Suicided; };
-	void setSeconds( float Seconds )					{ mSeconds = Seconds; };
-	void setPlayerWeapon( int PlayerWeapon )			{ mPlayerWeapon = PlayerWeapon; };
-	void setCommandLock( bool CommandLock )				{ mCommandLock = CommandLock; };
-	void setCMDWaittime( int CMDWaittime )				{ mCommandWaittime = CMDWaittime; };
-	void setRampageMode( bool RampageMode )				{ isRampageMode = RampageMode; };
-	void setRampageFrags( unsigned int RampageFrags )	{ rampageFrags = RampageFrags; };
+	virtual void setLife( float Life )							{ mLife = Life; };
+	virtual void setIsAlive( bool IsAlive )						{ mIsAlive = IsAlive; };
+	virtual void setPoints( int Points )						{ mPoints  = Points; };
+	virtual void setShield( float Shield )						{ mShield = Shield; };
+	virtual void setLevel( int Level )							{ mLevel = Level; };
+	virtual void setAmmo( int Ammo )							{ mAmmo = Ammo; };
+	virtual void setHasAmmo( bool HasAmmo )						{ mHasAmmo = HasAmmo; };
+	virtual void setDeaths( int Deaths )						{ mDeaths = Deaths; };
+	virtual void setFrags( int Frags )							{ mFrags = Frags; };
+	virtual void setShots( int Shots )							{ mShots = Shots; };
+	virtual void setHits( int Hits )							{ mHits = Hits; };
+	virtual void setGameOver( bool GameOver )					{ mIsGameOver = GameOver; };
+	virtual void setTotalPoints( int TotalPoints )				{ mTotalPoints = TotalPoints; };
+	virtual void setIsHit( bool IsHit )							{ mIsHit = IsHit; };
+	virtual void setLifes( int Lifes )							{ mLifes = Lifes; };
+	virtual void setKilledByAsteroid( bool KbA )				{ mKilledByAsteroid = KbA; };
+	virtual void setIsSuicided( bool Suicided )					{ mSuicided = Suicided; };
+	virtual void setSeconds( float Seconds )					{ mSeconds = Seconds; };
+	virtual void setPlayerWeapon( int PlayerWeapon )			{ mPlayerWeapon = PlayerWeapon; };
+	virtual void setCommandLock( bool CommandLock )				{ mCommandLock = CommandLock; };
+	virtual void setCMDWaittime( int CMDWaittime )				{ mCommandWaittime = CMDWaittime; };
+	virtual void setRampageMode( bool RampageMode )				{ isRampageMode = RampageMode; };
+	virtual void setRampageFrags( unsigned int RampageFrags )	{ rampageFrags = RampageFrags; };
 
 	/* gameplay functions */
 	void suicide();

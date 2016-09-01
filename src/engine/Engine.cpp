@@ -38,6 +38,21 @@
 #include "Settings.inc"
 
 
+
+static const unsigned int alpha    = 125;
+static const unsigned int alpha2   = 200;
+static const std::string ident     = "> ";
+static const std::string welcomeS  = "+++ W E L C O M E   T O   M E T E O R   T E R M I N A T O R +++";
+static const std::string versS     = "+++ V E R S I O N:  " TERM_DEV_AGE " " TERM_VERSION " +++\n";
+static std::string cmdident		   = "";
+static const std::string newline   = "\n";
+static bool isVisible			   = false;
+
+sf::Text identLabel , version , welcome;
+sf::Clock *terminalClock;
+
+
+
 std::string Engine::getOperatingSystem()
 {
 	#if defined( _WIN32 ) || defined( _WIN64 ) || defined( __MINGW32__ )
@@ -56,6 +71,7 @@ std::string Engine::getOperatingSystem()
 	    return "Unknown Operating System";
 	#endif
 }
+
 
 void Engine::getWindowsVersion()
 {
@@ -78,6 +94,7 @@ void Engine::getWindowsVersion()
 
 	printf( "Windows Version: %d.%d (Build: %d)\n", dwMajorVersion , dwMinorVersion , dwBuild );
 }
+
 
 Engine::Engine()
 {
@@ -114,8 +131,6 @@ Engine::Engine()
 	mIsRunning					= true;
 	mIsPlaying					= false;
 	isPaused					= false;
-	static const unsigned int alpha    = 125;
-	static const unsigned int alpha2   = 200;
 
 	mPauseLabel.setFont( *pFont );
 	mPauseLabel.setColor( sf::Color( 32 , 178 , 170 ) );
@@ -140,6 +155,12 @@ Engine::Engine()
 
 	pMouseHitTexture			= new sf::Texture;
 	pMouseHitTexture->loadFromFile( std::string( "media/packages/content/textures/MouseHitCrosshair.png" ) );
+
+	pConsoleSprite				= new sf::Sprite;
+	pConsoleTexture				= new sf::Texture;
+	pConsoleTexture->loadFromFile( std::string( "media/packages/content/textures/ConsoleBackground.png" ) );
+	pConsoleSprite->setTexture( *pConsoleTexture );
+	pConsoleSprite->setColor( sf::Color( pConsoleSprite->getColor().r, pConsoleSprite->getColor().g, pConsoleSprite->getColor().b, ( alpha2 + 30 ) ) );
 
 	pGameOverS					= new sf::Sprite;
 	pGameOverT					= new sf::Texture;
@@ -168,6 +189,9 @@ Engine::Engine()
 
 	pPauseClock					= new sf::Clock;
 	pPauseClock->restart();
+
+	terminalClock				= new sf::Clock;
+	terminalClock->restart();
 	
 	name_box.setOutlineThickness( 4 );
 	name_box.setOutlineColor( sf::Color::White );
@@ -186,6 +210,7 @@ Engine::Engine()
 	pSounds						= new Sounds( pPlayer );
 	pHighscore					= new Highscore();
 	pConsole					= new Console();
+	pCommand					= new Command(); 
 
 	std::ifstream nameS;
 	nameS.open( std::string( "src/script/Name.nm" ) );
@@ -215,13 +240,48 @@ Engine::Engine()
 	mScreenShotLock			= true;
 	pauseLock				= true;
 	pauseTime				= 0.25;
+	terminalIsOpen			= false;
+	inputS					= "";
+	outputS					= new std::string;
+	isRolling				= false;
+
+	input.setFont( *pFont );
+	input.setCharacterSize( 30 );
+	input.setColor( sf::Color::White );
+	input.setPosition( sf::Vector2f( NULL + 45 , NULL + 260 ) );
+	input.setString( std::string( inputS ) );
+
+	output					= new sf::Text;
+	output->setFont( *pFont );
+	output->setCharacterSize( 30 );
+	output->setColor( sf::Color::White );
+	output->setPosition( sf::Vector2f( NULL + 40 , NULL + 65 ) );
+	output->setString( std::string( *outputS ) );
+
+	identLabel.setFont( *pFont );
+	identLabel.setCharacterSize( 30 );
+	identLabel.setColor( sf::Color::Blue );
+	identLabel.setPosition( sf::Vector2f( NULL + 20 , NULL + 260 ) );
+    identLabel.setString( std::string( ident ) );
+
+	welcome.setFont( *pFont );
+	welcome.setCharacterSize( 40 );
+	welcome.setColor( sf::Color::Green );
+	welcome.setPosition( sf::Vector2f( NULL + 60 , NULL + 5 ) );
+    welcome.setString( std::string( welcomeS ) );
+
+	version.setFont( *pFont );
+	version.setCharacterSize( 30 );
+	version.setColor( sf::Color::White );
+	version.setPosition( sf::Vector2f( NULL + 20 , NULL + 35 ) );
+    version.setString( std::string( versS ) );
 
 	std::cout << "init: " COMMAND_SYSTEM << std::endl;
 	std::cout << "init: " MAINLOOP << std::endl;
-	std::cout << "" << std::endl;
+	std::cout << "init: " << "Terminal\n\n" << std::endl;
+	std::cout << "init: " << "Command System" << std::endl;
 
-	std::cout << "" << std::endl;
-	std::cout << " ------ BEGIN GAME LOG ------ " << std::endl;
+	std::cout << " ------ BEGIN GAME ------ " << std::endl;
 	std::cout << "" << std::endl;
 	/* std::cout << "Game started. Waiting for Commands. Do #help to display command list." << std::endl; */
 	std::cout << "" << std::endl;
@@ -254,6 +314,10 @@ Engine::~Engine()
 	delete pPauseClock;
 	delete enterName;
 	delete pConsole;
+	delete pConsoleSprite;
+	delete pConsoleTexture;
+	delete terminalClock;
+	delete pCommand;
 
 	pRenderWindow    = nullptr;
 	pMainEvent	     = nullptr;
@@ -279,6 +343,10 @@ Engine::~Engine()
 	pPauseClock		 = nullptr;
 	enterName		 = nullptr;
 	pConsole		 = nullptr;
+	pConsoleSprite	 = nullptr;
+	pConsoleTexture	 = nullptr;
+	terminalClock	 = nullptr;
+	pCommand		 = nullptr;
 }
 
 std::string str;
@@ -322,7 +390,7 @@ void Engine::start()
 	{
 		if( !mIsPlaying )
 		{
-			this->handleConsole( pConsole );
+			this->handleConsole();
 			this->togglePause();
 			this->update( mFrameTime );
 			this->render();
@@ -339,7 +407,7 @@ void Engine::start()
 
 		if( !isPaused && !pPlayer->getGameOver() )
 		{
-			this->handleConsole( pConsole );
+			this->handleConsole();
 			this->togglePause();
 			this->restart();
 			this->close();
@@ -362,7 +430,7 @@ void Engine::start()
 		else if( isPaused && !pPlayer->getGameOver() )
 
 		{
-			this->handleConsole( pConsole );
+			this->handleConsole();
 			this->update( mFrameTime );
 			this->togglePause();
 			this->restart();
@@ -379,7 +447,7 @@ void Engine::start()
 
 		else if( pPlayer->getGameOver() )
 		{
-			this->handleConsole( pConsole );
+			this->handleConsole();
 			this->CreateHighscoreEntry( pPlayer , pHighscore );
 			this->update( mFrameTime );
 			this->togglePause();
@@ -462,6 +530,12 @@ void Engine::CreateHighscoreEntry( Player *player , Highscore *highscore )
 			highscoreS.close();
 		}
 	}
+
+	else
+
+	{
+		std::cerr << "[ERROR]	Cannot update Highscore! (no valid name entered)" << std::endl;
+	}
 }
 
 
@@ -508,7 +582,7 @@ void Engine::quit()
 	if( mIsRunning	== false )
 	{
 		std::cout << "" << std::endl;
-		std::cout << " ------ END GAME LOG ------ " << std::endl;
+		std::cout << " ------ END GAME ------ " << std::endl;
 		std::cout << "Closing Application ... done" << std::endl;
 
 		std::ofstream nameS2;
@@ -526,6 +600,25 @@ void Engine::quit()
 
 void Engine::update( float frametime )
 {
+	if( terminalClock->getElapsedTime().asSeconds() > 5 )
+	{
+		if( isVisible )
+		{
+			isVisible = false;
+		}
+	}
+
+	if( terminalIsOpen )
+	{
+		pGameOverS->setColor( sf::Color( pGameOverS->getColor().r, pGameOverS->getColor().g, pGameOverS->getColor().b, ( alpha2 + 30 ) ) );
+	}
+
+	else
+
+	{
+		pGameOverS->setColor( sf::Color( pGameOverS->getColor().r, pGameOverS->getColor().g, pGameOverS->getColor().b, alpha2 ) );
+	}
+
 	if( str.size() > 12 )
 	{
 		str.size() - ( 1 , 1 );
@@ -570,7 +663,11 @@ void Engine::update( float frametime )
 
 	if( mIsPlaying )
 	{
-		pPlayer->update( frametime );
+		if( !terminalIsOpen )
+		{
+			pPlayer->update( frametime );
+		}
+
 		pHighscore->update( frametime );
 		pSounds->update( frametime );
 		pAsteroidManager->update( frametime );
@@ -580,18 +677,55 @@ void Engine::update( float frametime )
 
 	pConsole->updateConsole( frametime , pCommandHandler );
 
+	if( mIsPlaying )
+	{
+		if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::F5 ) )
+		{
+			if( !terminalIsOpen )
+			{
+				if( !isRolling )
+				{
+					cmdident.erase();
+					inputS.erase();
+					terminalIsOpen = true;
+					cmdident.erase();
+					inputS.erase();
+				}
+			}
+		}
+
+		if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Escape ) )
+		{
+			if( terminalIsOpen )
+			{
+				if( !isRolling )
+				{
+					cmdident.erase();
+					inputS.erase();
+					terminalIsOpen = false;
+					cmdident.erase();
+					inputS.erase();
+				}
+			}
+		}
+	}
 
 	if( pPlayer->getLife() < ( LIFE / 2 ) && pPlayer->getLife() > ( LIFE / 5 ) )
 	{
 		pMouseSprite->setColor( sf::Color::Yellow );
 	}
 
-	else if( pPlayer->getLife() < ( LIFE / 5 ) )
+	else if( pPlayer->getLife() < ( LIFE / 5 ) && pPlayer->getLife() > 0 )
 	{
 		pMouseSprite->setColor( sf::Color::Red );
 	}
 
-	else
+	else if( pPlayer->getLife() == 0 || pPlayer->getLife() < 0 )
+	{
+		pMouseSprite->setColor( sf::Color::Black );
+	}
+
+	else 
 
 	{
 		pMouseSprite->setColor( sf::Color::White );
@@ -602,8 +736,11 @@ void Engine::update( float frametime )
 
 	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::P ) )
 	{
-		isPaused = true;
-		mIsPlaying = false;
+		if( !terminalIsOpen )
+		{
+			isPaused = true;
+			mIsPlaying = false;
+		}
 	}
 }
 
@@ -633,13 +770,83 @@ static std::string getName()
 }
 
 
-void Engine::handleConsole( Console *terminal )
+void Engine::console_screenshot( sf::RenderWindow *rw )
 {
-	while( pRenderWindow->pollEvent( *pConsole->TextEvent ) )
+	sf::Image screenshot = rw->capture(); /* copy screen bytes to memory */
+
+	std::stringstream randFileName2;
+	randFileName2 << ( rand() % SCREENSHOT_LIMIT_UNSIGNED_INTEGER ); /* filename is a number between 1 and 1000000000 */
+
+	screenshot.saveToFile( std::string( "screenshots/screenshot_ " + randFileName2.str() + ".bmp" ) ); /* save screenshot to file */
+	std::cout << "Screenshot saved under 'screenshots/screenshot_" + randFileName2.str() + ".bmp'" << std::endl; /* output */ 
+
+	output->setColor( sf::Color::White );
+	cmdident = "[Screenshot]";
+	*outputS = std::string( newline + "Saved Screenshot under 'screenshots/screenshot." + randFileName2.str() + ".bmp" );
+	output->setString( std::string( cmdident + *outputS ) );
+}
+
+
+void Engine::handleConsole()
+{
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Return ) )
 	{
-		pConsole->handleConsole();
+		if( static_cast<std::string>( input.getString() ) == "/help" )
+		{
+			pCommand->help( output , outputS );
+		}
+
+		else if( static_cast<std::string>( input.getString() ) == "/screenshot" )
+		{
+			pCommand->screenshot( pRenderWindow , output , outputS );
+		}
+
+		else if( static_cast<std::string>( input.getString() ) == "/stats" )
+		{
+			pCommand->stats( pPlayer , output , outputS );
+		}
+
+		isVisible = true;
+		terminalClock->restart();
+
+		cmdident.erase();
+		inputS.erase();
+		//this->terminalIsOpen = false;
 	}
 }
+
+/* 
+* old code 
+
+void Engine::handleConsole( Console *terminal )
+{
+	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Return ) )
+	{
+		if( static_cast<std::string>( input.getString() ) == "/help" )
+		{
+			output.setColor( sf::Color::White );
+			cmdident = "[Command Help]";
+			outputS = newline + "/help /screenshot /version /stats /suicide" + newline + "/restart /respawn /quit /pause /resume" + newline + "[Command Decriptions]" + newline + "/help <command>";
+			terminalClock->restart();
+			isVisible = true;
+			output.setString( std::string( cmdident + outputS ) );
+		}
+
+		else if( static_cast<std::string>( input.getString() ) == "/screenshot" )
+		{
+			this->console_screenshot( pRenderWindow );
+		}
+
+		cmdident.erase();
+		inputS.erase();
+		//this->terminalIsOpen = false;
+	}
+}
+
+* end 
+*/
+
+
 
 
 void Engine::handleEvents()
@@ -675,7 +882,34 @@ void Engine::handleEvents()
 				}
 			}
 
-			mName.setString( str );
+			mName.setString( std::string( str ) );
+		}
+
+		if( !isPaused && mIsPlaying )
+		{
+			if( pMainEvent->type == sf::Event::TextEntered )
+			{
+				if( pMainEvent->text.unicode == '\b' )
+				{
+					if( inputS != "" )
+					{
+						inputS.erase( inputS.size() - 1 , 1 );
+					}
+				}
+
+				else
+				{
+					if( pMainEvent->text.unicode < 128 )
+					{
+						if( ( !sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Return ) ) && ( str.size() < 20 || str.size() == 20 ) && terminalIsOpen && !isVisible )
+						{
+							inputS += static_cast<char>( pMainEvent->text.unicode );
+						}
+					}
+				}
+			}
+
+			input.setString( std::string( inputS ) );
 		}
 	}
 
@@ -720,6 +954,22 @@ void Engine::render()
 		pRenderWindow->draw( name_box );
 		pRenderWindow->draw( *enterName );
 		pRenderWindow->draw( mName );
+	}
+
+	if( terminalIsOpen )
+	{
+		pRenderWindow->draw( *pConsoleSprite );
+		pRenderWindow->draw( welcome );
+		if( isVisible )
+		{
+			pRenderWindow->draw( *output );
+		}
+
+		if( !isVisible )
+		{
+			pRenderWindow->draw( input );
+			pRenderWindow->draw( identLabel );
+		}
 	}
 
 	pRenderWindow->draw( *pMouseSprite );

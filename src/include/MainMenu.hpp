@@ -37,11 +37,11 @@ namespace GUI
 		const bool getIsStats()			{ return isStats; };
 		const bool getIsManual()		{ return isManual; };
 
-		void setIsMain( bool Main )		{ isMain = Main; };
-		void setIsHighscore( bool HS )	{ isHighscore = HS; };
-		void setIsQuit( bool Quit )		{ isQuit = Quit; };
-		void setIsStats( bool Stats )   { isStats = Stats; };
-		void setIsManual( bool Manual )	{ isManual = Manual; };
+		virtual void setIsMain( bool Main )		{ isMain = Main; };
+		virtual void setIsHighscore( bool HS )	{ isHighscore = HS; };
+		virtual void setIsQuit( bool Quit )		{ isQuit = Quit; };
+		virtual void setIsStats( bool Stats )   { isStats = Stats; };
+		virtual void setIsManual( bool Manual )	{ isManual = Manual; };
 
 	
 	private:

@@ -35,22 +35,22 @@ public:
 	void handleEvents();
 	void render( sf::RenderWindow *rw );
 
-	bool onDeath();
-	bool onRespawn();
-	bool onGameStart();
-	bool onGameOver();
-	bool onSwitchWeapon();
-	bool onShot();
-	bool onFrag();
-	bool onWall();
-	bool onQuit();
-	bool onDelWeapon();
-	bool onWeaponCooldown();
-	bool onPickItem();
-	bool onCommand();
-	bool onCollision();
-	bool onSplashScreen();
-	bool onRestart();
+	virtual bool onDeath();
+	virtual bool onRespawn();
+	virtual bool onGameStart();
+	virtual bool onGameOver();
+	virtual bool onSwitchWeapon();
+	virtual bool onShot();
+	virtual bool onFrag();
+	virtual bool onWall();
+	virtual bool onQuit();
+	virtual bool onDelWeapon();
+	virtual bool onWeaponCooldown();
+	virtual bool onPickItem();
+	virtual bool onCommand();
+	virtual bool onCollision();
+	virtual bool onSplashScreen();
+	virtual bool onRestart();
 
 	const bool getdeath()			{ return death;		};
 	const bool getrespawn()			{ return respawn;	};
@@ -69,22 +69,22 @@ public:
 	const bool getsplashscreen()	{ return splashscreen;};
 	const bool getrestart()			{ return restart;	};
 
-	void setdeath		( bool Death  )				{ death			= Death ; };
-	void setrespawn		( bool Respawn )			{ respawn		= Respawn ; };
-	void setgamestart	( bool GameStart )			{ gamestart		= GameStart ; };
-	void setgameover	( bool GameOver )			{ gameover		= GameOver ; };
-	void setswitchwep	( bool SwitchWep )			{ switchwep		= SwitchWep ; };
-	void setshot		( bool Shot )				{ shot			= Shot ; };
-	void setfrag		( bool Frag )				{ frag			= Frag ; };
-	void setwall		( bool Wall )				{ wall			= Wall ; };
-	void setquit		( bool Quit )				{ quit			= Quit ; };
-	void setdelwep		( bool DelWep )				{ delwep		= DelWep ; };
-	void setwepcooldown	( bool WepCooldown )		{ wepcooldown	= WepCooldown ; };
-	void setpickitem	( bool PickItem )			{ pickitem		= PickItem ; };
-	void setcommand		( bool Command )			{ command		= Command ; };
-	void setcollision	( bool Collision )			{ collision		= Collision ; };
-	void setsplashscreen( bool SplashScreen )		{ splashscreen	= SplashScreen ; };
-	void setrestart		( bool Restart )			{ restart		= Restart ; };
+	virtual void setdeath		( bool Death  )				{ death			= Death ; };
+	virtual void setrespawn		( bool Respawn )			{ respawn		= Respawn ; };
+	virtual void setgamestart	( bool GameStart )			{ gamestart		= GameStart ; };
+	virtual void setgameover	( bool GameOver )			{ gameover		= GameOver ; };
+	virtual void setswitchwep	( bool SwitchWep )			{ switchwep		= SwitchWep ; };
+	virtual void setshot		( bool Shot )				{ shot			= Shot ; };
+	virtual void setfrag		( bool Frag )				{ frag			= Frag ; };
+	virtual void setwall		( bool Wall )				{ wall			= Wall ; };
+	virtual void setquit		( bool Quit )				{ quit			= Quit ; };
+	virtual void setdelwep		( bool DelWep )				{ delwep		= DelWep ; };
+	virtual void setwepcooldown	( bool WepCooldown )		{ wepcooldown	= WepCooldown ; };
+	virtual void setpickitem	( bool PickItem )			{ pickitem		= PickItem ; };
+	virtual void setcommand		( bool Command )			{ command		= Command ; };
+	virtual void setcollision	( bool Collision )			{ collision		= Collision ; };
+	virtual void setsplashscreen( bool SplashScreen )		{ splashscreen	= SplashScreen ; };
+	virtual void setrestart		( bool Restart )			{ restart		= Restart ; };
 	
 
 private:

@@ -55,17 +55,6 @@ void Console::updateConsole( float frametime , CommandHandler *cmdhan )
 			isOpen = false;
 		}
 	}
-
-	if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key::Return ) )
-	{
-		if( input == "/help" )
-		{
-			cmdhan->help();
-		}
-
-		input.erase();
-		isOpen = false;
-	}
 }
 
 

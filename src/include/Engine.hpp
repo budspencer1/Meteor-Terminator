@@ -27,6 +27,7 @@
 #include "EventHandler.hpp"
 #include "Highscore.hpp"
 #include "IngameConsole.hpp"
+#include "Command.hpp"
 
 
 class Engine
@@ -49,7 +50,8 @@ public:
 	void updateScreenShot();
 	void restart();
 	void updateMouse();
-	void handleConsole( Console *terminal );
+	void handleConsole();
+	void toggleConsole();
 
 	void accept();
 	void cancel();
@@ -57,6 +59,8 @@ public:
     void CreateHighscoreEntry( Player *player , Highscore *highscore );
 
 	float getFPS();
+
+	void console_screenshot( sf::RenderWindow *rw );
 
 	int getArchType1();
 	static char getArchType2();
@@ -86,6 +90,8 @@ private:
 	sf::Texture						*pRampageTexture;
 	sf::Sprite						*pSprite;
 	sf::Sprite						*pRampageSprite;
+	sf::Texture						*pConsoleTexture;
+	sf::Sprite						*pConsoleSprite;
 	
 	sf::Texture						*pGameOverT;
 	sf::Sprite						*pGameOverS;
@@ -99,11 +105,17 @@ private:
 	sf::Texture						*pMouseHitTexture;
 
 	sf::Image						*pIconTexture;
+	sf::Image						*pScreenshot;
 	sf::Text						mFPSLabel;
 	sf::Text						mPauseLabel;
 	sf::Font						*pFont;
 	sf::Text						mName;
 	sf::Text						*enterName;
+	sf::Text						input;
+	sf::Text						*output;
+
+	std::string						inputS;
+	std::string						*outputS;
 	std::string						name;
 
 	sf::RectangleShape				name_box;
@@ -117,6 +129,7 @@ private:
 	CollisionSystem					*pCollisionSystem;
 	CommandHandler					*pCommandHandler;
 	Console							*pConsole;
+	Command							*pCommand;
 	
 	float							mFrameTime;
 	bool							mIsRunning;
@@ -126,6 +139,8 @@ private:
 	bool							mScreenShotLock;
     double							pauseTime;
 	bool							pauseLock;
+	bool							terminalIsOpen;
+	bool							isRolling;
 
 
 };

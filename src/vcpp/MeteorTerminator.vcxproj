@@ -240,6 +240,7 @@
     <ClInclude Include="..\include\AsteroidManager.hpp" />
     <ClInclude Include="..\include\Collision.hpp" />
     <ClInclude Include="..\include\CollisionSystem.hpp" />
+    <ClInclude Include="..\include\Command.hpp" />
     <ClInclude Include="..\include\Commandhandler.hpp" />
     <ClInclude Include="..\include\Engine.hpp" />
     <ClInclude Include="..\include\EventHandler.hpp" />
